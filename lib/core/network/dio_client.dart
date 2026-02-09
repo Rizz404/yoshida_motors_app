@@ -1,0 +1,185 @@
+import 'package:dio/dio.dart';
+import 'package:car_rongsok_app/core/network/api_wrapper.dart';
+
+class DioClient {
+  final Dio _dio;
+
+  DioClient(this._dio);
+
+  Future<ApiResult<T>> get<T>(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    required T Function(Object? json) fromJson,
+  }) async {
+    try {
+      final response = await _dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      _validateHtmlResponse(response);
+
+      return ApiResult.fromJson(
+        response.data as Map<String, dynamic>,
+        fromJson,
+      );
+    } on DioException catch (e) {
+      return _handleError<T>(e);
+    } catch (e) {
+      return ApiFailure<T>(message: e.toString());
+    }
+  }
+
+  Future<ApiResult<T>> post<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    required T Function(Object? json) fromJson,
+  }) async {
+    try {
+      final response = await _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      _validateHtmlResponse(response);
+
+      return ApiResult.fromJson(
+        response.data as Map<String, dynamic>,
+        fromJson,
+      );
+    } on DioException catch (e) {
+      return _handleError<T>(e);
+    }
+  }
+
+  Future<ApiResult<T>> put<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    required T Function(Object? json) fromJson,
+  }) async {
+    try {
+      final response = await _dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      _validateHtmlResponse(response);
+
+      return ApiResult.fromJson(
+        response.data as Map<String, dynamic>,
+        fromJson,
+      );
+    } on DioException catch (e) {
+      return _handleError<T>(e);
+    }
+  }
+
+  Future<ApiResult<T>> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    required T Function(Object? json) fromJson,
+  }) async {
+    try {
+      final response = await _dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      _validateHtmlResponse(response);
+
+      return ApiResult.fromJson(
+        response.data as Map<String, dynamic>,
+        fromJson,
+      );
+    } on DioException catch (e) {
+      return _handleError<T>(e);
+    }
+  }
+
+  Future<ApiResult<T>> delete<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    required T Function(Object? json) fromJson,
+  }) async {
+    try {
+      final response = await _dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      _validateHtmlResponse(response);
+
+      return ApiResult.fromJson(
+        response.data as Map<String, dynamic>,
+        fromJson,
+      );
+    } on DioException catch (e) {
+      return _handleError<T>(e);
+    }
+  }
+
+  void _validateHtmlResponse(Response response) {
+    if (response.data is String &&
+        (response.data as String?)?.trim().startsWith('<!DOCTYPE html>') ==
+            true) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        message: 'Server returned HTML instead of JSON',
+      );
+    }
+  }
+
+  ApiFailure<T> _handleError<T>(DioException error) {
+    if (error.response?.data != null && error.response?.data is Map) {
+      try {
+        final data = error.response!.data as Map<String, dynamic>;
+        return ApiFailure.fromJson(data);
+      } catch (_) {}
+    }
+
+    String message = 'Unknown error occurred';
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
+        message = 'Connection timeout. Please check your internet.';
+        break;
+      case DioExceptionType.connectionError:
+        message = 'No internet connection.';
+        break;
+      default:
+        message = error.message ?? message;
+    }
+
+    return ApiFailure<T>(message: message);
+  }
+}
