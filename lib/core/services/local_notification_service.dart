@@ -181,7 +181,13 @@ class LocalNotificationService {
         iOS: darwinDetails,
       );
 
-      await _plugin.show(id, title, body, details, payload: payload);
+      await _plugin.show(
+        id: id,
+        title: title,
+        body: body,
+        notificationDetails: details,
+        payload: payload,
+      );
 
       this.logInfo('Notification shown - ID: $id, Title: $title');
     } catch (e, s) {
@@ -244,11 +250,11 @@ class LocalNotificationService {
       );
 
       await _plugin.zonedSchedule(
-        id,
-        title,
-        body,
-        scheduledDate,
-        details,
+        id: id,
+        title: title,
+        body: body,
+        scheduledDate: scheduledDate,
+        details: details,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: payload,
       );

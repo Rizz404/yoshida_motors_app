@@ -69,69 +69,68 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   Future<void> register(RegisterPayload payload) async {
     state = const AsyncLoading();
 
-    final result = await _authRepository.register(payload).run();
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.register(payload).run();
 
-    result.fold(
-      (failure) {
-        state = AsyncData(AuthState.unauthenticated(failure: failure));
-      },
-      (success) {
-        // * Token & user already saved by repository
-        state = AsyncData(AuthState.authenticated(user: success.data.user));
-      },
-    );
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) {
+          // * Token & user already saved by repository
+          return AuthState.authenticated(user: success.data.user);
+        },
+      );
+    });
   }
 
   Future<void> login(LoginPayload payload) async {
     state = const AsyncLoading();
 
-    final result = await _authRepository.login(payload).run();
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.login(payload).run();
 
-    result.fold(
-      (failure) {
-        state = AsyncData(AuthState.unauthenticated(failure: failure));
-      },
-      (success) {
-        // * Token & user already saved by repository
-        state = AsyncData(AuthState.authenticated(user: success.data.user));
-      },
-    );
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) {
+          // * Token & user already saved by repository
+          return AuthState.authenticated(user: success.data.user);
+        },
+      );
+    });
   }
 
   Future<void> logout() async {
     state = const AsyncLoading();
 
-    final result = await _authRepository.logout().run();
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.logout().run();
 
-    result.fold(
-      (failure) {
-        // * Auth already cleared by repository
-        state = AsyncData(AuthState.unauthenticated(failure: failure));
-      },
-      (success) {
-        // * Auth already cleared by repository
-        state = const AsyncData(AuthState.unauthenticated());
-      },
-    );
+      return result.fold(
+        (failure) {
+          // * Auth already cleared by repository
+          return AuthState.unauthenticated(failure: failure);
+        },
+        (success) {
+          // * Auth already cleared by repository
+          return const AuthState.unauthenticated();
+        },
+      );
+    });
   }
 
   /// Update user data in auth state (called after profile update)
   Future<void> refreshProfile() async {
-    final currentState = state.value;
+    final currentState = await future;
 
-    if (currentState?.status != AuthStatus.authenticated) return;
+    if (currentState.status != AuthStatus.authenticated) return;
 
-    final result = await _authRepository.getProfile().run();
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.getProfile().run();
 
-    result.fold(
-      (failure) {
+      return result.fold((failure) {
         // * Keep current state on failure
-        state = AsyncData(currentState!);
-      },
-      (success) {
-        state = AsyncData(AuthState.authenticated(user: success.data));
-      },
-    );
+        return currentState;
+      }, (success) => AuthState.authenticated(user: success.data));
+    });
   }
 
   /// Manually update user in state (for optimistic updates)
