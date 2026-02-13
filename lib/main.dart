@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:car_rongsok_app/core/constants/storage_key_constant.dart';
+import 'package:car_rongsok_app/core/router/app_router.dart';
 import 'package:car_rongsok_app/core/themes/app_theme.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
@@ -183,7 +184,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
     // * Delay navigation sampai router ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final router = ref.read(routerProvider);
+      final router = ref.read(goRouterProvider);
       final navigationService = ref.read(notificationNavigationServiceProvider);
       navigationService.handleNotificationNavigation(router, dataString);
     });
@@ -199,7 +200,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
       logger.info('Notification payload params: $params');
 
       // * Navigate to relevant screen
-      final router = ref.read(routerProvider);
+      final router = ref.read(goRouterProvider);
       navigationService.handleNotificationNavigation(router, params);
     }
   }
@@ -222,7 +223,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
         // * Delay navigation sampai router dan auth state ready
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          final router = ref.read(routerProvider);
+          final router = ref.read(goRouterProvider);
           navigationService.handleNotificationNavigation(router, params);
         });
       }
@@ -233,7 +234,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
   Widget build(BuildContext context) {
     final currentLocale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeProvider);
-    final router = ref.watch(routerProvider);
+    final router = ref.watch(goRouterProvider);
     final botToastBuilder = BotToastInit();
 
     // * Remove native splash setelah auth state selesai loading

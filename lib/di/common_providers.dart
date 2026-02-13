@@ -1,6 +1,5 @@
 import 'package:car_rongsok_app/core/enums/language_enums.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
-import 'package:car_rongsok_app/core/router/app_router.dart';
 import 'package:car_rongsok_app/core/services/language_storage_service.dart';
 import 'package:car_rongsok_app/core/services/theme_storage_service.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
@@ -11,7 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
@@ -59,11 +57,6 @@ final localeProvider = NotifierProvider<LocaleNotifier, Locale>(
 final themeProvider = NotifierProvider<ThemeNotifier, ThemeMode>(
   ThemeNotifier.new,
 );
-
-// * Router Provider - Inject Ref ke AppRouter
-final routerProvider = Provider<GoRouter>((ref) {
-  return AppRouter().createRouter(ref);
-});
 
 // * Firebase Messaging Provider
 final firebaseMessagingProvider = Provider<FirebaseMessaging>((ref) {

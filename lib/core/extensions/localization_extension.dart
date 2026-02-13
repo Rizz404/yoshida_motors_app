@@ -12,12 +12,12 @@ extension LocalizationExtension on BuildContext {
   bool get isJapanese => locale == 'ja';
 
   // * Static helper for usage without context (e.g. Enums)
-  // * Requires AppRouter.navigatorKey to be exposed
+  // * Requires rootNavigatorKey to be initialized
   static L10n get current {
-    final context = AppRouter.navigatorKey.currentContext;
+    final context = rootNavigatorKey.currentContext;
     if (context == null) {
       throw Exception(
-        'Navigator context is null. Ensure AppRouter is initialized.',
+        'Navigator context is null. Ensure router is initialized.',
       );
     }
     return L10n.of(context)!;

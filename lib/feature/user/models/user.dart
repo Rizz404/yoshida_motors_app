@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -10,7 +11,7 @@ class User extends Equatable {
   final String? name;
   final String? email;
   final String? address;
-  final String role;
+  final UserRole role;
   final String? fcmToken;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -35,7 +36,7 @@ class User extends Equatable {
     String? name,
     String? email,
     String? address,
-    String? role,
+    UserRole? role,
     String? fcmToken,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -62,7 +63,7 @@ class User extends Equatable {
       'name': name,
       'email': email,
       'address': address,
-      'role': role,
+      'role': role.value,
       'fcm_token': fcmToken,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
@@ -77,7 +78,7 @@ class User extends Equatable {
       name: map['name'] != null ? map['name'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       address: map['address'] != null ? map['address'] as String : null,
-      role: map['role'] as String,
+      role: UserRole.values.firstWhere((e) => e.value == map['role']),
       fcmToken: map['fcm_token'] != null ? map['fcm_token'] as String : null,
       createdAt: DateTime.parse(map['created_at'] as String),
       updatedAt: DateTime.parse(map['updated_at'] as String),

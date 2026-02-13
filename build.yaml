@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      go_router_builder:
+        generate_for:
+          - lib/core/router/routes.dart
+        options:
+          # Type-safe routes with go_router_builder
+          type_safety: true
