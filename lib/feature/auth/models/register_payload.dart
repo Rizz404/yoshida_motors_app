@@ -39,12 +39,12 @@ class RegisterPayload extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'idToken': idToken,
-      'phoneNumber': phoneNumber,
-      'name': name,
-      'email': email,
-      'address': address,
-      'fcmToken': fcmToken,
+      'id_token': idToken,
+      'phone_number': phoneNumber,
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (address != null) 'address': address,
+      if (fcmToken != null) 'fcm_token': fcmToken,
     };
   }
 

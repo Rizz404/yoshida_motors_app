@@ -131,7 +131,7 @@ class AppRouter {
       return RouteConstant.login;
     }
 
-    final    = authState.valueOrNull;
+    final currentAuthState = authState.valueOrNull;
     final isAuthenticated =
         currentAuthState?.status == AuthStatus.authenticated;
     final isAdmin = currentAuthState?.user?.role == UserRole.admin;

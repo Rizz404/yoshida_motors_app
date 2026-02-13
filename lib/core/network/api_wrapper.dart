@@ -66,7 +66,7 @@ class ApiCursorSuccess<T> extends ApiResult<T> {
     return ApiCursorSuccess(
       // Map list data dari JSON ke List<T>
       items: (json['data'] as List<dynamic>).map((e) => fromJsonT(e)).toList(),
-      meta: CursorMeta.fromJson(json['meta']),
+      meta: CursorMeta.fromJson(json['meta'] as Map<String, dynamic>),
       message: json['message'] as String? ?? 'Success',
     );
   }

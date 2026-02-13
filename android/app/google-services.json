@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "262950684512",
+    "project_id": "car-rongsok",
+    "storage_bucket": "car-rongsok.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262950684512:android:89568616bbf360502ac005",
+        "android_client_info": {
+          "package_name": "rizz.learn.car.car_rongsok_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262950684512-d7gh3oq6sv44ujprooritdjffrc3skuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHiJ8FM2w6Pxbem5zPHNOF8SgNoyf9SQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262950684512-d7gh3oq6sv44ujprooritdjffrc3skuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

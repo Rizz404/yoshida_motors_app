@@ -17,7 +17,10 @@ class LoginPayload extends Equatable {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'idToken': idToken, 'fcmToken': fcmToken};
+    return <String, dynamic>{
+      'id_token': idToken,
+      if (fcmToken != null) 'fcm_token': fcmToken,
+    };
   }
 
   factory LoginPayload.fromMap(Map<String, dynamic> map) {

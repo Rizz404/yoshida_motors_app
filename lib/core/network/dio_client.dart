@@ -1,10 +1,47 @@
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:car_rongsok_app/core/network/interceptors/auth_interceptor.dart';
+import 'package:car_rongsok_app/core/network/interceptors/locale_interceptor.dart';
+import 'package:car_rongsok_app/core/network/interceptors/network_error_interceptor.dart';
+import 'package:car_rongsok_app/core/services/auth_service.dart';
+import 'package:car_rongsok_app/core/utils/logger.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 
 class DioClient {
   final Dio _dio;
+  final LocaleInterceptor _localeInterceptor;
+  final AuthInterceptor _authInterceptor;
+  final NetworkErrorInterceptor _networkErrorInterceptor;
 
-  DioClient(this._dio);
+  DioClient(
+    this._dio,
+    AuthService authService, {
+    void Function()? onTokenInvalid,
+  }) : _localeInterceptor = LocaleInterceptor(),
+       _authInterceptor = AuthInterceptor(
+         authService,
+         onTokenInvalid: onTokenInvalid,
+       ),
+       _networkErrorInterceptor = NetworkErrorInterceptor() {
+    _dio.interceptors.clear();
+    _dio
+      ..options.baseUrl = ApiConstant.baseUrl
+      ..options.connectTimeout = const Duration(
+        milliseconds: ApiConstant.defaultConnectTimeout,
+      )
+      ..options.receiveTimeout = const Duration(
+        milliseconds: ApiConstant.defaultReceiveTimeout, // * 3 minutes default
+      )
+      ..options.responseType = ResponseType.json
+      ..options.headers = {'Accept': 'application/json'}
+      ..interceptors.add(_localeInterceptor)
+      ..interceptors.add(_authInterceptor)
+      ..interceptors.add(_networkErrorInterceptor);
+
+    // Add Talker Dio Logger
+    _dio.interceptors.add(logger.dioLogger);
+  }
 
   Future<ApiResult<T>> get<T>(
     String path, {
@@ -14,7 +51,7 @@ class DioClient {
     required T Function(Object? json) fromJson,
   }) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: options,
@@ -43,7 +80,7 @@ class DioClient {
     required T Function(Object? json) fromJson,
   }) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -71,7 +108,7 @@ class DioClient {
     required T Function(Object? json) fromJson,
   }) async {
     try {
-      final response = await _dio.put(
+      final response = await _dio.put<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -99,7 +136,7 @@ class DioClient {
     required T Function(Object? json) fromJson,
   }) async {
     try {
-      final response = await _dio.patch(
+      final response = await _dio.patch<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -127,7 +164,7 @@ class DioClient {
     required T Function(Object? json) fromJson,
   }) async {
     try {
-      final response = await _dio.delete(
+      final response = await _dio.delete<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -146,7 +183,12 @@ class DioClient {
     }
   }
 
-  void _validateHtmlResponse(Response response) {
+  /// Update locale for API requests
+  void updateLocale(Locale locale) {
+    _localeInterceptor.updateLocale(locale);
+  }
+
+  void _validateHtmlResponse(Response<dynamic> response) {
     if (response.data is String &&
         (response.data as String?)?.trim().startsWith('<!DOCTYPE html>') ==
             true) {

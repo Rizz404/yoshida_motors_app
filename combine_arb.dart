@@ -48,7 +48,8 @@ Future<void> _findAndCombineArbFiles(
 
       try {
         final content = await file.readAsString();
-        final Map<String, dynamic> json = jsonDecode(content);
+        final Map<String, dynamic> json =
+            jsonDecode(content) as Map<String, dynamic>;
 
         // Hapus @@locale dari individual files
         json.remove('@@locale');

@@ -57,30 +57,30 @@ class User extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'firebaseUid': firebaseUid,
-      'phoneNumber': phoneNumber,
+      'firebase_uid': firebaseUid,
+      'phone_number': phoneNumber,
       'name': name,
       'email': email,
       'address': address,
       'role': role,
-      'fcmToken': fcmToken,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'fcm_token': fcmToken,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'] as int,
-      firebaseUid: map['firebaseUid'] as String,
-      phoneNumber: map['phoneNumber'] as String,
+      firebaseUid: map['firebase_uid'] as String,
+      phoneNumber: map['phone_number'] as String,
       name: map['name'] != null ? map['name'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       address: map['address'] != null ? map['address'] as String : null,
       role: map['role'] as String,
-      fcmToken: map['fcmToken'] != null ? map['fcmToken'] as String : null,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
+      fcmToken: map['fcm_token'] != null ? map['fcm_token'] as String : null,
+      createdAt: DateTime.parse(map['created_at'] as String),
+      updatedAt: DateTime.parse(map['updated_at'] as String),
     );
   }
 

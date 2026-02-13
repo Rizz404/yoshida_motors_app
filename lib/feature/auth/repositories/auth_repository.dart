@@ -1,10 +1,172 @@
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:car_rongsok_app/core/extensions/api_result_extension.dart';
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
+import 'package:car_rongsok_app/core/network/dio_client.dart';
+import 'package:car_rongsok_app/core/services/auth_service.dart';
 import 'package:car_rongsok_app/feature/auth/models/auth_response.dart';
 import 'package:car_rongsok_app/feature/auth/models/login_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/register_payload.dart';
+import 'package:car_rongsok_app/feature/auth/models/update_profile_payload.dart';
+import 'package:car_rongsok_app/feature/user/models/user.dart';
+import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
-  Future<ApiSuccess<AuthResponse>> register(RegisterPayload params);
-  Future<ApiSuccess<AuthResponse>> login(LoginPayload params);
-  Future<ApiSuccess<Null>> logout();
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> register(
+    RegisterPayload params,
+  );
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> login(
+    LoginPayload params,
+  );
+  TaskEither<ApiFailure<User>, ApiSuccess<User>> getProfile();
+  TaskEither<ApiFailure<User>, ApiSuccess<User>> updateProfile(
+    UpdateProfilePayload params,
+  );
+  TaskEither<ApiFailure<dynamic>, ApiSuccess<dynamic>> logout();
+}
+
+class AuthRepositoryImpl implements AuthRepository {
+  final DioClient _dioClient;
+  final AuthService _authService;
+
+  AuthRepositoryImpl(this._dioClient, this._authService);
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> register(
+    RegisterPayload params,
+  ) {
+    return TaskEither(() async {
+      final result = await _dioClient.post<AuthResponse>(
+        ApiConstant.authRegister,
+        data: params.toMap(),
+        fromJson: (json) => AuthResponse.fromMap(json as Map<String, dynamic>),
+      );
+
+      // Handle success case
+      if (result is ApiSuccess<AuthResponse>) {
+        // Save token & user to storage
+        await _authService.saveAccessToken(result.data.token);
+        await _authService.saveUser(result.data.user);
+        return Right<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>(
+          result,
+        );
+      }
+
+      // Handle failure case
+      if (result is ApiFailure<AuthResponse>) {
+        return Left<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>(result);
+      }
+
+      throw UnimplementedError('Unknown ApiResult type');
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> login(
+    LoginPayload params,
+  ) {
+    return TaskEither(() async {
+      final result = await _dioClient.post<AuthResponse>(
+        ApiConstant.authLogin,
+        data: params.toMap(),
+        fromJson: (json) => AuthResponse.fromMap(json as Map<String, dynamic>),
+      );
+
+      // Handle success case
+      if (result is ApiSuccess<AuthResponse>) {
+        // Save token & user to storage
+        await _authService.saveAccessToken(result.data.token);
+        await _authService.saveUser(result.data.user);
+        return Right<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>(
+          result,
+        );
+      }
+
+      // Handle failure case
+      if (result is ApiFailure<AuthResponse>) {
+        return Left<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>(result);
+      }
+
+      throw UnimplementedError('Unknown ApiResult type');
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<User>, ApiSuccess<User>> getProfile() {
+    return TaskEither(() async {
+      // * Try get from storage first
+      final cachedUser = await _authService.getUser();
+
+      if (cachedUser != null) {
+        // * Return cached user if token exists
+        final token = await _authService.getAccessToken();
+        if (token != null) {
+          return Right(
+            ApiSuccess(data: cachedUser, message: 'Profile loaded from cache'),
+          );
+        }
+      }
+
+      // * Fetch from API if no cache
+      final result = await _dioClient.get<User>(
+        ApiConstant.authProfile,
+        fromJson: (json) => User.fromMap(json as Map<String, dynamic>),
+      );
+
+      // Handle success case
+      if (result is ApiSuccess<User>) {
+        // Update cached user
+        await _authService.saveUser(result.data);
+        return Right<ApiFailure<User>, ApiSuccess<User>>(result);
+      }
+
+      // Handle failure case
+      if (result is ApiFailure<User>) {
+        return Left<ApiFailure<User>, ApiSuccess<User>>(result);
+      }
+
+      throw UnimplementedError('Unknown ApiResult type');
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<User>, ApiSuccess<User>> updateProfile(
+    UpdateProfilePayload params,
+  ) {
+    return TaskEither(() async {
+      final result = await _dioClient.put<User>(
+        ApiConstant.authProfile,
+        data: params.toMap(),
+        fromJson: (json) => User.fromMap(json as Map<String, dynamic>),
+      );
+
+      // Handle success case
+      if (result is ApiSuccess<User>) {
+        // Update cached user
+        await _authService.saveUser(result.data);
+        return Right<ApiFailure<User>, ApiSuccess<User>>(result);
+      }
+
+      // Handle failure case
+      if (result is ApiFailure<User>) {
+        return Left<ApiFailure<User>, ApiSuccess<User>>(result);
+      }
+
+      throw UnimplementedError('Unknown ApiResult type');
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<dynamic>, ApiSuccess<dynamic>> logout() {
+    return TaskEither(() async {
+      final result = await _dioClient.post<dynamic>(
+        ApiConstant.authLogout,
+        fromJson: (json) => json,
+      );
+
+      // * Clear auth data regardless of API response
+      await _authService.clearAuth();
+
+      return result.toEither();
+    });
+  }
 }

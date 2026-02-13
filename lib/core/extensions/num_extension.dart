@@ -1,5 +1,4 @@
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
-import 'package:car_rongsok_app/l10n/app_localizations.dart';
 
 extension NumExtension on num {
   /// Format number as IDR (Rupiah) currency string
