@@ -3,8 +3,6 @@ import 'package:car_rongsok_app/core/router/app_transitions.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/appraisal_result_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/camera_capture_screen.dart';
 // Appraisal Screens
-import 'package:car_rongsok_app/feature/appraisal/screens/home_screen.dart'
-    as appraisal;
 import 'package:car_rongsok_app/feature/appraisal/screens/photo_category_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/summary_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/vehicle_info_screen.dart';
@@ -15,6 +13,8 @@ import 'package:car_rongsok_app/feature/auth/screens/register_screen.dart';
 import 'package:car_rongsok_app/feature/home/screens/home_screen.dart';
 // User Screens
 import 'package:car_rongsok_app/feature/user/screens/profile_screen.dart';
+// Shared Widgets
+import 'package:car_rongsok_app/shared/widgets/app_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,9 +56,33 @@ class RegisterRoute extends GoRouteData {
   }
 }
 
+// ==================== MAIN SHELL ROUTE ====================
+
+@TypedStatefulShellRoute<AppShellRouteData>(
+  branches: [
+    TypedStatefulShellBranch(
+      routes: [TypedGoRoute<HomeRoute>(path: '/', name: 'home')],
+    ),
+    TypedStatefulShellBranch(
+      routes: [TypedGoRoute<ProfileRoute>(path: '/profile', name: 'profile')],
+    ),
+  ],
+)
+class AppShellRouteData extends StatefulShellRouteData {
+  const AppShellRouteData();
+
+  @override
+  Widget builder(
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
+    return AppShell(navigationShell: navigationShell);
+  }
+}
+
 // ==================== HOME ROUTES ====================
 
-@TypedGoRoute<HomeRoute>(path: '/', name: 'home')
 class HomeRoute extends GoRouteData {
   const HomeRoute();
 
@@ -76,7 +100,6 @@ class HomeRoute extends GoRouteData {
 
 // ==================== USER ROUTES ====================
 
-@TypedGoRoute<ProfileRoute>(path: '/profile', name: 'profile')
 class ProfileRoute extends GoRouteData {
   const ProfileRoute();
 
@@ -94,24 +117,6 @@ class ProfileRoute extends GoRouteData {
 }
 
 // ==================== APPRAISAL ROUTES ====================
-
-@TypedGoRoute<AppraisalHomeRoute>(path: '/appraisal', name: 'appraisal-home')
-class AppraisalHomeRoute extends GoRouteData {
-  const AppraisalHomeRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const appraisal.HomeScreen();
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return AppTransitions.slideFromRight(
-      key: state.pageKey,
-      child: build(context, state),
-    );
-  }
-}
-
 @TypedGoRoute<VehicleInfoRoute>(
   path: '/appraisal/vehicle-info',
   name: 'vehicle-info',

@@ -9,9 +9,7 @@ part of 'routes.dart';
 List<RouteBase> get $appRoutes => [
       $loginRoute,
       $registerRoute,
-      $homeRoute,
-      $profileRoute,
-      $appraisalHomeRoute,
+      $appShellRouteData,
       $vehicleInfoRoute,
       $photoCategoryRoute,
       $cameraCaptureRoute,
@@ -65,11 +63,34 @@ extension $RegisterRouteExtension on RegisterRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $homeRoute => GoRouteData.$route(
-      path: '/',
-      name: 'home',
-      factory: $HomeRouteExtension._fromState,
+RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
+      factory: $AppShellRouteDataExtension._fromState,
+      branches: [
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/',
+              name: 'home',
+              factory: $HomeRouteExtension._fromState,
+            ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/profile',
+              name: 'profile',
+              factory: $ProfileRouteExtension._fromState,
+            ),
+          ],
+        ),
+      ],
     );
+
+extension $AppShellRouteDataExtension on AppShellRouteData {
+  static AppShellRouteData _fromState(GoRouterState state) =>
+      const AppShellRouteData();
+}
 
 extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
@@ -88,41 +109,11 @@ extension $HomeRouteExtension on HomeRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $profileRoute => GoRouteData.$route(
-      path: '/profile',
-      name: 'profile',
-      factory: $ProfileRouteExtension._fromState,
-    );
-
 extension $ProfileRouteExtension on ProfileRoute {
   static ProfileRoute _fromState(GoRouterState state) => const ProfileRoute();
 
   String get location => GoRouteData.$location(
         '/profile',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $appraisalHomeRoute => GoRouteData.$route(
-      path: '/appraisal',
-      name: 'appraisal-home',
-      factory: $AppraisalHomeRouteExtension._fromState,
-    );
-
-extension $AppraisalHomeRouteExtension on AppraisalHomeRoute {
-  static AppraisalHomeRoute _fromState(GoRouterState state) =>
-      const AppraisalHomeRoute();
-
-  String get location => GoRouteData.$location(
-        '/appraisal',
       );
 
   void go(BuildContext context) => context.go(location);

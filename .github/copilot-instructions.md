@@ -1,8 +1,8 @@
 // Copilot Guidelines - Car Rongsok
 
 // 1) Extensions (mandatory)
-import 'package:car_rongsok/core/extensions/theme_extension.dart';
-import 'package:car_rongsok/core/extensions/localization_extension.dart';
+import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 // Access: context.theme|textTheme|colorScheme|colors|semantic|isDarkMode
 // Access: context.l10n|locale|isEnglish|isIndonesian|isJapanese
 
@@ -11,7 +11,7 @@ import 'package:car_rongsok/core/extensions/localization_extension.dart';
 // ❌ DON'T: Color(0xFF...), Colors.red, hardcoded colors
 
 // 3) Logging (replace all print!)
-import 'package:car_rongsok/core/utils/logging.dart';
+import 'package:car_rongsok_app/core/utils/logging.dart';
 // Use: this.logInfo|logError|logData|logDomain|logPresentation|logService
 // Example: this.logService('Process started'); this.logError('Failed', e, s);
 
@@ -28,7 +28,7 @@ import 'package:car_rongsok/core/utils/logging.dart';
 // Keep inline comments 1-2 lines max, code should be self-explanatory
 
 // 8) Shared Widgets (use existing components first!)
-// Import from: 'package:car_rongsok/shared/widgets/...'
+// Import from: 'package:car_rongsok_app/shared/widgets/...'
 // Available:
 // - AppButton (primary/secondary/text buttons)
 // - AppTextField, AppSearchField (text inputs)

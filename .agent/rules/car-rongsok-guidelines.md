@@ -14,8 +14,8 @@ Follow these rules strictly and consistently.
 
 ## 1) Extensions (mandatory)
 - When accessing theme or localization, always use the project extensions:
-  - import 'package:car_rongsok/core/extensions/theme_extension.dart';
-  - import 'package:car_rongsok/core/extensions/localization_extension.dart';
+  - import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+  - import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 - Theme access must use:
   - context.theme / context.textTheme / context.colorScheme / context.colors / context.semantic / context.isDarkMode
 - Localization access must use:
@@ -28,7 +28,7 @@ Follow these rules strictly and consistently.
 
 ## 3) Logging (replace all print)
 - Never use print().
-- Use: import 'package:car_rongsok/core/utils/logging.dart';
+- Use: import 'package:car_rongsok_app/core/utils/logging.dart';
 - Use the available helpers on `this`:
   - logInfo, logError, logData, logDomain, logPresentation, logService
 - For failures: logError('message', e, s)
@@ -50,7 +50,7 @@ Follow these rules strictly and consistently.
 
 ## 7) Shared Widgets first (no raw Material widgets unless needed)
 - Always prefer shared components from:
-  - 'package:car_rongsok/shared/widgets/...'
+  - 'package:car_rongsok_app/shared/widgets/...'
 - Use existing widgets instead of raw Material/Cupertino equivalents:
   - AppButton (primary/secondary/text)
   - AppTextField, AppSearchField
