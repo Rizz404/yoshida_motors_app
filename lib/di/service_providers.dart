@@ -1,3 +1,4 @@
+import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:car_rongsok_app/core/services/auth_service.dart';
@@ -48,13 +49,13 @@ final localNotificationServiceProvider = Provider<LocalNotificationService>((
   return LocalNotificationService(plugin);
 });
 
-// TODO: Uncomment when FcmTokenManager is implemented
-// final fcmTokenManagerProvider = Provider<FcmTokenManager>((ref) {
-//   final prefs = ref.watch(sharedPreferencesProvider);
-//   final messagingService = ref.watch(firebaseMessagingServiceProvider);
-//   final authRepository = ref.watch(authRepositoryProvider);
-//   return FcmTokenManager(prefs, messagingService, authRepository);
-// });
+// * FCM Token Manager provider
+final fcmTokenManagerProvider = Provider<FcmTokenManager>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  final messagingService = ref.watch(firebaseMessagingServiceProvider);
+  final authRepository = ref.watch(authRepositoryProvider);
+  return FcmTokenManager(prefs, messagingService, authRepository);
+});
 
 // * Notification Navigation Service provider
 final notificationNavigationServiceProvider =

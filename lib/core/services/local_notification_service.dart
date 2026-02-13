@@ -254,7 +254,7 @@ class LocalNotificationService {
         title: title,
         body: body,
         scheduledDate: scheduledDate,
-        details: details,
+        notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: payload,
       );
@@ -268,7 +268,7 @@ class LocalNotificationService {
   // * Cancel specific notification
   Future<void> cancelNotification(int id) async {
     try {
-      await _plugin.cancel(id);
+      await _plugin.cancel(id: id);
       this.logInfo('Notification cancelled - ID: $id');
     } catch (e, s) {
       this.logError('Failed to cancel notification', e, s);
