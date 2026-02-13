@@ -242,21 +242,18 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
         FlutterNativeSplash.remove();
       }
 
-      // * Initialize FCM token manager saat user berhasil login
+      // * Handle FCM token based on auth state changes
       next.whenData((authState) {
-        final wasLoggedOut = previous?.valueOrNull?.user == null;
-        final isLoggedIn = authState.user != null;
+        final previousUser = previous?.whenOrNull(data: (state) => state.user);
+        final currentUser = authState.user;
 
-        if (isLoggedIn && wasLoggedOut) {
+        // * Initialize FCM token saat user berhasil login
+        if (currentUser != null && previousUser == null) {
           final fcmTokenManager = ref.read(fcmTokenManagerProvider);
           fcmTokenManager.initialize();
         }
-
         // * Clear FCM token saat logout
-        final wasLoggedIn = previous?.valueOrNull?.user != null;
-        final isLoggedOut = authState.user == null;
-
-        if (isLoggedOut && wasLoggedIn) {
+        else if (currentUser == null && previousUser != null) {
           final fcmTokenManager = ref.read(fcmTokenManagerProvider);
           fcmTokenManager.clearToken();
         }
