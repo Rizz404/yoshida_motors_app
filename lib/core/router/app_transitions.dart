@@ -8,11 +8,11 @@ class AppTransitions {
 
   /// * Slide from right - untuk detail screens (iOS-style)
   /// * Memberikan context navigasi yang jelas: "going deeper"
-  static CustomTransitionPage slideFromRight({
+  static CustomTransitionPage<void> slideFromRight({
     required LocalKey key,
     required Widget child,
   }) {
-    return CustomTransitionPage(
+    return CustomTransitionPage<void>(
       key: key,
       child: child,
       transitionDuration: const Duration(milliseconds: 300),
@@ -33,11 +33,11 @@ class AppTransitions {
 
   /// * Slide from bottom - untuk form/upsert screens (modal-style)
   /// * Memberikan kesan "action modal" untuk create/edit
-  static CustomTransitionPage slideFromBottom({
+  static CustomTransitionPage<void> slideFromBottom({
     required LocalKey key,
     required Widget child,
   }) {
-    return CustomTransitionPage(
+    return CustomTransitionPage<void>(
       key: key,
       child: child,
       transitionDuration: const Duration(milliseconds: 350),
@@ -58,11 +58,11 @@ class AppTransitions {
 
   /// * Fade + Scale - untuk profile updates (smooth & elegant)
   /// * Memberikan kesan premium untuk personal actions
-  static CustomTransitionPage fadeScale({
+  static CustomTransitionPage<void> fadeScale({
     required LocalKey key,
     required Widget child,
   }) {
-    return CustomTransitionPage(
+    return CustomTransitionPage<void>(
       key: key,
       child: child,
       transitionDuration: const Duration(milliseconds: 300),
@@ -91,11 +91,11 @@ class AppTransitions {
   }
 
   /// * No transition - untuk instant navigation (auth screens)
-  static NoTransitionPage noTransition({
+  static NoTransitionPage<void> noTransition({
     required LocalKey key,
     required Widget child,
   }) {
-    return NoTransitionPage(key: key, child: child);
+    return NoTransitionPage<void>(key: key, child: child);
   }
 }
 

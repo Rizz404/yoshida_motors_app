@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:car_rongsok_app/l10n/app_localizations.dart';
 import 'package:car_rongsok_app/core/router/app_router.dart';
+import 'package:car_rongsok_app/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 
 extension LocalizationExtension on BuildContext {
   L10n get l10n => L10n.of(this)!;

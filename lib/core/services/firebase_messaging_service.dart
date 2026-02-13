@@ -1,5 +1,5 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:car_rongsok_app/core/extensions/logger_extension.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FirebaseMessagingService {
   final FirebaseMessaging _messaging;
@@ -21,14 +21,14 @@ class FirebaseMessagingService {
           settings.authorizationStatus == AuthorizationStatus.provisional;
 
       if (isGranted) {
-        this.logService('Notification permission granted');
+        logService('Notification permission granted');
       } else {
-        this.logService('Notification permission denied');
+        logService('Notification permission denied');
       }
 
       return isGranted;
     } catch (e, s) {
-      this.logError('Failed to request notification permission', e, s);
+      logError('Failed to request notification permission', e, s);
       return false;
     }
   }
@@ -38,11 +38,11 @@ class FirebaseMessagingService {
     try {
       final token = await _messaging.getToken();
       if (token != null) {
-        this.logService('FCM Token: $token');
+        logService('FCM Token: $token');
       }
       return token;
     } catch (e, s) {
-      this.logError('Failed to get FCM token', e, s);
+      logError('Failed to get FCM token', e, s);
       return null;
     }
   }
@@ -51,9 +51,9 @@ class FirebaseMessagingService {
   Future<void> subscribeToTopic(String topic) async {
     try {
       await _messaging.subscribeToTopic(topic);
-      this.logService('Subscribed to topic: $topic');
+      logService('Subscribed to topic: $topic');
     } catch (e, s) {
-      this.logError('Failed to subscribe to topic: $topic', e, s);
+      logError('Failed to subscribe to topic: $topic', e, s);
     }
   }
 
@@ -61,9 +61,9 @@ class FirebaseMessagingService {
   Future<void> unsubscribeFromTopic(String topic) async {
     try {
       await _messaging.unsubscribeFromTopic(topic);
-      this.logService('Unsubscribed from topic: $topic');
+      logService('Unsubscribed from topic: $topic');
     } catch (e, s) {
-      this.logError('Failed to unsubscribe from topic: $topic', e, s);
+      logError('Failed to unsubscribe from topic: $topic', e, s);
     }
   }
 
@@ -71,16 +71,16 @@ class FirebaseMessagingService {
   Future<void> deleteToken() async {
     try {
       await _messaging.deleteToken();
-      this.logService('FCM token deleted');
+      logService('FCM token deleted');
     } catch (e, s) {
-      this.logError('Failed to delete FCM token', e, s);
+      logError('Failed to delete FCM token', e, s);
     }
   }
 
   // * Setup foreground message handler
   void setupForegroundMessageHandler(void Function(RemoteMessage) onMessage) {
     FirebaseMessaging.onMessage.listen((message) {
-      this.logService('Foreground message received: ${message.messageId}');
+      logService('Foreground message received: ${message.messageId}');
       onMessage(message);
     });
   }
@@ -90,7 +90,7 @@ class FirebaseMessagingService {
     void Function(RemoteMessage) onNotificationOpened,
   ) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      this.logService('Notification opened app: ${message.messageId}');
+      logService('Notification opened app: ${message.messageId}');
       onNotificationOpened(message);
     });
   }
@@ -100,11 +100,11 @@ class FirebaseMessagingService {
     try {
       final message = await _messaging.getInitialMessage();
       if (message != null) {
-        this.logService('App opened from notification: ${message.messageId}');
+        logService('App opened from notification: ${message.messageId}');
       }
       return message;
     } catch (e, s) {
-      this.logError('Failed to get initial message', e, s);
+      logError('Failed to get initial message', e, s);
       return null;
     }
   }
@@ -113,9 +113,9 @@ class FirebaseMessagingService {
   Future<void> setAutoInitEnabled(bool enabled) async {
     try {
       await _messaging.setAutoInitEnabled(enabled);
-      this.logService('FCM auto-init ${enabled ? "enabled" : "disabled"}');
+      logService('FCM auto-init ${enabled ? "enabled" : "disabled"}');
     } catch (e, s) {
-      this.logError('Failed to set auto-init', e, s);
+      logError('Failed to set auto-init', e, s);
     }
   }
 }

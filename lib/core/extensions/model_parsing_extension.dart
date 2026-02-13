@@ -20,7 +20,7 @@ extension SafeMap on Map<String, dynamic> {
       final value = this[key];
 
       if (value == null) {
-        this.logError('Field "$key" is null or missing');
+        logError('Field "$key" is null or missing');
         throw Exception('Field "$key" is null or missing');
       }
 
@@ -37,7 +37,7 @@ extension SafeMap on Map<String, dynamic> {
           return (value.isUtc ? value.toLocal() : value) as T;
         }
 
-        this.logError(
+        logError(
           'Field "$key" cannot be converted to DateTime\n'
           '   Got: ${value.runtimeType}\n'
           '   Value: $value',
@@ -50,7 +50,7 @@ extension SafeMap on Map<String, dynamic> {
         if (value is double) return value as T;
         if (value is int) return value.toDouble() as T;
 
-        this.logError(
+        logError(
           'Field "$key" cannot be converted to double\n'
           '   Got: ${value.runtimeType}\n'
           '   Value: $value',
@@ -60,7 +60,7 @@ extension SafeMap on Map<String, dynamic> {
 
       // Standard type checking
       if (value is! T) {
-        this.logError(
+        logError(
           'Field "$key" has wrong type\n'
           '   Expected: $T\n'
           '   Got: ${value.runtimeType}\n'
@@ -73,7 +73,7 @@ extension SafeMap on Map<String, dynamic> {
 
       return value;
     } catch (e) {
-      this.logError(
+      logError(
         'Error at field "$key": $e\n'
         '   📦 Available keys: ${keys.toList()}\n'
         '   🔍 Value: ${this[key]}',
@@ -101,7 +101,7 @@ extension SafeMap on Map<String, dynamic> {
           return (value.isUtc ? value.toLocal() : value) as T?;
         }
 
-        this.logData(
+        logData(
           'Field "$key" cannot be converted to DateTime (returning null)\n'
           '   Got: ${value.runtimeType}',
         );
@@ -113,7 +113,7 @@ extension SafeMap on Map<String, dynamic> {
         if (value is double) return value as T?;
         if (value is int) return value.toDouble() as T?;
 
-        this.logData(
+        logData(
           'Field "$key" cannot be converted to double (returning null)\n'
           '   Got: ${value.runtimeType}',
         );
@@ -122,7 +122,7 @@ extension SafeMap on Map<String, dynamic> {
 
       // Standard type checking
       if (value is! T) {
-        this.logData(
+        logData(
           'Field "$key" type mismatch (returning null)\n'
           '   Expected: $T\n'
           '   Got: ${value.runtimeType}',
@@ -132,7 +132,7 @@ extension SafeMap on Map<String, dynamic> {
 
       return value as T?;
     } catch (e) {
-      this.logData('Warning at field "$key": $e');
+      logData('Warning at field "$key": $e');
       return null;
     }
   }

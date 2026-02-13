@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
-
 import 'package:car_rongsok_app/feature/user/models/user.dart';
+import 'package:equatable/equatable.dart';
 
 class AuthResponse extends Equatable {
   final User user;

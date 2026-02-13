@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:flutter/material.dart';
 
 class AppDetailActionButtons extends StatelessWidget {
   final VoidCallback? onEdit;

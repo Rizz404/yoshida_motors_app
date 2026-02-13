@@ -1,7 +1,7 @@
+import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 
 /// Reusable loader overlay widget
 class AppLoaderOverlay extends StatelessWidget {

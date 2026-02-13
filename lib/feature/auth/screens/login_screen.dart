@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppLoaderOverlay(
+    return const AppLoaderOverlay(
       child: Scaffold(
         appBar: CustomAppBar(),
         body: ScreenWrapper(child: Center(child: AppText('LoginScreen'))),

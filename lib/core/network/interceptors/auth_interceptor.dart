@@ -20,7 +20,7 @@ class AuthInterceptor extends Interceptor {
         options.headers['Authorization'] = 'Bearer $token';
       }
     } catch (e, s) {
-      this.logError('Error getting access token', e, s);
+      logError('Error getting access token', e, s);
     }
 
     handler.next(options);
@@ -38,7 +38,7 @@ class AuthInterceptor extends Interceptor {
               true;
 
       if (isInvalidToken) {
-        this.logInfo('Invalid token detected, clearing auth data');
+        logInfo('Invalid token detected, clearing auth data');
         await _handleInvalidToken();
       }
     }
@@ -54,7 +54,7 @@ class AuthInterceptor extends Interceptor {
       // * Notify listener (will trigger auth state refresh)
       onTokenInvalid?.call();
     } catch (e, s) {
-      this.logError('Error handling invalid token', e, s);
+      logError('Error handling invalid token', e, s);
     }
   }
 }

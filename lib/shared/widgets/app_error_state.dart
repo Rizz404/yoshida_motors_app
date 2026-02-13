@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:flutter/material.dart';
 
 /// Widget untuk menampilkan error state yang reusable
 class AppErrorState extends StatelessWidget {

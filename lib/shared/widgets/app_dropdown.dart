@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AppDropdownItem<T> {
   final T value;
@@ -118,7 +118,7 @@ class AppDropdown<T> extends StatelessWidget {
 }
 
 // Extension to create common dropdown items
-extension AppDropdownExtensions on AppDropdown {
+extension AppDropdownExtensions on AppDropdown<dynamic> {
   static List<AppDropdownItem<String>> createFilterItems({
     required String allLabel,
     required List<String> filterValues,

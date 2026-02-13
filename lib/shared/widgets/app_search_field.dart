@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AppSearchField<T> extends StatefulWidget {
   final String name;
@@ -28,7 +28,7 @@ class AppSearchField<T> extends StatefulWidget {
   final String Function(T item)? itemDisplayMapper;
   final String Function(T item)? itemSubtitleMapper;
   final IconData? itemIcon;
-  final Function(T item)? onItemSelected;
+  final void Function(T item)? onItemSelected;
   final int initialItemsToShow;
   final int itemsPerLoadMore;
   final bool enableLoadMore;
@@ -38,7 +38,7 @@ class AppSearchField<T> extends StatefulWidget {
   final ValueChanged<String>? onDebouncedChanged;
   final String? initialDisplayText;
 
-  AppSearchField({
+  const AppSearchField({
     super.key,
     required this.name,
     this.hintText,
@@ -79,7 +79,7 @@ class AppSearchField<T> extends StatefulWidget {
 }
 
 class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
-  late GlobalKey<FormBuilderFieldState> _fieldKey;
+  late GlobalKey<FormBuilderFieldState<FormBuilderTextField, String>> _fieldKey;
   bool _hasText = false;
 
   // Autocomplete state
@@ -96,7 +96,8 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
   @override
   void initState() {
     super.initState();
-    _fieldKey = GlobalKey<FormBuilderFieldState>();
+    _fieldKey =
+        GlobalKey<FormBuilderFieldState<FormBuilderTextField, String>>();
     _hasText = widget.initialValue?.isNotEmpty ?? false;
     _currentDisplayCount = widget.initialItemsToShow;
     _displayText = widget.initialDisplayText;

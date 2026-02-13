@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 /// Reusable searchable dropdown widget with search functionality
 /// Parent widget manages state and provides items/callbacks
@@ -51,7 +51,7 @@ class AppSearchableDropdown<T> extends StatefulWidget {
   final IconData? Function(T item)? itemIconMapper;
 
   // * Selection callback
-  final Function(T? item)? onChanged;
+  final void Function(T? item)? onChanged;
 
   // * UI customization
   final EdgeInsetsGeometry? contentPadding;
@@ -93,7 +93,8 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
   final LayerLink _layerLink = LayerLink();
   final FocusNode _searchFocusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
-  late GlobalKey<FormBuilderFieldState> _fieldKey;
+  late GlobalKey<FormBuilderFieldState<FormBuilderField<String>, String>>
+  _fieldKey;
 
   OverlayEntry? _overlayEntry;
   T? _selectedItem;
@@ -104,7 +105,8 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
   @override
   void initState() {
     super.initState();
-    _fieldKey = GlobalKey<FormBuilderFieldState>();
+    _fieldKey =
+        GlobalKey<FormBuilderFieldState<FormBuilderField<String>, String>>();
     _selectedItem = widget.initialValue;
   }
 

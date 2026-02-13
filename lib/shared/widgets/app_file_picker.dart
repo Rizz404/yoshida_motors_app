@@ -1,13 +1,14 @@
 import 'dart:io';
+
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // * Reusable file picker widget dengan FormBuilder support
 // * Features: single/multiple upload, validation, preview untuk image/video
@@ -69,6 +70,8 @@ class AppFilePickerState extends State<AppFilePicker> {
       );
 
       if (result != null) {
+        if (!mounted) return;
+
         // * Validate max files
         if (widget.maxFiles != null && result.files.length > widget.maxFiles!) {
           AppToast.warning(
@@ -100,11 +103,13 @@ class AppFilePickerState extends State<AppFilePicker> {
         // * Update form value
         FormBuilder.of(context)?.fields[widget.name]?.didChange(_selectedFiles);
         widget.onFilesChanged?.call(_selectedFiles);
-        this.logData('Files selected: ${_selectedFiles.length}');
+        logData('Files selected: ${_selectedFiles.length}');
       }
     } catch (e, s) {
-      this.logError('Error picking files', e, s);
-      AppToast.error(context.l10n.sharedFailedToPickFiles);
+      logError('Error picking files', e, s);
+      if (mounted) {
+        AppToast.error(context.l10n.sharedFailedToPickFiles);
+      }
     }
   }
 
@@ -123,7 +128,7 @@ class AppFilePickerState extends State<AppFilePicker> {
   }
 
   void _previewFile(PlatformFile file) {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierColor: context.colors.overlay,
       builder: (context) => _FilePreviewDialog(file: file),
@@ -289,7 +294,7 @@ class _FileItem extends StatelessWidget {
                     ? Image.memory(
                         file.bytes!,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
+                        errorBuilder: (context, error, stackTrace) =>
                             _buildFallbackIcon(context),
                       )
                     : _buildFallbackIcon(context))
@@ -297,7 +302,7 @@ class _FileItem extends StatelessWidget {
                     ? Image.file(
                         File(file.path!),
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
+                        errorBuilder: (context, error, stackTrace) =>
                             _buildFallbackIcon(context),
                       )
                     : _buildFallbackIcon(context)),

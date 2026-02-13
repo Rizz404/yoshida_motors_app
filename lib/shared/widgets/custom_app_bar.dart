@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -43,9 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
 
-    final allActions = actions != null
-        ? actions
-        : [menuButton, const SizedBox(width: 4)];
+    final allActions = actions ?? [menuButton, const SizedBox(width: 4)];
 
     return AppBar(
       title: titleWidget,

@@ -31,7 +31,7 @@ class AuthServiceImpl implements AuthService {
     final token = await _flutterSecureStorage.read(
       key: StorageKeyConstant.accessTokenKey,
     );
-    this.logData(
+    logData(
       'GET accessToken: ${token != null ? 'Token exists' : 'No token'}',
     );
     return token;
@@ -43,28 +43,28 @@ class AuthServiceImpl implements AuthService {
       key: StorageKeyConstant.accessTokenKey,
       value: token,
     );
-    this.logData('SAVE accessToken: Token saved successfully');
+    logData('SAVE accessToken: Token saved successfully');
   }
 
   @override
   Future<void> deleteAccessToken() async {
     await _flutterSecureStorage.delete(key: StorageKeyConstant.accessTokenKey);
-    this.logData('DELETE accessToken');
+    logData('DELETE accessToken');
   }
 
   @override
   Future<User?> getUser() async {
-    final userJson = await _sharedPreferencesWithCache.getString(
+    final userJson = _sharedPreferencesWithCache.getString(
       StorageKeyConstant.userKey,
     );
 
     if (userJson != null) {
       final userModelJson = User.fromJson(jsonDecode(userJson) as String);
-      this.logData('GET user: User found: ${userModelJson.name}');
+      logData('GET user: User found: ${userModelJson.name}');
       return userModelJson;
     }
 
-    this.logData('GET user: No user found');
+    logData('GET user: No user found');
     return null;
   }
 
@@ -74,19 +74,19 @@ class AuthServiceImpl implements AuthService {
       StorageKeyConstant.userKey,
       jsonEncode(userModel.toJson()),
     );
-    this.logData('SAVE user: User saved: ${userModel.name}');
+    logData('SAVE user: User saved: ${userModel.name}');
   }
 
   @override
   Future<void> deleteUser() async {
     await _sharedPreferencesWithCache.remove(StorageKeyConstant.userKey);
-    this.logData('DELETE user');
+    logData('DELETE user');
   }
 
   @override
   Future<void> clearAuth() async {
     await deleteAccessToken();
     await deleteUser();
-    this.logData('CLEAR auth: All auth data cleared');
+    logData('CLEAR auth: All auth data cleared');
   }
 }

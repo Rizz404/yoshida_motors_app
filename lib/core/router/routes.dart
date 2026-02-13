@@ -1,27 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-// Auth Screens
-import 'package:car_rongsok_app/feature/auth/screens/login_screen.dart';
-import 'package:car_rongsok_app/feature/auth/screens/register_screen.dart';
-
-// Home Screen
-import 'package:car_rongsok_app/feature/home/screens/home_screen.dart';
-
-// User Screens
-import 'package:car_rongsok_app/feature/user/screens/profile_screen.dart';
-
+// Transitions
+import 'package:car_rongsok_app/core/router/app_transitions.dart';
+import 'package:car_rongsok_app/feature/appraisal/screens/appraisal_result_screen.dart';
+import 'package:car_rongsok_app/feature/appraisal/screens/camera_capture_screen.dart';
 // Appraisal Screens
 import 'package:car_rongsok_app/feature/appraisal/screens/home_screen.dart'
     as appraisal;
-import 'package:car_rongsok_app/feature/appraisal/screens/vehicle_info_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/photo_category_screen.dart';
-import 'package:car_rongsok_app/feature/appraisal/screens/camera_capture_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/summary_screen.dart';
-import 'package:car_rongsok_app/feature/appraisal/screens/appraisal_result_screen.dart';
-
-// Transitions
-import 'package:car_rongsok_app/core/router/app_transitions.dart';
+import 'package:car_rongsok_app/feature/appraisal/screens/vehicle_info_screen.dart';
+// Auth Screens
+import 'package:car_rongsok_app/feature/auth/screens/login_screen.dart';
+import 'package:car_rongsok_app/feature/auth/screens/register_screen.dart';
+// Home Screen
+import 'package:car_rongsok_app/feature/home/screens/home_screen.dart';
+// User Screens
+import 'package:car_rongsok_app/feature/user/screens/profile_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 part 'routes.g.dart';
 

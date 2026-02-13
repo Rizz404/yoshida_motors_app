@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 enum ImageSize {
@@ -71,10 +71,8 @@ class AppImage extends StatelessWidget {
     final effectiveHeight = height ?? size.value;
 
     final borderRadius = shape == ImageShape.circle
-        ? BorderRadius.circular((effectiveWidth ?? size.value) / 2)
-        : BorderRadius.circular(
-            12,
-          ); // Bestie, aku ubah default radius ke 12 biar lebih smooth
+        ? BorderRadius.circular(effectiveWidth / 2)
+        : BorderRadius.circular(12);
 
     final effectiveBorderColor = borderColor ?? theme.colorScheme.outline;
     final effectiveBorderWidth = borderWidth ?? 1.0;
@@ -99,7 +97,7 @@ class AppImage extends StatelessWidget {
             errorWidget ??
             Icon(
               Icons.broken_image,
-              size: (effectiveWidth ?? 32) * 0.5,
+              size: effectiveWidth * 0.5,
               color: theme.colorScheme.error,
             ),
       );
@@ -113,7 +111,7 @@ class AppImage extends StatelessWidget {
             errorWidget ??
             Icon(
               Icons.broken_image,
-              size: (effectiveWidth ?? 32) * 0.5,
+              size: effectiveWidth * 0.5,
               color: theme.colorScheme.error,
             ),
       );
@@ -131,10 +129,10 @@ class AppImage extends StatelessWidget {
     // Hati-hati: kalau width infinity, jangan ditambah margin border nanti error overflow
     final containerWidth = effectiveWidth == double.infinity
         ? double.infinity
-        : (effectiveWidth ?? 0) + (showBorder ? effectiveBorderWidth * 2 : 0);
+        : effectiveWidth + (showBorder ? effectiveBorderWidth * 2 : 0);
 
     final containerHeight =
-        (effectiveHeight ?? 0) + (showBorder ? effectiveBorderWidth * 2 : 0);
+        effectiveHeight + (showBorder ? effectiveBorderWidth * 2 : 0);
 
     final container = Container(
       width: containerWidth,

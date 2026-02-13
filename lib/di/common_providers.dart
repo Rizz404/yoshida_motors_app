@@ -69,7 +69,7 @@ class LocaleNotifier extends Notifier<Locale> {
   @override
   Locale build() {
     _languageStorageService = ref.watch(languageStorageServiceProvider);
-    Future.microtask(() => _loadLocale());
+    Future.microtask(_loadLocale);
     return L10n.supportedLocales.first;
   }
 
@@ -124,7 +124,7 @@ class ThemeNotifier extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
     _themeStorageService = ref.watch(themeStorageServiceProvider);
-    Future.microtask(() => _loadThemeMode());
+    Future.microtask(_loadThemeMode);
     return ThemeMode.system;
   }
 

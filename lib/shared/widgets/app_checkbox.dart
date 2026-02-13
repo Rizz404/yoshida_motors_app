@@ -1,6 +1,6 @@
+import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 
 class AppCheckbox extends StatelessWidget {
   final String name;

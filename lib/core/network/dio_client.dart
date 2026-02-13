@@ -1,4 +1,5 @@
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/core/network/interceptors/auth_interceptor.dart';
 import 'package:car_rongsok_app/core/network/interceptors/locale_interceptor.dart';
 import 'package:car_rongsok_app/core/network/interceptors/network_error_interceptor.dart';
@@ -6,7 +7,6 @@ import 'package:car_rongsok_app/core/services/auth_service.dart';
 import 'package:car_rongsok_app/core/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 
 class DioClient {
   final Dio _dio;

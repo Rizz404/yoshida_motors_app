@@ -1,13 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:car_rongsok_app/core/constants/storage_key_constant.dart';
 import 'package:car_rongsok_app/core/router/app_router.dart';
@@ -18,6 +8,16 @@ import 'package:car_rongsok_app/di/common_providers.dart';
 import 'package:car_rongsok_app/di/service_providers.dart';
 import 'package:car_rongsok_app/firebase_options.dart';
 import 'package:car_rongsok_app/l10n/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 
 // * Background message handler - must be top-level function

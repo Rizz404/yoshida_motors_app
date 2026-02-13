@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
-import 'package:car_rongsok_app/l10n/app_localizations.dart';
 import 'package:car_rongsok_app/core/extensions/logger_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
+import 'package:car_rongsok_app/l10n/app_localizations.dart';
+import 'package:dio/dio.dart';
 
 /// Interceptor untuk menampilkan toast otomatis untuk network dan server errors
 ///

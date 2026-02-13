@@ -1,5 +1,5 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 // * Background notification tap handler - must be top-level function
@@ -83,9 +83,9 @@ class LocalNotificationService {
       // Request permissions
       await _requestPermissions();
 
-      this.logService('Local notification service initialized');
+      logService('Local notification service initialized');
     } catch (e, s) {
-      this.logError('Failed to initialize local notification service', e, s);
+      logError('Failed to initialize local notification service', e, s);
     }
   }
 
@@ -94,7 +94,7 @@ class LocalNotificationService {
     try {
       return await _plugin.getNotificationAppLaunchDetails();
     } catch (e, s) {
-      this.logError('Failed to get notification app launch details', e, s);
+      logError('Failed to get notification app launch details', e, s);
       return null;
     }
   }
@@ -109,7 +109,7 @@ class LocalNotificationService {
     if (androidPlugin != null) {
       await androidPlugin.createNotificationChannel(_defaultChannel);
       await androidPlugin.createNotificationChannel(_highPriorityChannel);
-      this.logInfo('Notification channels created');
+      logInfo('Notification channels created');
     }
   }
 
@@ -123,7 +123,7 @@ class LocalNotificationService {
 
     if (androidPlugin != null) {
       final granted = await androidPlugin.requestNotificationsPermission();
-      this.logInfo('Android notification permission: $granted');
+      logInfo('Android notification permission: $granted');
     }
 
     // iOS permission
@@ -138,7 +138,7 @@ class LocalNotificationService {
         badge: true,
         sound: true,
       );
-      this.logInfo('iOS notification permission: $granted');
+      logInfo('iOS notification permission: $granted');
     }
   }
 
@@ -189,9 +189,9 @@ class LocalNotificationService {
         payload: payload,
       );
 
-      this.logInfo('Notification shown - ID: $id, Title: $title');
+      logInfo('Notification shown - ID: $id, Title: $title');
     } catch (e, s) {
-      this.logError('Failed to show notification', e, s);
+      logError('Failed to show notification', e, s);
     }
   }
 
@@ -259,9 +259,9 @@ class LocalNotificationService {
         payload: payload,
       );
 
-      this.logInfo('Notification scheduled - ID: $id at $scheduledDate');
+      logInfo('Notification scheduled - ID: $id at $scheduledDate');
     } catch (e, s) {
-      this.logError('Failed to schedule notification', e, s);
+      logError('Failed to schedule notification', e, s);
     }
   }
 
@@ -269,9 +269,9 @@ class LocalNotificationService {
   Future<void> cancelNotification(int id) async {
     try {
       await _plugin.cancel(id: id);
-      this.logInfo('Notification cancelled - ID: $id');
+      logInfo('Notification cancelled - ID: $id');
     } catch (e, s) {
-      this.logError('Failed to cancel notification', e, s);
+      logError('Failed to cancel notification', e, s);
     }
   }
 
@@ -279,9 +279,9 @@ class LocalNotificationService {
   Future<void> cancelAllNotifications() async {
     try {
       await _plugin.cancelAll();
-      this.logInfo('All notifications cancelled');
+      logInfo('All notifications cancelled');
     } catch (e, s) {
-      this.logError('Failed to cancel all notifications', e, s);
+      logError('Failed to cancel all notifications', e, s);
     }
   }
 
@@ -290,7 +290,7 @@ class LocalNotificationService {
     try {
       return await _plugin.pendingNotificationRequests();
     } catch (e, s) {
-      this.logError('Failed to get pending notifications', e, s);
+      logError('Failed to get pending notifications', e, s);
       return [];
     }
   }
@@ -308,7 +308,7 @@ class LocalNotificationService {
       }
       return [];
     } catch (e, s) {
-      this.logError('Failed to get active notifications', e, s);
+      logError('Failed to get active notifications', e, s);
       return [];
     }
   }
