@@ -1,19 +1,296 @@
+import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+import 'package:car_rongsok_app/core/router/routes.dart';
+import 'package:car_rongsok_app/core/utils/toast_utils.dart';
+import 'package:car_rongsok_app/di/auth_providers.dart';
+import 'package:car_rongsok_app/di/common_providers.dart';
+import 'package:car_rongsok_app/di/service_providers.dart';
+import 'package:car_rongsok_app/feature/auth/models/login_payload.dart';
+import 'package:car_rongsok_app/feature/auth/validators/login_validators.dart';
+import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final _formKey = GlobalKey<FormBuilderState>();
+  String? _verificationId;
+  bool _isOtpSent = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _sendOTP() async {
+    if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
+
+    final phoneNumber = _formKey.currentState!.value['phone'] as String;
+    final phoneAuthService = ref.read(phoneAuthServiceProvider);
+
+    context.loaderOverlay.show();
+
+    await phoneAuthService.sendOTP(
+      phoneNumber: phoneNumber,
+      onCodeSent: (verificationId) {
+        if (!mounted) return;
+        context.loaderOverlay.hide();
+        setState(() {
+          _verificationId = verificationId;
+          _isOtpSent = true;
+        });
+        AppToast.success('OTP sent to $phoneNumber');
+      },
+      onError: (error) {
+        if (!mounted) return;
+        context.loaderOverlay.hide();
+        AppToast.error(error);
+      },
+      onAutoVerified: () async {
+        // * Auto-verification success (Android only)
+        await _verifyAndLogin(isAutoVerified: true);
+      },
+    );
+  }
+
+  Future<void> _verifyAndLogin({bool isAutoVerified = false}) async {
+    if (!isAutoVerified) {
+      if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
+    }
+
+    if (_verificationId == null) {
+      AppToast.error('Please request OTP first');
+      return;
+    }
+
+    final otpCode = isAutoVerified
+        ? ''
+        : _formKey.currentState!.value['otp'] as String;
+
+    if (!isAutoVerified && otpCode.length != 6) {
+      AppToast.error('OTP must be 6 digits');
+      return;
+    }
+
+    final phoneAuthService = ref.read(phoneAuthServiceProvider);
+    final fcmService = ref.read(firebaseMessagingServiceProvider);
+
+    context.loaderOverlay.show();
+
+    // * Verify OTP and get ID Token
+    String? idToken;
+
+    if (isAutoVerified) {
+      // * For auto-verified, get token directly from current user
+      final currentUser = phoneAuthService.currentUser;
+      idToken = await currentUser?.getIdToken();
+    } else {
+      idToken = await phoneAuthService.verifyOTP(
+        verificationId: _verificationId!,
+        otpCode: otpCode,
+        onError: (error) {
+          if (!mounted) return;
+          context.loaderOverlay.hide();
+          AppToast.error(error);
+        },
+      );
+    }
+
+    if (!mounted) return;
+    if (idToken == null) {
+      context.loaderOverlay.hide();
+      return;
+    }
+
+    // * Get FCM token
+    final fcmToken = await fcmService.getToken();
+
+    // * Login to backend
+    final payload = LoginPayload(idToken: idToken, fcmToken: fcmToken);
+
+    await ref.read(authNotifierProvider.notifier).login(payload);
+
+    if (!mounted) return;
+    context.loaderOverlay.hide();
+
+    // * Handle login result
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.when(
+        data: (authState) {
+          if (authState.status == AuthStatus.authenticated) {
+            AppToast.success('Login successful');
+          } else if (authState.failure != null) {
+            final message = authState.failure?.message ?? 'Login failed';
+            AppToast.error(message);
+          }
+        },
+        error: (error, stack) {
+          AppToast.error('Login error: $error');
+        },
+        loading: () {},
+      );
+    });
+  }
+
+  Future<void> _resendOTP() async {
+    setState(() {
+      _isOtpSent = false;
+      _verificationId = null;
+    });
+
+    // * Clear OTP field
+    _formKey.currentState?.fields['otp']?.didChange('');
+
+    await _sendOTP();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const AppLoaderOverlay(
+    return AppLoaderOverlay(
       child: Scaffold(
-        appBar: CustomAppBar(),
-        body: ScreenWrapper(child: Center(child: AppText('LoginScreen'))),
+        appBar: const CustomAppBar(),
+        body: ScreenWrapper(
+          child: FormBuilder(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+
+                  // * Title
+                  AppText(
+                    'Welcome Back',
+                    style: AppTextStyle.headlineLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const SizedBox(height: 8),
+                  AppText(
+                    'Sign in with your phone number',
+                    style: AppTextStyle.bodyLarge,
+                    color: context.colors.textSecondary,
+                  ),
+                  const SizedBox(height: 40),
+
+                  // * Phone Number Field
+                  AppTextField(
+                    name: 'phone',
+                    label: 'Phone Number',
+                    placeHolder: '+628123456789',
+                    type: AppTextFieldType.phone,
+                    enabled: !_isOtpSent,
+                    prefixIcon: Icon(
+                      Icons.phone_outlined,
+                      color: context.colors.primary,
+                    ),
+                    validator: LoginValidators.phoneNumber(),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // * OTP Field (only show after OTP sent)
+                  if (_isOtpSent) ...[
+                    AppTextField(
+                      name: 'otp',
+                      label: 'OTP Code',
+                      placeHolder: '123456',
+                      type: AppTextFieldType.number,
+                      maxLines: 1,
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: context.colors.primary,
+                      ),
+                      validator: LoginValidators.otpCode(),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // * Resend OTP Button
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: _resendOTP,
+                        child: AppText(
+                          'Resend OTP',
+                          color: context.colors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+
+                  // * Action Button
+                  AppButton(
+                    text: _isOtpSent ? 'Login' : 'Send OTP',
+                    onPressed: _isOtpSent ? _verifyAndLogin : _sendOTP,
+                    leadingIcon: Icon(
+                      _isOtpSent ? Icons.login : Icons.send,
+                      color: context.colors.textOnPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // * Divider
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: context.colors.border)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: AppText(
+                          'OR',
+                          style: AppTextStyle.bodySmall,
+                          color: context.colors.textSecondary,
+                        ),
+                      ),
+                      Expanded(child: Divider(color: context.colors.border)),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // * Register Link
+                  Center(
+                    child: TextButton(
+                      onPressed: () => const RegisterRoute().go(context),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppText(
+                            "Don't have an account? ",
+                            style: AppTextStyle.bodyMedium,
+                          ),
+                          AppText(
+                            'Register',
+                            style: AppTextStyle.bodyMedium,
+                            color: context.colors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

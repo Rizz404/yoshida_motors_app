@@ -1,11 +1,13 @@
 import 'package:car_rongsok_app/core/enums/language_enums.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/language_storage_service.dart';
+import 'package:car_rongsok_app/core/services/phone_auth_service.dart';
 import 'package:car_rongsok_app/core/services/theme_storage_service.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/service_providers.dart';
 import 'package:car_rongsok_app/l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,6 +63,17 @@ final themeProvider = NotifierProvider<ThemeNotifier, ThemeMode>(
 // * Firebase Messaging Provider
 final firebaseMessagingProvider = Provider<FirebaseMessaging>((ref) {
   return FirebaseMessaging.instance;
+});
+
+// * Firebase Auth Provider
+final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
+});
+
+// * Phone Auth Service Provider
+final phoneAuthServiceProvider = Provider<PhoneAuthService>((ref) {
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  return PhoneAuthService(firebaseAuth);
 });
 
 class LocaleNotifier extends Notifier<Locale> {

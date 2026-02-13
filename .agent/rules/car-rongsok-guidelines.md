@@ -32,6 +32,9 @@ Follow these rules strictly and consistently.
 - Use the available helpers on `this`:
   - logInfo, logError, logData, logDomain, logPresentation, logService
 - For failures: logError('message', e, s)
+- DO NOT add logging in widgets/screens unless explicitly requested.
+- Keep logging in business/data layers: BLoCs, Repositories, Services, Use Cases.
+- If you think logging would help in UI, ask first: "Perlu logging di widget/screen ini?"
 
 ## 4) Comments (Better Comments format)
 - Only use these prefixes:

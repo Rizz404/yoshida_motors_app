@@ -78,12 +78,12 @@
 //           _currentRate = rate;
 //           _loadingState = _LoadingState.loaded;
 //         });
-//         this.logService('Loaded real-time rate: 1 $fromCurrency = $rate IDR');
+//         logService('Loaded real-time rate: 1 $fromCurrency = $rate IDR');
 //       } else {
 //         throw Exception('Failed to fetch rate');
 //       }
 //     } catch (e, s) {
-//       this.logError('Failed to fetch exchange rate, using fallback', e, s);
+//       logError('Failed to fetch exchange rate, using fallback', e, s);
 //       if (mounted) {
 //         setState(() {
 //           _currentRate = _fallbackRates[widget.currencyType];
@@ -119,11 +119,11 @@
 //         _idrResult = formatter.format(idrAmount).trim();
 //       });
 
-//       this.logService(
+//       logService(
 //         'Converted ${widget.currencyType.name.toUpperCase()} $foreignValue to IDR $_idrResult',
 //       );
 //     } catch (e, s) {
-//       this.logError('Failed to convert currency', e, s);
+//       logError('Failed to convert currency', e, s);
 //       setState(() => _idrResult = '0');
 //     }
 //   }

@@ -12,8 +12,11 @@ import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 
 // 3) Logging (replace all print!)
 import 'package:car_rongsok_app/core/utils/logging.dart';
-// Use: this.logInfo|logError|logData|logDomain|logPresentation|logService
-// Example: this.logService('Process started'); this.logError('Failed', e, s);
+// Use: logInfo|logError|logData|logDomain|logPresentation|logService
+// Example: logService('Process started'); logError('Failed', e, s);
+// ❌ DON'T: Add logging in widgets/screens unless explicitly requested
+// ✅ DO: Keep logging in BLoCs, Repositories, Services, Use Cases only
+// If unsure about UI logging, ask first: "Perlu logging di widget/screen ini?"
 
 // 4) Comments (Better Comments format)
 // TODO: | FIXME: | ! warning | ? question | * important note
@@ -61,6 +64,19 @@ AppButton(
   text: 'Submit', // static text unless told to translate
   onPressed: onSubmit,
 )
+
+// Logging example (BLoC/Service only, NOT in widgets):
+class UserBloc extends Bloc<UserEvent, UserState> {
+  Future<void> _onLoad(UserLoad event, Emitter<UserState> emit) async {
+    logInfo('Loading user data'); // ✅ OK in BLoC
+    try {
+      final user = await repository.getUser();
+      emit(UserLoaded(user));
+    } catch (e, s) {
+      logError('Failed to load user', e, s);
+    }
+  }
+}
 
 // Terminal workflows:
 // fd -e dart | rg "TODO"  // find TODOs
