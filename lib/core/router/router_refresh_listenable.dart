@@ -8,8 +8,8 @@ class RouterRefreshListenable extends ChangeNotifier {
   RouterRefreshListenable(this._ref) {
     // Todo: Nanti tambahin lebih banyak kalo ada
     // * Listen to auth state changes
-    _ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (_, _) {
-      notifyListeners(); // * Trigger router refresh
+    _ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (_, __) {
+      notifyListeners(); // * Trigger guard re-evaluation
     });
   }
 }

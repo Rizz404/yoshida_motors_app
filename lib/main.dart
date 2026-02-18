@@ -184,7 +184,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
     // * Delay navigation sampai router ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final router = ref.read(goRouterProvider);
+      final router = ref.read(appRouterProvider);
       final navigationService = ref.read(notificationNavigationServiceProvider);
       navigationService.handleNotificationNavigation(router, dataString);
     });
@@ -200,7 +200,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
       logger.info('Notification payload params: $params');
 
       // * Navigate to relevant screen
-      final router = ref.read(goRouterProvider);
+      final router = ref.read(appRouterProvider);
       navigationService.handleNotificationNavigation(router, params);
     }
   }
@@ -223,7 +223,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
         // * Delay navigation sampai router dan auth state ready
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          final router = ref.read(goRouterProvider);
+          final router = ref.read(appRouterProvider);
           navigationService.handleNotificationNavigation(router, params);
         });
       }
@@ -234,7 +234,8 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
   Widget build(BuildContext context) {
     final currentLocale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeProvider);
-    final router = ref.watch(goRouterProvider);
+    final appRouter = ref.watch(appRouterProvider);
+    final refreshListenable = ref.watch(routerRefreshProvider);
     final botToastBuilder = BotToastInit();
 
     // * Remove native splash setelah auth state selesai loading
@@ -270,7 +271,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
       builder: botToastBuilder,
 
       // * Router Configuration
-      routerConfig: router,
+      routerConfig: appRouter.config(reevaluateListenable: refreshListenable),
 
       // * Localization Configuration
       localizationsDelegates: const [

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+@RoutePage()
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -153,7 +155,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             if (message.contains('already registered')) {
               Future.delayed(const Duration(seconds: 2), () {
                 if (mounted) {
-                  const LoginRoute().go(context);
+                  context.router.replace(const LoginRoute());
                 }
               });
             }
@@ -333,7 +335,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   // * Login Link
                   Center(
                     child: TextButton(
-                      onPressed: () => const LoginRoute().go(context),
+                      onPressed: () =>
+                          context.router.replace(const LoginRoute()),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

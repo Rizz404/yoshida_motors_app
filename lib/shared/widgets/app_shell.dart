@@ -1,25 +1,33 @@
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-/// Shell widget with bottom navigation bar for main app screens
-class AppShell extends StatelessWidget {
-  const AppShell({required this.navigationShell, super.key});
+/// Bottom nav body — used by AppShellScreen in routes.dart
+class AppShellBody extends StatelessWidget {
+  const AppShellBody({required this.child, super.key});
 
-  final StatefulNavigationShell navigationShell;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: _buildBottomNavBar(context),
-    );
+    return child;
   }
+}
 
-  Widget _buildBottomNavBar(BuildContext context) {
+class AppBottomNav extends StatelessWidget {
+  const AppBottomNav({
+    required this.currentIndex,
+    required this.onTap,
+    super.key,
+  });
+
+  final int currentIndex;
+  final void Function(int) onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return NavigationBar(
-      selectedIndex: navigationShell.currentIndex,
-      onDestinationSelected: (index) => _onTap(context, index),
+      selectedIndex: currentIndex,
+      onDestinationSelected: onTap,
       backgroundColor: context.colors.surface,
       indicatorColor: context.colorScheme.primaryContainer,
       destinations: const [
@@ -34,13 +42,6 @@ class AppShell extends StatelessWidget {
           label: 'Profile',
         ),
       ],
-    );
-  }
-
-  void _onTap(BuildContext context, int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
     );
   }
 }

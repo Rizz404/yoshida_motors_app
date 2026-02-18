@@ -8,7 +8,6 @@ import 'package:car_rongsok_app/feature/auth/repositories/auth_repository.dart';
 import 'package:car_rongsok_app/feature/user/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 
 // ==========================================
 // AUTH STATE
