@@ -185,7 +185,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(),
         body: ScreenWrapper(
           child: FormBuilder(
             key: _formKey,

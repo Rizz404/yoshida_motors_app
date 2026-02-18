@@ -79,9 +79,6 @@ class AppRouter extends RootStackRouter {
   AppRouter(this._ref);
 
   @override
-  late final List<AutoRouteGuard> guards = [AuthGuard(_ref)];
-
-  @override
   List<AutoRoute> get routes => [
     // ==================== AUTH ROUTES (no guard) ====================
     CustomRoute<void>(
@@ -89,20 +86,18 @@ class AppRouter extends RootStackRouter {
       path: '/auth/login',
       initial: true,
       transitionsBuilder: AppTransitions.noTransition,
-      guards: [],
     ),
     CustomRoute<void>(
       page: RegisterRoute.page,
       path: '/auth/register',
       transitionsBuilder: AppTransitions.noTransition,
-      guards: [],
     ),
 
     // ==================== SHELL (TAB) ROUTES ====================
     AutoRoute(
       page: AppShellRoute.page,
       path: '/',
-      guards: [],
+      guards: [AuthGuard(_ref)],
       children: [
         AutoRoute(page: HomeRoute.page, path: 'home', initial: true),
         AutoRoute(page: ProfileRoute.page, path: 'profile'),
@@ -113,32 +108,37 @@ class AppRouter extends RootStackRouter {
     CustomRoute<void>(
       page: VehicleInfoRoute.page,
       path: '/appraisal/vehicle-info',
+      guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromRight,
-      durationInMilliseconds: 300,
+      duration: const Duration(milliseconds: 300),
     ),
     CustomRoute<void>(
       page: PhotoCategoryRoute.page,
       path: '/appraisal/photo-category',
+      guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromRight,
-      durationInMilliseconds: 300,
+      duration: const Duration(milliseconds: 300),
     ),
     CustomRoute<void>(
       page: CameraCaptureRoute.page,
       path: '/appraisal/camera-capture',
+      guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromBottom,
-      durationInMilliseconds: 350,
+      duration: const Duration(milliseconds: 350),
     ),
     CustomRoute<void>(
       page: SummaryRoute.page,
       path: '/appraisal/summary',
+      guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromRight,
-      durationInMilliseconds: 300,
+      duration: const Duration(milliseconds: 300),
     ),
     CustomRoute<void>(
       page: AppraisalResultRoute.page,
       path: '/appraisal/result',
+      guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromRight,
-      durationInMilliseconds: 300,
+      duration: const Duration(milliseconds: 300),
     ),
   ];
 }

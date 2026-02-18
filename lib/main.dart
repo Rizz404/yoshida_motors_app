@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:car_rongsok_app/core/constants/storage_key_constant.dart';
+import 'package:car_rongsok_app/core/router/app_route_observer.dart';
 import 'package:car_rongsok_app/core/router/app_router.dart';
 import 'package:car_rongsok_app/core/themes/app_theme.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
@@ -271,7 +272,10 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
       builder: botToastBuilder,
 
       // * Router Configuration
-      routerConfig: appRouter.config(reevaluateListenable: refreshListenable),
+      routerConfig: appRouter.config(
+        reevaluateListenable: refreshListenable,
+        navigatorObservers: () => [AppRouteObserver()],
+      ),
 
       // * Localization Configuration
       localizationsDelegates: const [
