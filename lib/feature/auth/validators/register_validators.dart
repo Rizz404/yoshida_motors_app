@@ -31,4 +31,32 @@ class RegisterValidators {
   static String? Function(String?) email() {
     return FormBuilderValidators.compose([FormBuilderValidators.email()]);
   }
+
+  /// Validator untuk email (required)
+  static String? Function(String?) emailRequired() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.email(),
+    ]);
+  }
+
+  /// Validator untuk password
+  static String? Function(String?) password() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.minLength(
+        6,
+        errorText: 'Password must be at least 6 characters',
+      ),
+    ]);
+  }
+
+  /// Validator untuk confirm password
+  static String? Function(String?) confirmPassword(String? password) {
+    return (value) {
+      if (value == null || value.isEmpty) return 'Confirm password is required';
+      if (value != password) return 'Passwords do not match';
+      return null;
+    };
+  }
 }

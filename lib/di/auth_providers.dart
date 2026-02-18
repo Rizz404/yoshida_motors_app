@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
+import 'package:car_rongsok_app/feature/auth/models/email_register_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/login_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/register_payload.dart';
 import 'package:car_rongsok_app/feature/auth/repositories/auth_repository.dart';
@@ -94,6 +95,45 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
           // * Token & user already saved by repository
           return AuthState.authenticated(user: success.data.user);
         },
+      );
+    });
+  }
+
+  Future<void> registerWithEmail(EmailRegisterPayload payload) async {
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.registerWithEmail(payload).run();
+
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) => AuthState.authenticated(user: success.data.user),
+      );
+    });
+  }
+
+  Future<void> loginWithEmail(LoginPayload payload) async {
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.loginWithEmail(payload).run();
+
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) => AuthState.authenticated(user: success.data.user),
+      );
+    });
+  }
+
+  Future<void> loginWithGoogle(LoginPayload payload) async {
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      final result = await _authRepository.loginWithGoogle(payload).run();
+
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) => AuthState.authenticated(user: success.data.user),
       );
     });
   }

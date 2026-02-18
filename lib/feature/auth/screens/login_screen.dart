@@ -11,7 +11,6 @@ import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
-import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,89 +25,44 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
-  String? _verificationId;
-  bool _isOtpSent = false;
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  final _emailFormKey = GlobalKey<FormBuilderState>();
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  Future<void> _sendOTP() async {
-    if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
-    final phoneNumber = _formKey.currentState!.value['phone'] as String;
-    final phoneAuthService = ref.read(phoneAuthServiceProvider);
+  Future<void> _loginWithEmail() async {
+    if (!(_emailFormKey.currentState?.saveAndValidate() ?? false)) return;
+
+    final formData = _emailFormKey.currentState!.value;
+    final email = formData['email'] as String;
+    final password = formData['password'] as String;
+
+    final emailAuthService = ref.read(emailAuthServiceProvider);
+    final fcmService = ref.read(firebaseMessagingServiceProvider);
 
     context.loaderOverlay.show();
 
-    await phoneAuthService.sendOTP(
-      phoneNumber: phoneNumber,
-      onCodeSent: (verificationId) {
-        if (!mounted) return;
-        context.loaderOverlay.hide();
-        setState(() {
-          _verificationId = verificationId;
-          _isOtpSent = true;
-        });
-        AppToast.success('OTP sent to $phoneNumber');
-      },
+    final idToken = await emailAuthService.signInWithEmail(
+      email: email,
+      password: password,
       onError: (error) {
         if (!mounted) return;
         context.loaderOverlay.hide();
         AppToast.error(error);
       },
-      onAutoVerified: () async {
-        // * Auto-verification success (Android only)
-        await _verifyAndLogin(isAutoVerified: true);
-      },
     );
-  }
-
-  Future<void> _verifyAndLogin({bool isAutoVerified = false}) async {
-    if (!isAutoVerified) {
-      if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
-    }
-
-    if (_verificationId == null) {
-      AppToast.error('Please request OTP first');
-      return;
-    }
-
-    final otpCode = isAutoVerified
-        ? ''
-        : _formKey.currentState!.value['otp'] as String;
-
-    if (!isAutoVerified && otpCode.length != 6) {
-      AppToast.error('OTP must be 6 digits');
-      return;
-    }
-
-    final phoneAuthService = ref.read(phoneAuthServiceProvider);
-    final fcmService = ref.read(firebaseMessagingServiceProvider);
-
-    context.loaderOverlay.show();
-
-    // * Verify OTP and get ID Token
-    String? idToken;
-
-    if (isAutoVerified) {
-      // * For auto-verified, get token directly from current user
-      final currentUser = phoneAuthService.currentUser;
-      idToken = await currentUser?.getIdToken();
-    } else {
-      idToken = await phoneAuthService.verifyOTP(
-        verificationId: _verificationId!,
-        otpCode: otpCode,
-        onError: (error) {
-          if (!mounted) return;
-          context.loaderOverlay.hide();
-          AppToast.error(error);
-        },
-      );
-    }
 
     if (!mounted) return;
     if (idToken == null) {
@@ -116,183 +70,263 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    // * Get FCM token
     final fcmToken = await fcmService.getToken();
-
-    // * Login to backend
     final payload = LoginPayload(idToken: idToken, fcmToken: fcmToken);
 
-    await ref.read(authNotifierProvider.notifier).login(payload);
+    await ref.read(authNotifierProvider.notifier).loginWithEmail(payload);
 
     if (!mounted) return;
     context.loaderOverlay.hide();
-
-    // * Handle login result
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.when(
-        data: (authState) {
-          if (authState.status == AuthStatus.authenticated) {
-            AppToast.success('Login successful');
-          } else if (authState.failure != null) {
-            final message = authState.failure?.message ?? 'Login failed';
-            AppToast.error(message);
-          }
-        },
-        error: (error, stack) {
-          AppToast.error('Login error: $error');
-        },
-        loading: () {},
-      );
-    });
   }
 
-  Future<void> _resendOTP() async {
-    setState(() {
-      _isOtpSent = false;
-      _verificationId = null;
-    });
+  Future<void> _loginWithGoogle() async {
+    final googleAuthService = ref.read(googleAuthServiceProvider);
+    final fcmService = ref.read(firebaseMessagingServiceProvider);
 
-    // * Clear OTP field
-    _formKey.currentState?.fields['otp']?.didChange('');
+    context.loaderOverlay.show();
 
-    await _sendOTP();
+    final idToken = await googleAuthService.signInWithGoogle(
+      onError: (error) {
+        if (!mounted) return;
+        context.loaderOverlay.hide();
+        AppToast.error(error);
+      },
+    );
+
+    if (!mounted) return;
+    if (idToken == null) {
+      context.loaderOverlay.hide();
+      return;
+    }
+
+    final fcmToken = await fcmService.getToken();
+    final payload = LoginPayload(idToken: idToken, fcmToken: fcmToken);
+
+    await ref.read(authNotifierProvider.notifier).loginWithGoogle(payload);
+
+    if (!mounted) return;
+    context.loaderOverlay.hide();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
+      if (previous?.isLoading == true) {
+        next.whenData((authState) {
+          if (authState.status == AuthStatus.authenticated) {
+            AppToast.success('Login successful');
+          } else if (authState.failure != null) {
+            AppToast.error(authState.failure?.message ?? 'Login failed');
+          }
+        });
+        if (next is AsyncError) {
+          AppToast.error('Login error: ${next.error}');
+        }
+      }
+    });
+
     return AppLoaderOverlay(
       child: Scaffold(
         body: ScreenWrapper(
-          child: FormBuilder(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
 
-                  // * Title
-                  AppText(
-                    'Welcome Back',
-                    style: AppTextStyle.headlineLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(height: 8),
-                  AppText(
-                    'Sign in with your phone number',
-                    style: AppTextStyle.bodyLarge,
-                    color: context.colors.textSecondary,
-                  ),
-                  const SizedBox(height: 40),
+                // * Title
+                AppText(
+                  'Welcome Back',
+                  style: AppTextStyle.headlineLarge,
+                  fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 8),
+                AppText(
+                  'Sign in to your account',
+                  style: AppTextStyle.bodyLarge,
+                  color: context.colors.textSecondary,
+                ),
+                const SizedBox(height: 32),
 
-                  // * Phone Number Field
-                  AppTextField(
-                    name: 'phone',
-                    label: 'Phone Number',
-                    placeHolder: '+628123456789',
-                    type: AppTextFieldType.phone,
-                    enabled: !_isOtpSent,
-                    prefixIcon: Icon(
-                      Icons.phone_outlined,
-                      color: context.colors.primary,
+                // * Tab Bar
+                Container(
+                  decoration: BoxDecoration(
+                    color: context.colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TabBar(
+                    controller: _tabController,
+                    indicator: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    validator: LoginValidators.phoneNumber(),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Colors.transparent,
+                    labelColor: context.colors.textOnPrimary,
+                    unselectedLabelColor: context.colors.textSecondary,
+                    tabs: const [
+                      Tab(text: 'Email'),
+                      Tab(text: 'Phone OTP'),
+                    ],
                   ),
-                  const SizedBox(height: 24),
+                ),
+                const SizedBox(height: 28),
 
-                  // * OTP Field (only show after OTP sent)
-                  if (_isOtpSent) ...[
-                    AppTextField(
-                      name: 'otp',
-                      label: 'OTP Code',
-                      placeHolder: '123456',
-                      type: AppTextFieldType.number,
-                      maxLines: 1,
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: context.colors.primary,
+                // * Tab Content
+                SizedBox(
+                  height: 320,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _EmailLoginForm(
+                        formKey: _emailFormKey,
+                        onLogin: _loginWithEmail,
+                        onGoogleLogin: _loginWithGoogle,
                       ),
-                      validator: LoginValidators.otpCode(),
-                    ),
-                    const SizedBox(height: 16),
+                      const _PhoneLoginInfo(),
+                    ],
+                  ),
+                ),
 
-                    // * Resend OTP Button
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: _resendOTP,
-                        child: AppText(
-                          'Resend OTP',
+                const SizedBox(height: 24),
+
+                // * Divider
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: context.colors.border)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: AppText(
+                        'OR',
+                        style: AppTextStyle.bodySmall,
+                        color: context.colors.textSecondary,
+                      ),
+                    ),
+                    Expanded(child: Divider(color: context.colors.border)),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // * Register Link
+                Center(
+                  child: TextButton(
+                    onPressed: () =>
+                        context.router.replace(const RegisterRoute()),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                          "Don't have an account? ",
+                          style: AppTextStyle.bodyMedium,
+                        ),
+                        AppText(
+                          'Register',
+                          style: AppTextStyle.bodyMedium,
                           color: context.colors.primary,
                           fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
-
-                  // * Action Button
-                  AppButton(
-                    text: _isOtpSent ? 'Login' : 'Send OTP',
-                    onPressed: _isOtpSent ? _verifyAndLogin : _sendOTP,
-                    leadingIcon: Icon(
-                      _isOtpSent ? Icons.login : Icons.send,
-                      color: context.colors.textOnPrimary,
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-
-                  // * Divider
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: context.colors.border)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: AppText(
-                          'OR',
-                          style: AppTextStyle.bodySmall,
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                      Expanded(child: Divider(color: context.colors.border)),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // * Register Link
-                  Center(
-                    child: TextButton(
-                      onPressed: () =>
-                          context.router.replace(const RegisterRoute()),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AppText(
-                            "Don't have an account? ",
-                            style: AppTextStyle.bodyMedium,
-                          ),
-                          AppText(
-                            'Register',
-                            style: AppTextStyle.bodyMedium,
-                            color: context.colors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+                const SizedBox(height: 24),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+}
+
+// * Email Login Form Tab
+class _EmailLoginForm extends StatelessWidget {
+  const _EmailLoginForm({
+    required this.formKey,
+    required this.onLogin,
+    required this.onGoogleLogin,
+  });
+
+  final GlobalKey<FormBuilderState> formKey;
+  final VoidCallback onLogin;
+  final VoidCallback onGoogleLogin;
 
   @override
-  void dispose() {
-    super.dispose();
+  Widget build(BuildContext context) {
+    return FormBuilder(
+      key: formKey,
+      child: Column(
+        children: [
+          AppTextField(
+            name: 'email',
+            label: 'Email',
+            placeHolder: 'john@example.com',
+            type: AppTextFieldType.email,
+            prefixIcon: Icon(
+              Icons.email_outlined,
+              color: context.colors.primary,
+            ),
+            validator: LoginValidators.email(),
+          ),
+          const SizedBox(height: 16),
+          AppTextField(
+            name: 'password',
+            label: 'Password',
+            placeHolder: '••••••',
+            type: AppTextFieldType.password,
+            prefixIcon: Icon(Icons.lock_outline, color: context.colors.primary),
+            validator: LoginValidators.password(),
+          ),
+          const SizedBox(height: 24),
+          AppButton(
+            text: 'Login',
+            onPressed: onLogin,
+            leadingIcon: Icon(Icons.login, color: context.colors.textOnPrimary),
+          ),
+          const SizedBox(height: 12),
+          AppButton(
+            text: 'Continue with Google',
+            onPressed: onGoogleLogin,
+            variant: AppButtonVariant.outlined,
+            leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// * Phone OTP Info Tab (disabled)
+class _PhoneLoginInfo extends StatelessWidget {
+  const _PhoneLoginInfo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.phone_disabled_outlined,
+            size: 48,
+            color: context.colors.textSecondary,
+          ),
+          const SizedBox(height: 16),
+          AppText(
+            'Phone OTP Temporarily Disabled',
+            style: AppTextStyle.titleMedium,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          AppText(
+            'Please use Email or Google Sign-In to continue.',
+            style: AppTextStyle.bodyMedium,
+            color: context.colors.textSecondary,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }

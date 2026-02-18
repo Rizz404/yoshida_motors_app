@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "262950684512-pkkuhno93mioq77teic406u1p6sb7ho5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rizz.learn.car.car_rongsok_app",
+            "certificate_hash": "551e6536faaf7cfaa84ff6d7dace72a66e5e909e"
+          }
+        },
+        {
           "client_id": "262950684512-d7gh3oq6sv44ujprooritdjffrc3skuj.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "262950684512-d7gh3oq6sv44ujprooritdjffrc3skuj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "262950684512-eerq165p244u7pls6gft9pv718p52crb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "rizz.learn.car.carRongsokApp"
+              }
             }
           ]
         }

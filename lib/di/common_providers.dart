@@ -1,5 +1,7 @@
 import 'package:car_rongsok_app/core/enums/language_enums.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
+import 'package:car_rongsok_app/core/services/email_auth_service.dart';
+import 'package:car_rongsok_app/core/services/google_auth_service.dart';
 import 'package:car_rongsok_app/core/services/language_storage_service.dart';
 import 'package:car_rongsok_app/core/services/phone_auth_service.dart';
 import 'package:car_rongsok_app/core/services/theme_storage_service.dart';
@@ -74,6 +76,18 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
 final phoneAuthServiceProvider = Provider<PhoneAuthService>((ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);
   return PhoneAuthService(firebaseAuth);
+});
+
+// * Email Auth Service Provider
+final emailAuthServiceProvider = Provider<EmailAuthService>((ref) {
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  return EmailAuthService(firebaseAuth);
+});
+
+// * Google Auth Service Provider
+final googleAuthServiceProvider = Provider<GoogleAuthService>((ref) {
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  return GoogleAuthService(firebaseAuth);
 });
 
 class LocaleNotifier extends Notifier<Locale> {

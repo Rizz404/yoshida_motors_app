@@ -26,4 +26,23 @@ class LoginValidators {
       FormBuilderValidators.numeric(),
     ]);
   }
+
+  /// Validator untuk email
+  static String? Function(String?) email() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.email(),
+    ]);
+  }
+
+  /// Validator untuk password
+  static String? Function(String?) password() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.minLength(
+        6,
+        errorText: 'Password must be at least 6 characters',
+      ),
+    ]);
+  }
 }

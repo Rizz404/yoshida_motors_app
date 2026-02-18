@@ -15,11 +15,19 @@ class ApiConstant {
   static const String authPrefix = '$baseUrl/auth';
   static const String appraisalPrefix = '$baseUrl/appraisals';
 
-  // * AUTHENTICATION
+  // * AUTHENTICATION - Phone OTP
   // POST /auth/register
   static const String authRegister = '$authPrefix/register';
   // POST /auth/login
   static const String authLogin = '$authPrefix/login';
+  // * AUTHENTICATION - Email & Password
+  // POST /auth/register/email
+  static const String authRegisterEmail = '$authPrefix/register/email';
+  // POST /auth/login/email
+  static const String authLoginEmail = '$authPrefix/login/email';
+  // * AUTHENTICATION - Google Sign-In
+  // POST /auth/login/google
+  static const String authLoginGoogle = '$authPrefix/login/google';
   // GET & PUT /auth/profile
   static const String authProfile = '$authPrefix/profile';
   // POST /auth/logout

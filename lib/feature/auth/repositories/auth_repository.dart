@@ -5,6 +5,7 @@ import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/auth_service.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/feature/auth/models/auth_response.dart';
+import 'package:car_rongsok_app/feature/auth/models/email_register_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/login_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/register_payload.dart';
 import 'package:car_rongsok_app/feature/auth/models/update_profile_payload.dart';
@@ -18,6 +19,13 @@ abstract class AuthRepository {
   TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> login(
     LoginPayload params,
   );
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>
+  registerWithEmail(EmailRegisterPayload params);
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> loginWithEmail(
+    LoginPayload params,
+  );
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>
+  loginWithGoogle(LoginPayload params);
   TaskEither<ApiFailure<User>, ApiSuccess<User>> getProfile();
   TaskEither<ApiFailure<User>, ApiSuccess<User>> updateProfile(
     UpdateProfilePayload params,
@@ -108,6 +116,106 @@ class AuthRepositoryImpl implements AuthRepository {
         throw UnimplementedError('Unknown ApiResult type');
       } catch (e, s) {
         logError('Error during login', e, s);
+        rethrow;
+      }
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>
+  registerWithEmail(EmailRegisterPayload params) {
+    return TaskEither(() async {
+      logService('Registering user with email...');
+      try {
+        final result = await _dioClient.post<AuthResponse>(
+          ApiConstant.authRegisterEmail,
+          data: params.toMap(),
+          fromJson: (json) =>
+              AuthResponse.fromMap(json as Map<String, dynamic>),
+        );
+
+        if (result is ApiSuccess<AuthResponse>) {
+          await _authService.saveAccessToken(result.data.token);
+          await _authService.saveUser(result.data.user);
+          logService('Email registration successful');
+          return Right(result);
+        }
+
+        if (result is ApiFailure<AuthResponse>) {
+          logError('Email registration failed');
+          return Left(result);
+        }
+
+        throw UnimplementedError('Unknown ApiResult type');
+      } catch (e, s) {
+        logError('Error during email registration', e, s);
+        rethrow;
+      }
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> loginWithEmail(
+    LoginPayload params,
+  ) {
+    return TaskEither(() async {
+      logService('Logging in with email...');
+      try {
+        final result = await _dioClient.post<AuthResponse>(
+          ApiConstant.authLoginEmail,
+          data: params.toMap(),
+          fromJson: (json) =>
+              AuthResponse.fromMap(json as Map<String, dynamic>),
+        );
+
+        if (result is ApiSuccess<AuthResponse>) {
+          await _authService.saveAccessToken(result.data.token);
+          await _authService.saveUser(result.data.user);
+          logService('Email login successful');
+          return Right(result);
+        }
+
+        if (result is ApiFailure<AuthResponse>) {
+          logError('Email login failed');
+          return Left(result);
+        }
+
+        throw UnimplementedError('Unknown ApiResult type');
+      } catch (e, s) {
+        logError('Error during email login', e, s);
+        rethrow;
+      }
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>
+  loginWithGoogle(LoginPayload params) {
+    return TaskEither(() async {
+      logService('Logging in with Google...');
+      try {
+        final result = await _dioClient.post<AuthResponse>(
+          ApiConstant.authLoginGoogle,
+          data: params.toMap(),
+          fromJson: (json) =>
+              AuthResponse.fromMap(json as Map<String, dynamic>),
+        );
+
+        if (result is ApiSuccess<AuthResponse>) {
+          await _authService.saveAccessToken(result.data.token);
+          await _authService.saveUser(result.data.user);
+          logService('Google login successful');
+          return Right(result);
+        }
+
+        if (result is ApiFailure<AuthResponse>) {
+          logError('Google login failed');
+          return Left(result);
+        }
+
+        throw UnimplementedError('Unknown ApiResult type');
+      } catch (e, s) {
+        logError('Error during Google login', e, s);
         rethrow;
       }
     });

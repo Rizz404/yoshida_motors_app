@@ -5,13 +5,13 @@ import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/common_providers.dart';
 import 'package:car_rongsok_app/di/service_providers.dart';
-import 'package:car_rongsok_app/feature/auth/models/register_payload.dart';
+import 'package:car_rongsok_app/feature/auth/models/email_register_payload.dart';
+import 'package:car_rongsok_app/feature/auth/models/login_payload.dart';
 import 'package:car_rongsok_app/feature/auth/validators/register_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
-import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,89 +26,46 @@ class RegisterScreen extends ConsumerStatefulWidget {
   ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
-  String? _verificationId;
-  bool _isOtpSent = false;
+class _RegisterScreenState extends ConsumerState<RegisterScreen>
+    with SingleTickerProviderStateMixin {
+  final _emailFormKey = GlobalKey<FormBuilderState>();
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  Future<void> _sendOTP() async {
-    if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
-    final phoneNumber = _formKey.currentState!.value['phone'] as String;
-    final phoneAuthService = ref.read(phoneAuthServiceProvider);
+  Future<void> _registerWithEmail() async {
+    if (!(_emailFormKey.currentState?.saveAndValidate() ?? false)) return;
+
+    final formData = _emailFormKey.currentState!.value;
+    final email = formData['email'] as String;
+    final password = formData['password'] as String;
+    final name = formData['name'] as String?;
+    final address = formData['address'] as String?;
+
+    final emailAuthService = ref.read(emailAuthServiceProvider);
+    final fcmService = ref.read(firebaseMessagingServiceProvider);
 
     context.loaderOverlay.show();
 
-    await phoneAuthService.sendOTP(
-      phoneNumber: phoneNumber,
-      onCodeSent: (verificationId) {
-        if (!mounted) return;
-        context.loaderOverlay.hide();
-        setState(() {
-          _verificationId = verificationId;
-          _isOtpSent = true;
-        });
-        AppToast.success('OTP sent to $phoneNumber');
-      },
+    final idToken = await emailAuthService.registerWithEmail(
+      email: email,
+      password: password,
       onError: (error) {
         if (!mounted) return;
         context.loaderOverlay.hide();
         AppToast.error(error);
       },
-      onAutoVerified: () async {
-        // * Auto-verification success (Android only)
-        await _verifyAndRegister(isAutoVerified: true);
-      },
     );
-  }
-
-  Future<void> _verifyAndRegister({bool isAutoVerified = false}) async {
-    if (!isAutoVerified) {
-      if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
-    }
-
-    if (_verificationId == null) {
-      AppToast.error('Please request OTP first');
-      return;
-    }
-
-    final otpCode = isAutoVerified
-        ? ''
-        : _formKey.currentState!.value['otp'] as String;
-
-    if (!isAutoVerified && otpCode.length != 6) {
-      AppToast.error('OTP must be 6 digits');
-      return;
-    }
-
-    final phoneAuthService = ref.read(phoneAuthServiceProvider);
-    final fcmService = ref.read(firebaseMessagingServiceProvider);
-
-    context.loaderOverlay.show();
-
-    // * Verify OTP and get ID Token
-    String? idToken;
-
-    if (isAutoVerified) {
-      // * For auto-verified, get token directly from current user
-      final currentUser = phoneAuthService.currentUser;
-      idToken = await currentUser?.getIdToken();
-    } else {
-      idToken = await phoneAuthService.verifyOTP(
-        verificationId: _verificationId!,
-        otpCode: otpCode,
-        onError: (error) {
-          if (!mounted) return;
-          context.loaderOverlay.hide();
-          AppToast.error(error);
-        },
-      );
-    }
 
     if (!mounted) return;
     if (idToken == null) {
@@ -116,35 +73,55 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return;
     }
 
-    // * Get form data
-    final formData = _formKey.currentState!.value;
-    final phoneNumber = formData['phone'] as String;
-    final name = formData['name'] as String?;
-    final email = formData['email'] as String?;
-    final address = formData['address'] as String?;
-
-    // * Get FCM token
     final fcmToken = await fcmService.getToken();
-
-    // * Register to backend
-    final payload = RegisterPayload(
+    final payload = EmailRegisterPayload(
       idToken: idToken,
-      phoneNumber: phoneNumber,
       name: name?.isNotEmpty == true ? name : null,
-      email: email?.isNotEmpty == true ? email : null,
       address: address?.isNotEmpty == true ? address : null,
       fcmToken: fcmToken,
     );
 
-    await ref.read(authNotifierProvider.notifier).register(payload);
+    await ref.read(authNotifierProvider.notifier).registerWithEmail(payload);
 
     if (!mounted) return;
     context.loaderOverlay.hide();
+  }
 
-    // * Handle register result
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.when(
-        data: (authState) {
+  Future<void> _registerWithGoogle() async {
+    final googleAuthService = ref.read(googleAuthServiceProvider);
+    final fcmService = ref.read(firebaseMessagingServiceProvider);
+
+    context.loaderOverlay.show();
+
+    final idToken = await googleAuthService.signInWithGoogle(
+      onError: (error) {
+        if (!mounted) return;
+        context.loaderOverlay.hide();
+        AppToast.error(error);
+      },
+    );
+
+    if (!mounted) return;
+    if (idToken == null) {
+      context.loaderOverlay.hide();
+      return;
+    }
+
+    final fcmToken = await fcmService.getToken();
+    final payload = LoginPayload(idToken: idToken, fcmToken: fcmToken);
+
+    // * Google auto register+login via /auth/login/google
+    await ref.read(authNotifierProvider.notifier).loginWithGoogle(payload);
+
+    if (!mounted) return;
+    context.loaderOverlay.hide();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
+      if (previous?.isLoading == true) {
+        next.whenData((authState) {
           if (authState.status == AuthStatus.authenticated) {
             AppToast.success('Registration successful');
           } else if (authState.failure != null) {
@@ -154,217 +131,271 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             // * If user already exists, suggest login
             if (message.contains('already registered')) {
               Future.delayed(const Duration(seconds: 2), () {
-                if (mounted) {
-                  context.router.replace(const LoginRoute());
-                }
+                if (mounted) context.router.replace(const LoginRoute());
               });
             }
           }
-        },
-        error: (error, stack) {
-          AppToast.error('Registration error: $error');
-        },
-        loading: () {},
-      );
-    });
-  }
-
-  Future<void> _resendOTP() async {
-    setState(() {
-      _isOtpSent = false;
-      _verificationId = null;
+        });
+        if (next is AsyncError) {
+          AppToast.error('Registration error: ${next.error}');
+        }
+      }
     });
 
-    // * Clear OTP field
-    _formKey.currentState?.fields['otp']?.didChange('');
-
-    await _sendOTP();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return AppLoaderOverlay(
       child: Scaffold(
         body: ScreenWrapper(
-          child: FormBuilder(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
 
-                  // * Title
-                  AppText(
-                    'Create Account',
-                    style: AppTextStyle.headlineLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(height: 8),
-                  AppText(
-                    'Register with your phone number',
-                    style: AppTextStyle.bodyLarge,
-                    color: context.colors.textSecondary,
-                  ),
-                  const SizedBox(height: 40),
+                // * Title
+                AppText(
+                  'Create Account',
+                  style: AppTextStyle.headlineLarge,
+                  fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 8),
+                AppText(
+                  'Register to get started',
+                  style: AppTextStyle.bodyLarge,
+                  color: context.colors.textSecondary,
+                ),
+                const SizedBox(height: 32),
 
-                  // * Phone Number Field
-                  AppTextField(
-                    name: 'phone',
-                    label: 'Phone Number',
-                    placeHolder: '+628123456789',
-                    type: AppTextFieldType.phone,
-                    enabled: !_isOtpSent,
-                    prefixIcon: Icon(
-                      Icons.phone_outlined,
-                      color: context.colors.primary,
+                // * Tab Bar
+                Container(
+                  decoration: BoxDecoration(
+                    color: context.colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TabBar(
+                    controller: _tabController,
+                    indicator: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    validator: RegisterValidators.phoneNumber(),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Colors.transparent,
+                    labelColor: context.colors.textOnPrimary,
+                    unselectedLabelColor: context.colors.textSecondary,
+                    tabs: const [
+                      Tab(text: 'Email'),
+                      Tab(text: 'Phone OTP'),
+                    ],
                   ),
-                  const SizedBox(height: 24),
+                ),
+                const SizedBox(height: 28),
 
-                  // * OTP Field (only show after OTP sent)
-                  if (_isOtpSent) ...[
-                    AppTextField(
-                      name: 'otp',
-                      label: 'OTP Code',
-                      placeHolder: '123456',
-                      type: AppTextFieldType.number,
-                      maxLines: 1,
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: context.colors.primary,
+                // * Tab Content
+                SizedBox(
+                  height: 500,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _EmailRegisterForm(
+                        formKey: _emailFormKey,
+                        onRegister: _registerWithEmail,
+                        onGoogleRegister: _registerWithGoogle,
                       ),
-                      validator: RegisterValidators.otpCode(),
-                    ),
-                    const SizedBox(height: 16),
+                      const _PhoneRegisterInfo(),
+                    ],
+                  ),
+                ),
 
-                    // * Resend OTP Button
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: _resendOTP,
-                        child: AppText(
-                          'Resend OTP',
+                const SizedBox(height: 24),
+
+                // * Divider
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: context.colors.border)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: AppText(
+                        'OR',
+                        style: AppTextStyle.bodySmall,
+                        color: context.colors.textSecondary,
+                      ),
+                    ),
+                    Expanded(child: Divider(color: context.colors.border)),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // * Login Link
+                Center(
+                  child: TextButton(
+                    onPressed: () => context.router.replace(const LoginRoute()),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                          'Already have an account? ',
+                          style: AppTextStyle.bodyMedium,
+                        ),
+                        AppText(
+                          'Login',
+                          style: AppTextStyle.bodyMedium,
                           color: context.colors.primary,
                           fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // * Optional Info Section
-                    AppText(
-                      'Additional Information (Optional)',
-                      style: AppTextStyle.titleMedium,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    const SizedBox(height: 16),
-
-                    // * Name Field
-                    AppTextField(
-                      name: 'name',
-                      label: 'Full Name',
-                      placeHolder: 'John Doe',
-                      type: AppTextFieldType.text,
-                      prefixIcon: Icon(
-                        Icons.person_outline,
-                        color: context.colors.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // * Email Field
-                    AppTextField(
-                      name: 'email',
-                      label: 'Email',
-                      placeHolder: 'john@example.com',
-                      type: AppTextFieldType.email,
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                        color: context.colors.primary,
-                      ),
-                      validator: RegisterValidators.email(),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // * Address Field
-                    AppTextField(
-                      name: 'address',
-                      label: 'Address',
-                      placeHolder: 'Jakarta Selatan',
-                      type: AppTextFieldType.text,
-                      maxLines: 3,
-                      prefixIcon: Icon(
-                        Icons.location_on_outlined,
-                        color: context.colors.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
-
-                  // * Action Button
-                  AppButton(
-                    text: _isOtpSent ? 'Register' : 'Send OTP',
-                    onPressed: _isOtpSent ? _verifyAndRegister : _sendOTP,
-                    leadingIcon: Icon(
-                      _isOtpSent ? Icons.person_add : Icons.send,
-                      color: context.colors.textOnPrimary,
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-
-                  // * Divider
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: context.colors.border)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: AppText(
-                          'OR',
-                          style: AppTextStyle.bodySmall,
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                      Expanded(child: Divider(color: context.colors.border)),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // * Login Link
-                  Center(
-                    child: TextButton(
-                      onPressed: () =>
-                          context.router.replace(const LoginRoute()),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AppText(
-                            'Already have an account? ',
-                            style: AppTextStyle.bodyMedium,
-                          ),
-                          AppText(
-                            'Login',
-                            style: AppTextStyle.bodyMedium,
-                            color: context.colors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+                const SizedBox(height: 24),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+}
+
+// * Email Register Form Tab
+class _EmailRegisterForm extends StatefulWidget {
+  const _EmailRegisterForm({
+    required this.formKey,
+    required this.onRegister,
+    required this.onGoogleRegister,
+  });
+
+  final GlobalKey<FormBuilderState> formKey;
+  final VoidCallback onRegister;
+  final VoidCallback onGoogleRegister;
 
   @override
-  void dispose() {
-    super.dispose();
+  State<_EmailRegisterForm> createState() => _EmailRegisterFormState();
+}
+
+class _EmailRegisterFormState extends State<_EmailRegisterForm> {
+  String? _password;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilder(
+      key: widget.formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppTextField(
+              name: 'email',
+              label: 'Email',
+              placeHolder: 'john@example.com',
+              type: AppTextFieldType.email,
+              prefixIcon: Icon(
+                Icons.email_outlined,
+                color: context.colors.primary,
+              ),
+              validator: RegisterValidators.emailRequired(),
+            ),
+            const SizedBox(height: 12),
+            AppTextField(
+              name: 'password',
+              label: 'Password',
+              placeHolder: '••••••',
+              type: AppTextFieldType.password,
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: context.colors.primary,
+              ),
+              validator: RegisterValidators.password(),
+              onChanged: (val) => setState(() => _password = val),
+            ),
+            const SizedBox(height: 12),
+            AppTextField(
+              name: 'confirm_password',
+              label: 'Confirm Password',
+              placeHolder: '••••••',
+              type: AppTextFieldType.password,
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: context.colors.primary,
+              ),
+              validator: RegisterValidators.confirmPassword(_password),
+            ),
+            const SizedBox(height: 12),
+
+            // * Optional fields
+            AppTextField(
+              name: 'name',
+              label: 'Full Name (Optional)',
+              placeHolder: 'John Doe',
+              type: AppTextFieldType.text,
+              prefixIcon: Icon(
+                Icons.person_outline,
+                color: context.colors.primary,
+              ),
+            ),
+            const SizedBox(height: 12),
+            AppTextField(
+              name: 'address',
+              label: 'Address (Optional)',
+              placeHolder: 'Jakarta Selatan',
+              type: AppTextFieldType.text,
+              maxLines: 2,
+              prefixIcon: Icon(
+                Icons.location_on_outlined,
+                color: context.colors.primary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            AppButton(
+              text: 'Register',
+              onPressed: widget.onRegister,
+              leadingIcon: Icon(
+                Icons.person_add,
+                color: context.colors.textOnPrimary,
+              ),
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              text: 'Continue with Google',
+              onPressed: widget.onGoogleRegister,
+              variant: AppButtonVariant.outlined,
+              leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// * Phone OTP Info Tab (disabled)
+class _PhoneRegisterInfo extends StatelessWidget {
+  const _PhoneRegisterInfo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.phone_disabled_outlined,
+            size: 48,
+            color: context.colors.textSecondary,
+          ),
+          const SizedBox(height: 16),
+          AppText(
+            'Phone OTP Temporarily Disabled',
+            style: AppTextStyle.titleMedium,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          AppText(
+            'Please use Email or Google Sign-In to continue.',
+            style: AppTextStyle.bodyMedium,
+            color: context.colors.textSecondary,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }
