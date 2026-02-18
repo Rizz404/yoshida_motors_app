@@ -118,24 +118,24 @@ class AuthRepositoryImpl implements AuthRepository {
     return TaskEither(() async {
       logService('Getting user profile...');
       try {
+        // * Check token first — no token means not authenticated, skip API call
+        final token = await _authService.getAccessToken();
+        if (token == null) {
+          logService('No auth token found, user is unauthenticated');
+          return const Left(ApiFailure(message: 'No auth token'));
+        }
+
         // * Try get from storage first
         final cachedUser = await _authService.getUser();
 
         if (cachedUser != null) {
-          // * Return cached user if token exists
-          final token = await _authService.getAccessToken();
-          if (token != null) {
-            logService('Profile loaded from cache');
-            return Right(
-              ApiSuccess(
-                data: cachedUser,
-                message: 'Profile loaded from cache',
-              ),
-            );
-          }
+          logService('Profile loaded from cache');
+          return Right(
+            ApiSuccess(data: cachedUser, message: 'Profile loaded from cache'),
+          );
         }
 
-        // * Fetch from API if no cache
+        // * Fetch from API if token exists but no cached user
         logService('Fetching profile from API...');
         final result = await _dioClient.get<User>(
           ApiConstant.authProfile,
