@@ -263,7 +263,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Sigma Asset',
+      title: 'Yoshida Motors',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,

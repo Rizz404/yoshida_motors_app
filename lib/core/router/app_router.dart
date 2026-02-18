@@ -36,18 +36,18 @@ String _getInitialLocation(Ref ref) {
 
   // * Kalau masih loading, default ke login (native splash masih tampil)
   if (authState.isLoading) {
-    return const LoginRoute().location;
+    return LoginRoute.path;
   }
 
   final currentAuthState = authState.whenOrNull(data: (state) => state);
   final isAuthenticated = currentAuthState?.status == AuthStatus.authenticated;
 
   if (!isAuthenticated) {
-    return const LoginRoute().location;
+    return LoginRoute.path;
   }
 
   // * Authenticated users go to home
-  return const HomeRoute().location;
+  return HomeRoute.path;
 }
 
 /// Handle redirect logic berdasarkan auth state
@@ -67,12 +67,12 @@ String? _handleRedirect(Ref ref, GoRouterState state) {
 
   // * Not authenticated and not going to auth? Redirect to login
   if (!currentIsAuthenticated && !isGoingToAuth) {
-    return const LoginRoute().location;
+    return LoginRoute.path;
   }
 
   // * Authenticated and going to auth? Redirect to home
   if (currentIsAuthenticated && isGoingToAuth) {
-    return const HomeRoute().location;
+    return HomeRoute.path;
   }
 
   return null;

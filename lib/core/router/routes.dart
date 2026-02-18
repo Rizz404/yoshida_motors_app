@@ -26,6 +26,8 @@ part 'routes.g.dart';
 class LoginRoute extends GoRouteData {
   const LoginRoute();
 
+  static const path = '/auth/login';
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const LoginScreen();
@@ -85,6 +87,8 @@ class AppShellRouteData extends StatefulShellRouteData {
 
 class HomeRoute extends GoRouteData {
   const HomeRoute();
+
+  static const path = '/';
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const HomeScreen();

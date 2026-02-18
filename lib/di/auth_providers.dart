@@ -8,6 +8,7 @@ import 'package:car_rongsok_app/feature/auth/repositories/auth_repository.dart';
 import 'package:car_rongsok_app/feature/user/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 
 // ==========================================
 // AUTH STATE
@@ -57,8 +58,11 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   FutureOr<AuthState> build() async {
     _authRepository = ref.read(authRepositoryProvider);
 
-    // * Get profile dari API/cache untuk validasi auth
-    final result = await _authRepository.getProfile().run();
+    // * Timeout 5 detik untuk mencegah ANR saat server lambat/error
+    final result = await _authRepository.getProfile().run().timeout(
+      const Duration(seconds: 5),
+      onTimeout: () => const Left(ApiFailure(message: 'Auth check timeout')),
+    );
 
     return result.fold(
       (failure) => AuthState.unauthenticated(failure: failure),

@@ -1134,7 +1134,7 @@ abstract class L10n {
   /// App end drawer title
   ///
   /// In en, this message translates to:
-  /// **'Sigma Asset'**
+  /// **'Yoshida Motors'**
   String get appEndDrawerTitle;
 
   /// Message shown when user needs to login
@@ -1296,7 +1296,7 @@ abstract class L10n {
   /// App bar title
   ///
   /// In en, this message translates to:
-  /// **'Sigma Asset'**
+  /// **'Yoshida Motors'**
   String get customAppBarTitle;
 
   /// Open menu button label

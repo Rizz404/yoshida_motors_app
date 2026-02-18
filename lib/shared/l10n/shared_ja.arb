@@ -24,7 +24,7 @@
   "@userShellBottomNavProfile": {
     "description": "User shell bottom navigation label for profile"
   },
-  "appEndDrawerTitle": "Sigma Asset",
+  "appEndDrawerTitle": "Yoshida Motors",
   "@appEndDrawerTitle": {
     "description": "App end drawer title"
   },
@@ -132,7 +132,7 @@
   "@appEndDrawerProfile": {
     "description": "Profile menu item"
   },
-  "customAppBarTitle": "Sigma Asset",
+  "customAppBarTitle": "Yoshida Motors",
   "@customAppBarTitle": {
     "description": "App bar title"
   },

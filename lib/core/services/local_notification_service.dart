@@ -23,7 +23,7 @@ class LocalNotificationService {
       AndroidNotificationChannel(
         'car_rongsok_app_default', // id
         'Default Notifications', // name
-        description: 'General notifications from Sigma Asset',
+        description: 'General notifications from Yoshida Motors',
         importance: Importance.max,
         enableVibration: true,
         playSound: true,
