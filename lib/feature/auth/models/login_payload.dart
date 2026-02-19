@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:equatable/equatable.dart';
 
 class LoginPayload extends Equatable {
@@ -25,8 +26,8 @@ class LoginPayload extends Equatable {
 
   factory LoginPayload.fromMap(Map<String, dynamic> map) {
     return LoginPayload(
-      idToken: map['idToken'] as String,
-      fcmToken: map['fcmToken'] != null ? map['fcmToken'] as String : null,
+      idToken: map.getField<String>('idToken'),
+      fcmToken: map.getFieldOrNull<String>('fcmToken'),
     );
   }
 

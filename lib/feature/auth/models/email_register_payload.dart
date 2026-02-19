@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:equatable/equatable.dart';
 
 class EmailRegisterPayload extends Equatable {
@@ -36,6 +37,15 @@ class EmailRegisterPayload extends Equatable {
       if (address != null) 'address': address,
       if (fcmToken != null) 'fcm_token': fcmToken,
     };
+  }
+
+  factory EmailRegisterPayload.fromMap(Map<String, dynamic> map) {
+    return EmailRegisterPayload(
+      idToken: map.getField<String>('id_token'),
+      name: map.getFieldOrNull<String>('name'),
+      address: map.getFieldOrNull<String>('address'),
+      fcmToken: map.getFieldOrNull<String>('fcm_token'),
+    );
   }
 
   String toJson() => json.encode(toMap());

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:equatable/equatable.dart';
 
 class RegisterPayload extends Equatable {
@@ -50,12 +51,12 @@ class RegisterPayload extends Equatable {
 
   factory RegisterPayload.fromMap(Map<String, dynamic> map) {
     return RegisterPayload(
-      idToken: map['idToken'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      name: map['name'] != null ? map['name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      address: map['address'] != null ? map['address'] as String : null,
-      fcmToken: map['fcmToken'] != null ? map['fcmToken'] as String : null,
+      idToken: map.getField<String>('idToken'),
+      phoneNumber: map.getField<String>('phoneNumber'),
+      name: map.getFieldOrNull<String>('name'),
+      email: map.getFieldOrNull<String>('email'),
+      address: map.getFieldOrNull<String>('address'),
+      fcmToken: map.getFieldOrNull<String>('fcmToken'),
     );
   }
 

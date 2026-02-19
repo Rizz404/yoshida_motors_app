@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:car_rongsok_app/feature/user/models/user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,8 +21,8 @@ class AuthResponse extends Equatable {
 
   factory AuthResponse.fromMap(Map<String, dynamic> map) {
     return AuthResponse(
-      user: User.fromMap(map['user'] as Map<String, dynamic>),
-      token: map['token'] as String,
+      user: User.fromMap(map.getField<Map<String, dynamic>>('user')),
+      token: map.getField<String>('token'),
     );
   }
 

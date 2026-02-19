@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -72,16 +73,16 @@ class User extends Equatable {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as int,
-      firebaseUid: map['firebase_uid'] as String,
-      phoneNumber: map['phone_number'] as String,
-      name: map['name'] != null ? map['name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      address: map['address'] != null ? map['address'] as String : null,
+      id: map.getField<int>('id'),
+      firebaseUid: map.getField<String>('firebase_uid'),
+      phoneNumber: map.getField<String>('phone_number'),
+      name: map.getFieldOrNull<String>('name'),
+      email: map.getFieldOrNull<String>('email'),
+      address: map.getFieldOrNull<String>('address'),
       role: UserRole.values.firstWhere((e) => e.value == map['role']),
-      fcmToken: map['fcm_token'] != null ? map['fcm_token'] as String : null,
-      createdAt: DateTime.parse(map['created_at'] as String),
-      updatedAt: DateTime.parse(map['updated_at'] as String),
+      fcmToken: map.getFieldOrNull<String>('fcm_token'),
+      createdAt: map.getField<DateTime>('created_at'),
+      updatedAt: map.getField<DateTime>('updated_at'),
     );
   }
 
