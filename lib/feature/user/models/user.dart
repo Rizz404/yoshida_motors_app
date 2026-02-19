@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   final int id;
   final String firebaseUid;
-  final String phoneNumber;
+  final String? phoneNumber;
   final String? name;
   final String? email;
   final String? address;
@@ -75,7 +75,7 @@ class User extends Equatable {
     return User(
       id: map.getField<int>('id'),
       firebaseUid: map.getField<String>('firebase_uid'),
-      phoneNumber: map.getField<String>('phone_number'),
+      phoneNumber: map.getFieldOrNull<String>('phone_number'),
       name: map.getFieldOrNull<String>('name'),
       email: map.getFieldOrNull<String>('email'),
       address: map.getFieldOrNull<String>('address'),
