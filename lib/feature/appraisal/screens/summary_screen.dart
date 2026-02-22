@@ -3,7 +3,6 @@ import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
-import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
@@ -72,8 +71,7 @@ class SummaryScreen extends ConsumerWidget {
           ),
           data: (state) {
             final appraisal = state.appraisal;
-            final isSubmitting = state.isMutating;
-            final onSubmit = () => ref
+            Future<void> onSubmit() => ref
                 .read(appraisalDetailNotifierProvider(appraisalId).notifier)
                 .submitAppraisal();
             final photos = appraisal.photos ?? [];

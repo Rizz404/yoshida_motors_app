@@ -51,14 +51,10 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
     if (!mounted) return;
     context.loaderOverlay.hide();
 
-    result.fold(
-      (failure) =>
-          AppToast.error(failure.message ?? 'Failed to create appraisal'),
-      (success) {
-        ref.read(currentAppraisalIdProvider.notifier).state = success.data.id;
-        context.router.push(const PhotoCategoryRoute());
-      },
-    );
+    result.fold((failure) => AppToast.error(failure.message), (success) {
+      ref.read(currentAppraisalIdProvider.notifier).state = success.data.id;
+      context.router.push(const PhotoCategoryRoute());
+    });
   }
 
   @override

@@ -19,6 +19,9 @@ abstract class AuthRepository {
   TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> login(
     LoginPayload params,
   );
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> loginWithPhone(
+    LoginPayload params,
+  );
   TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>>
   registerWithEmail(EmailRegisterPayload params);
   TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> loginWithEmail(
@@ -116,6 +119,40 @@ class AuthRepositoryImpl implements AuthRepository {
         throw UnimplementedError('Unknown ApiResult type');
       } catch (e, s) {
         logError('Error during login', e, s);
+        rethrow;
+      }
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AuthResponse>, ApiSuccess<AuthResponse>> loginWithPhone(
+    LoginPayload params,
+  ) {
+    return TaskEither(() async {
+      logService('Logging in/registering with phone...');
+      try {
+        final result = await _dioClient.post<AuthResponse>(
+          ApiConstant.authPhone,
+          data: params.toMap(),
+          fromJson: (json) =>
+              AuthResponse.fromMap(json as Map<String, dynamic>),
+        );
+
+        if (result is ApiSuccess<AuthResponse>) {
+          await _authService.saveAccessToken(result.data.token);
+          await _authService.saveUser(result.data.user);
+          logService('Phone login/registration successful');
+          return Right(result);
+        }
+
+        if (result is ApiFailure<AuthResponse>) {
+          logError('Phone login/registration failed');
+          return Left(result);
+        }
+
+        throw UnimplementedError('Unknown ApiResult type');
+      } catch (e, s) {
+        logError('Error during phone login/registration', e, s);
         rethrow;
       }
     });

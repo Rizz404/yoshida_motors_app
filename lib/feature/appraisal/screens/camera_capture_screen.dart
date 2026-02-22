@@ -69,10 +69,10 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
 
     final state = ref.read(appraisalDetailNotifierProvider(appraisalId)).value;
     if (state?.mutationError != null) {
-      AppToast.error(state!.mutationError!.message ?? 'Upload failed');
+      AppToast.error(state!.mutationError!.message);
     } else {
       AppToast.success('Photo uploaded');
-      context.router.maybePop();
+      await context.router.maybePop();
     }
   }
 

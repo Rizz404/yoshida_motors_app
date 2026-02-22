@@ -1,5 +1,4 @@
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
-import 'package:car_rongsok_app/core/extensions/api_result_extension.dart';
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/auth_service.dart';

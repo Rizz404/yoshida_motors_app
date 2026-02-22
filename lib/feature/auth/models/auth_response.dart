@@ -8,21 +8,35 @@ import 'package:equatable/equatable.dart';
 class AuthResponse extends Equatable {
   final User user;
   final String token;
+  final bool isNewUser;
 
-  const AuthResponse({required this.user, required this.token});
+  const AuthResponse({
+    required this.user,
+    required this.token,
+    this.isNewUser = false,
+  });
 
-  AuthResponse copyWith({User? user, String? token}) {
-    return AuthResponse(user: user ?? this.user, token: token ?? this.token);
+  AuthResponse copyWith({User? user, String? token, bool? isNewUser}) {
+    return AuthResponse(
+      user: user ?? this.user,
+      token: token ?? this.token,
+      isNewUser: isNewUser ?? this.isNewUser,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'user': user.toMap(), 'token': token};
+    return <String, dynamic>{
+      'user': user.toMap(),
+      'token': token,
+      'is_new_user': isNewUser,
+    };
   }
 
   factory AuthResponse.fromMap(Map<String, dynamic> map) {
     return AuthResponse(
       user: User.fromMap(map.getField<Map<String, dynamic>>('user')),
       token: map.getField<String>('token'),
+      isNewUser: map.getFieldOrNull<bool>('is_new_user') ?? false,
     );
   }
 
@@ -35,5 +49,5 @@ class AuthResponse extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [user, token];
+  List<Object> get props => [user, token, isNewUser];
 }

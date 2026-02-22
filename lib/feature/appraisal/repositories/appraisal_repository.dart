@@ -25,6 +25,10 @@ abstract class AppraisalRepository {
   TaskEither<ApiFailure<AppraisalRequest>, ApiSuccess<AppraisalRequest>>
   getAppraisalById(int id);
 
+  /// GET /appraisals/latest
+  TaskEither<ApiFailure<AppraisalRequest>, ApiSuccess<AppraisalRequest>>
+  getLatestAppraisal();
+
   /// PUT /appraisals/{id}
   TaskEither<ApiFailure<AppraisalRequest>, ApiSuccess<AppraisalRequest>>
   updateAppraisal(int id, UpdateAppraisalPayload params);
@@ -139,6 +143,36 @@ class AppraisalRepositoryImpl implements AppraisalRepository {
         throw UnimplementedError('Unknown ApiResult type');
       } catch (e, s) {
         logError('Error getting appraisal detail', e, s);
+        rethrow;
+      }
+    });
+  }
+
+  @override
+  TaskEither<ApiFailure<AppraisalRequest>, ApiSuccess<AppraisalRequest>>
+  getLatestAppraisal() {
+    return TaskEither(() async {
+      logService('Getting latest appraisal...');
+      try {
+        final result = await _dioClient.get<AppraisalRequest>(
+          ApiConstant.getLatestAppraisal,
+          fromJson: (json) =>
+              AppraisalRequest.fromMap(json as Map<String, dynamic>),
+        );
+
+        if (result is ApiSuccess<AppraisalRequest>) {
+          logService('Latest appraisal fetched successfully');
+          return Right(result);
+        }
+
+        if (result is ApiFailure<AppraisalRequest>) {
+          logError('Failed to get latest appraisal');
+          return Left(result);
+        }
+
+        throw UnimplementedError('Unknown ApiResult type');
+      } catch (e, s) {
+        logError('Error getting latest appraisal', e, s);
         rethrow;
       }
     });

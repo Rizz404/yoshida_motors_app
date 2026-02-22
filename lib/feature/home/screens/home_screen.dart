@@ -3,7 +3,7 @@ import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
-import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_list_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
@@ -19,12 +19,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(userProfileNotifierProvider);
-    final appraisalAsync = ref.watch(appraisalListNotifierProvider);
+    final latestAppraisalAsync = ref.watch(latestAppraisalNotifierProvider);
 
     final userName = profileAsync.value?.user?.name ?? 'User';
-    final latestAppraisal = appraisalAsync.value?.items.isNotEmpty == true
-        ? appraisalAsync.value!.items.first
-        : null;
+    final latestAppraisal = latestAppraisalAsync.value?.appraisal;
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +60,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: ScreenWrapper(
         child: RefreshIndicator(
-          onRefresh: () => ref.refresh(appraisalListNotifierProvider.future),
+          onRefresh: () => ref.refresh(latestAppraisalNotifierProvider.future),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(

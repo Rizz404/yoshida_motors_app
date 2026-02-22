@@ -83,11 +83,11 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     });
   }
 
-  Future<void> login(LoginPayload payload) async {
+  Future<void> loginWithPhone(LoginPayload payload) async {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final result = await _authRepository.login(payload).run();
+      final result = await _authRepository.loginWithPhone(payload).run();
 
       return result.fold(
         (failure) => AuthState.unauthenticated(failure: failure),

@@ -16,6 +16,8 @@ class ApiConstant {
   static const String appraisalPrefix = '$baseUrl/appraisals';
 
   // * AUTHENTICATION - Phone OTP
+  // POST /auth/phone (Combined login/register)
+  static const String authPhone = '$authPrefix/phone';
   // POST /auth/register
   static const String authRegister = '$authPrefix/register';
   // POST /auth/login
@@ -36,6 +38,8 @@ class ApiConstant {
   // * APPRAISALS (CRUD)
   // GET /appraisals (List)
   static const String getAppraisals = appraisalPrefix;
+  // GET /appraisals/latest (Latest)
+  static const String getLatestAppraisal = '$appraisalPrefix/latest';
   // POST /appraisals (Create)
   static const String createAppraisal = appraisalPrefix;
   // GET /appraisals/{id} (Detail)
