@@ -30,6 +30,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     with SingleTickerProviderStateMixin {
   final _emailFormKey = GlobalKey<FormBuilderState>();
   late TabController _tabController;
+  String? _password;
 
   @override
   void initState() {
@@ -117,30 +118,38 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     context.loaderOverlay.hide();
   }
 
+  void _handleAuthStateChange(
+    AsyncValue<AuthState>? previous,
+    AsyncValue<AuthState> next,
+  ) {
+    if (previous?.isLoading == true) {
+      next.whenData((authState) {
+        if (authState.status == AuthStatus.authenticated) {
+          AppToast.success('Registration successful');
+        } else if (authState.failure != null) {
+          final message = authState.failure?.message ?? 'Registration failed';
+          AppToast.error(message);
+
+          // * If user already exists, suggest login
+          if (message.contains('already registered')) {
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) context.router.replace(const LoginRoute());
+            });
+          }
+        }
+      });
+      if (next is AsyncError) {
+        AppToast.error('Registration error: ${next.error}');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
-      if (previous?.isLoading == true) {
-        next.whenData((authState) {
-          if (authState.status == AuthStatus.authenticated) {
-            AppToast.success('Registration successful');
-          } else if (authState.failure != null) {
-            final message = authState.failure?.message ?? 'Registration failed';
-            AppToast.error(message);
-
-            // * If user already exists, suggest login
-            if (message.contains('already registered')) {
-              Future.delayed(const Duration(seconds: 2), () {
-                if (mounted) context.router.replace(const LoginRoute());
-              });
-            }
-          }
-        });
-        if (next is AsyncError) {
-          AppToast.error('Registration error: ${next.error}');
-        }
-      }
-    });
+    ref.listen<AsyncValue<AuthState>>(
+      authNotifierProvider,
+      _handleAuthStateChange,
+    );
 
     return AppLoaderOverlay(
       child: Scaffold(
@@ -195,12 +204,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      _EmailRegisterForm(
-                        formKey: _emailFormKey,
-                        onRegister: _registerWithEmail,
-                        onGoogleRegister: _registerWithGoogle,
-                      ),
-                      const _PhoneRegisterInfo(),
+                      _buildEmailRegisterForm(context),
+                      _buildPhoneRegisterInfo(context),
                     ],
                   ),
                 ),
@@ -253,31 +258,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
       ),
     );
   }
-}
 
-// * Email Register Form Tab
-class _EmailRegisterForm extends StatefulWidget {
-  const _EmailRegisterForm({
-    required this.formKey,
-    required this.onRegister,
-    required this.onGoogleRegister,
-  });
-
-  final GlobalKey<FormBuilderState> formKey;
-  final VoidCallback onRegister;
-  final VoidCallback onGoogleRegister;
-
-  @override
-  State<_EmailRegisterForm> createState() => _EmailRegisterFormState();
-}
-
-class _EmailRegisterFormState extends State<_EmailRegisterForm> {
-  String? _password;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildEmailRegisterForm(BuildContext context) {
     return FormBuilder(
-      key: widget.formKey,
+      key: _emailFormKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -329,6 +313,7 @@ class _EmailRegisterFormState extends State<_EmailRegisterForm> {
                 Icons.person_outline,
                 color: context.colors.primary,
               ),
+              validator: RegisterValidators.fullName(),
             ),
             const SizedBox(height: 12),
             AppTextField(
@@ -341,11 +326,12 @@ class _EmailRegisterFormState extends State<_EmailRegisterForm> {
                 Icons.location_on_outlined,
                 color: context.colors.primary,
               ),
+              validator: RegisterValidators.address(),
             ),
             const SizedBox(height: 20),
             AppButton(
               text: 'Register',
-              onPressed: widget.onRegister,
+              onPressed: _registerWithEmail,
               leadingIcon: Icon(
                 Icons.person_add,
                 color: context.colors.textOnPrimary,
@@ -354,7 +340,7 @@ class _EmailRegisterFormState extends State<_EmailRegisterForm> {
             const SizedBox(height: 12),
             AppButton(
               text: 'Continue with Google',
-              onPressed: widget.onGoogleRegister,
+              onPressed: _registerWithGoogle,
               variant: AppButtonVariant.outlined,
               leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
             ),
@@ -363,14 +349,8 @@ class _EmailRegisterFormState extends State<_EmailRegisterForm> {
       ),
     );
   }
-}
 
-// * Phone OTP Info Tab (disabled)
-class _PhoneRegisterInfo extends StatelessWidget {
-  const _PhoneRegisterInfo();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPhoneRegisterInfo(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

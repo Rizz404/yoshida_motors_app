@@ -59,4 +59,18 @@ class RegisterValidators {
       return null;
     };
   }
+
+  /// Validator untuk full name (optional)
+  static String? Function(String?) fullName() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.maxLength(100, errorText: 'Name is too long'),
+    ]);
+  }
+
+  /// Validator untuk address (optional)
+  static String? Function(String?) address() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.maxLength(255, errorText: 'Address is too long'),
+    ]);
+  }
 }

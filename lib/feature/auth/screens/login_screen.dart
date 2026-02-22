@@ -108,22 +108,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     context.loaderOverlay.hide();
   }
 
+  void _handleAuthStateChange(
+    AsyncValue<AuthState>? previous,
+    AsyncValue<AuthState> next,
+  ) {
+    if (previous?.isLoading == true) {
+      next.whenData((authState) {
+        if (authState.status == AuthStatus.authenticated) {
+          AppToast.success('Login successful');
+        } else if (authState.failure != null) {
+          AppToast.error(authState.failure?.message ?? 'Login failed');
+        }
+      });
+      if (next is AsyncError) {
+        AppToast.error('Login error: ${next.error}');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
-      if (previous?.isLoading == true) {
-        next.whenData((authState) {
-          if (authState.status == AuthStatus.authenticated) {
-            AppToast.success('Login successful');
-          } else if (authState.failure != null) {
-            AppToast.error(authState.failure?.message ?? 'Login failed');
-          }
-        });
-        if (next is AsyncError) {
-          AppToast.error('Login error: ${next.error}');
-        }
-      }
-    });
+    ref.listen<AsyncValue<AuthState>>(
+      authNotifierProvider,
+      _handleAuthStateChange,
+    );
 
     return AppLoaderOverlay(
       child: Scaffold(
@@ -135,7 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 const SizedBox(height: 24),
 
                 // * Title
-                AppText(
+                const AppText(
                   'Welcome Back',
                   style: AppTextStyle.headlineLarge,
                   fontWeight: FontWeight.bold,
@@ -178,12 +186,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      _EmailLoginForm(
-                        formKey: _emailFormKey,
-                        onLogin: _loginWithEmail,
-                        onGoogleLogin: _loginWithGoogle,
-                      ),
-                      const _PhoneLoginInfo(),
+                      _buildEmailLoginForm(context),
+                      _buildPhoneLoginInfo(context),
                     ],
                   ),
                 ),
@@ -237,24 +241,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       ),
     );
   }
-}
 
-// * Email Login Form Tab
-class _EmailLoginForm extends StatelessWidget {
-  const _EmailLoginForm({
-    required this.formKey,
-    required this.onLogin,
-    required this.onGoogleLogin,
-  });
-
-  final GlobalKey<FormBuilderState> formKey;
-  final VoidCallback onLogin;
-  final VoidCallback onGoogleLogin;
-
-  @override
-  Widget build(BuildContext context) {
+  // * Email Login Form Tab
+  Widget _buildEmailLoginForm(BuildContext context) {
     return FormBuilder(
-      key: formKey,
+      key: _emailFormKey,
       child: Column(
         children: [
           AppTextField(
@@ -280,13 +271,13 @@ class _EmailLoginForm extends StatelessWidget {
           const SizedBox(height: 24),
           AppButton(
             text: 'Login',
-            onPressed: onLogin,
+            onPressed: _loginWithEmail,
             leadingIcon: Icon(Icons.login, color: context.colors.textOnPrimary),
           ),
           const SizedBox(height: 12),
           AppButton(
             text: 'Continue with Google',
-            onPressed: onGoogleLogin,
+            onPressed: _loginWithGoogle,
             variant: AppButtonVariant.outlined,
             leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
           ),
@@ -294,14 +285,9 @@ class _EmailLoginForm extends StatelessWidget {
       ),
     );
   }
-}
 
-// * Phone OTP Info Tab (disabled)
-class _PhoneLoginInfo extends StatelessWidget {
-  const _PhoneLoginInfo();
-
-  @override
-  Widget build(BuildContext context) {
+  // * Phone OTP Info Tab (disabled)
+  Widget _buildPhoneLoginInfo(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
