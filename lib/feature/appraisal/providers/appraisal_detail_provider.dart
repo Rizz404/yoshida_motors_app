@@ -4,7 +4,6 @@ import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/update_appraisal_payload.dart';
-import 'package:car_rongsok_app/feature/appraisal/models/upload_photo_payload.dart';
 import 'package:car_rongsok_app/feature/appraisal/repositories/appraisal_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -108,44 +107,6 @@ class AppraisalDetailNotifier extends AsyncNotifier<AppraisalDetailState> {
     );
 
     final result = await _appraisalRepository.submitAppraisal(_id).run();
-
-    result.fold(
-      (failure) => state = AsyncData(
-        current.copyWith(isMutating: false, mutationError: () => failure),
-      ),
-      (_) => ref.invalidateSelf(),
-    );
-  }
-
-  /// Upload foto — re-fetch dari server setelah sukses
-  Future<void> uploadPhoto(UploadPhotoPayload payload) async {
-    final current = state.value;
-    if (current == null) return;
-
-    state = AsyncData(
-      current.copyWith(isMutating: true, mutationError: () => null),
-    );
-
-    final result = await _appraisalRepository.uploadPhoto(_id, payload).run();
-
-    result.fold(
-      (failure) => state = AsyncData(
-        current.copyWith(isMutating: false, mutationError: () => failure),
-      ),
-      (_) => ref.invalidateSelf(),
-    );
-  }
-
-  /// Hapus foto — re-fetch dari server setelah sukses
-  Future<void> deletePhoto(int photoId) async {
-    final current = state.value;
-    if (current == null) return;
-
-    state = AsyncData(
-      current.copyWith(isMutating: true, mutationError: () => null),
-    );
-
-    final result = await _appraisalRepository.deletePhoto(_id, photoId).run();
 
     result.fold(
       (failure) => state = AsyncData(

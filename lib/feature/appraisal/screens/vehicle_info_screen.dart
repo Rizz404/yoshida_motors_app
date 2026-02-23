@@ -1,9 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
-import 'package:car_rongsok_app/core/utils/toast_utils.dart';
-import 'package:car_rongsok_app/di/repository_providers.dart';
-import 'package:car_rongsok_app/feature/appraisal/models/create_appraisal_payload.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/validators/vehicle_info_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
@@ -15,7 +12,6 @@ import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 @RoutePage()
 class VehicleInfoScreen extends ConsumerStatefulWidget {
@@ -32,29 +28,17 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
     if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
     final formData = _formKey.currentState!.value;
-    final payload = CreateAppraisalPayload(
-      vehicleBrand: (formData['vehicle_brand'] as String).trim(),
-      vehicleModel: (formData['vehicle_model'] as String).trim(),
-      yearManufacture: int.parse(
-        (formData['year_manufacture'] as String).trim(),
-      ),
-      description: (formData['description'] as String?)?.trim(),
-    );
 
-    context.loaderOverlay.show();
+    ref
+        .read(appraisalFormProvider.notifier)
+        .setVehicleInfo(
+          brand: (formData['vehicle_brand'] as String).trim(),
+          model: (formData['vehicle_model'] as String).trim(),
+          year: int.parse((formData['year_manufacture'] as String).trim()),
+          description: (formData['description'] as String?)?.trim(),
+        );
 
-    final result = await ref
-        .read(appraisalRepositoryProvider)
-        .createAppraisal(payload)
-        .run();
-
-    if (!mounted) return;
-    context.loaderOverlay.hide();
-
-    result.fold((failure) => AppToast.error(failure.message), (success) {
-      ref.read(currentAppraisalIdProvider.notifier).state = success.data.id;
-      context.router.push(const PhotoCategoryRoute());
-    });
+    context.router.push(const PhotoCategoryRoute());
   }
 
   @override

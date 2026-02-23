@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
-import 'package:car_rongsok_app/feature/appraisal/models/upload_photo_payload.dart';
-import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
@@ -12,7 +10,6 @@ import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 @RoutePage()
 class CameraCaptureScreen extends ConsumerStatefulWidget {
@@ -51,29 +48,14 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
 
   Future<void> _usePhoto() async {
     final image = _capturedImage;
-    final appraisalId = ref.read(currentAppraisalIdProvider);
     final category = ref.read(currentPhotoCategoryProvider);
 
-    if (image == null || appraisalId == null || category == null) return;
+    if (image == null || category == null) return;
 
-    context.loaderOverlay.show();
+    ref.read(appraisalFormProvider.notifier).addPhoto(category, image.path);
 
-    await ref
-        .read(appraisalDetailNotifierProvider(appraisalId).notifier)
-        .uploadPhoto(
-          UploadPhotoPayload(categoryName: category, imagePath: image.path),
-        );
-
-    if (!mounted) return;
-    context.loaderOverlay.hide();
-
-    final state = ref.read(appraisalDetailNotifierProvider(appraisalId)).value;
-    if (state?.mutationError != null) {
-      AppToast.error(state!.mutationError!.message);
-    } else {
-      AppToast.success('Photo uploaded');
-      await context.router.maybePop();
-    }
+    AppToast.success('Photo added');
+    if (mounted) await context.router.maybePop();
   }
 
   @override

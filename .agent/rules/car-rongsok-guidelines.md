@@ -34,7 +34,7 @@ Follow these rules strictly and consistently.
 - For failures: logError('message', e, s)
 - DO NOT add logging in widgets/screens unless explicitly requested.
 - Keep logging in business/data layers: BLoCs, Repositories, Services, Use Cases.
-- If you think logging would help in UI, ask first: "Perlu logging di widget/screen ini?"
+- If unsure whether UI logging is needed, ask first: "Perlu logging di widget/screen ini?"
 
 ## 4) Comments (Better Comments format)
 - Only use these prefixes:
@@ -64,7 +64,93 @@ Follow these rules strictly and consistently.
   - AdminShell, UserShell, AppEndDrawer
 - If a shared widget is missing a needed capability, ask before creating a new widget.
 
-## 8) Terminal workflow preferences
+## 8) Widget Structure — Hybrid Approach
+- Keep everything inline inside build() as long as it stays readable.
+- Only extract when there is a clear reason — not just to "organize".
+- Scaffold-level slots (appBar, body, drawer, bottomNavigationBar, floatingActionButton)
+  must always be written inline. Never wrap them in _buildAppBar(), _buildBody(), etc.
+  Use shared components directly (CustomAppBar, AppEndDrawer, ScreenWrapper, etc.)
+- Extract to TIER 1 / TIER 2 only for deep leaf content that has grown complex,
+  not for top-level scaffold slots.
+
+**TIER 1 — Private Function (_buildX)**
+  When: a leaf subtree is complex enough to reduce nesting,
+        accesses parent scope directly (widget.x, state, controller),
+        no independent props needed — any length is fine
+
+**TIER 2 — Private Class (_MyWidget)**
+  When: ONLY if one of these is needed:
+        - independent props (not from parent scope)
+        - const constructor for rebuild optimization
+        - own local state
+        - own lifecycle (initState, dispose, etc.)
+  DON'T: use just because a widget is long without the above needs
+
+**TIER 3 — Public Class in /widgets**
+  When: used across more than 1 screen/file
+  Location: feature/category/widgets/category_card.dart
+
+**Decision tree:**
+  Used in > 1 screen?                              → TIER 3
+  Needs independent props / own state / lifecycle? → TIER 2
+  Deep leaf content that reduces nesting?          → TIER 1
+  Everything else (including scaffold slots)       → inline in build()
+
+**Feature structure:**
+```
+lib/features/category/
+├── screens/
+│   └── category_screen.dart   ← inline build, TIER 1 & TIER 2 if needed
+└── widgets/
+    └── category_card.dart     ← TIER 3
+```
+
+## 9) Widget Member Ordering
+Applies to: StatelessWidget, StatefulWidget, ConsumerWidget,
+            ConsumerStatefulWidget, HookWidget, HookConsumerWidget
+
+**STATELESS / CONSUMER WIDGET**
+  1. Fields / final variables
+  2. Constructor
+  3. Override methods (except build)
+  4. build()
+  5. Private widget functions (_buildX) ← always last, per rule 8
+
+**STATEFUL / CONSUMER STATEFUL**
+
+StatefulWidget class:
+  1. Fields / final variables (props)
+  2. Constructor
+  3. createState()
+
+State class:
+  1. Variables (controllers, flags, notifiers, etc.)
+  2. Override methods (initState, didChangeDependencies, dispose, etc.)
+  3. Private logic functions (_handleX, _loadX, etc.)
+  4. build() — widget tree only, no logic/vars inside
+  5. Private widget functions (_buildX) ← always last, per rule 8
+
+- DON'T: declare variables or logic inside build()
+- DO: move all variables to class-level or initState
+
+## 10) Static analysis & linting (IMPORTANT)
+- Do NOT run or suggest running Flutter/Dart analysis automatically.
+- Never run these unless the user explicitly asks:
+  - flutter analyze
+  - dart analyze
+  - dart fix
+  - dart format / flutter format
+  - any lint command or "auto-fix all"
+- If analysis is relevant, ask: "Mau aku jalankan flutter analyze/dart analyze?" and wait for confirmation.
+- Do not use any auto-run / turbo execution for analysis/lint commands.
+
+## 11) Translations (static text default)
+- DO NOT modify or add to translation files (.arb / l10n) unless explicitly requested.
+- Use static/hardcoded text strings in widgets by default.
+- Only use context.l10n when the user specifically asks for localization support.
+- If unsure whether to localize, ask first: "Mau pakai translation atau static text?"
+
+## 12) Terminal workflow preferences
 - Prefer modern CLI tools:
   - eza, fd, rg, bat, sd
   - lazygit, gh, delta
@@ -72,24 +158,7 @@ Follow these rules strictly and consistently.
   - btm, procs, dust, duf
 - Avoid: dir, findstr, find, grep, cat, and manual repetitive cd.
 
-## 9) Static analysis & linting (IMPORTANT)
-- Do NOT run or suggest running Flutter/Dart analysis automatically.
-- Never run these unless the user explicitly asks:
-  - flutter analyze
-  - dart analyze
-  - dart fix
-  - dart format / flutter format
-  - any lint command or “auto-fix all”
-- If analysis is relevant, ask: “Mau aku jalankan flutter analyze/dart analyze?” and wait for confirmation.
-- Do not use any auto-run / turbo execution for analysis/lint commands.
-
-## 10) Code output expectations
+## 13) Code output expectations
 - Prefer small, focused diffs.
 - When editing code, preserve existing architecture and patterns in the repo.
 - Avoid introducing new dependencies unless explicitly requested.
-
-## 11) Translations (static text default)
-- DO NOT modify or add to translation files (.arb / l10n) unless explicitly requested.
-- Use static/hardcoded text strings in widgets by default.
-- Only use context.l10n when the user specifically asks for localization support.
-- If you're unsure whether to localize, ask first: "Mau pakai translation atau static text?"

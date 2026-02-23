@@ -49,7 +49,10 @@ class SummaryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appraisalId = ref.watch(currentAppraisalIdProvider);
+    // 1. In the new flow, the Appraisal has ALREADY been created on the previous screen
+    // `PhotoCategoryScreen` via `_handleSubmit()`. At this point, `currentAppraisalIdProvider`
+    // has the newly created ID.
+    final int? appraisalId = ref.watch(currentAppraisalIdProvider);
     if (appraisalId == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -71,9 +74,6 @@ class SummaryScreen extends ConsumerWidget {
           ),
           data: (state) {
             final appraisal = state.appraisal;
-            Future<void> onSubmit() => ref
-                .read(appraisalDetailNotifierProvider(appraisalId).notifier)
-                .submitAppraisal();
             final photos = appraisal.photos ?? [];
 
             return ScreenWrapper(
@@ -181,7 +181,16 @@ class SummaryScreen extends ConsumerWidget {
                     // * Submit button
                     AppButton(
                       text: 'Submit Appraisal',
-                      onPressed: onSubmit,
+                      onPressed: () {
+                        // The submission actually marks it submitted when doing PUT /appraisals/{id} with status=submitted
+                        ref
+                            .read(
+                              appraisalDetailNotifierProvider(
+                                appraisalId!,
+                              ).notifier,
+                            )
+                            .submitAppraisal();
+                      },
                       leadingIcon: Icon(
                         Icons.send_rounded,
                         color: context.colors.textOnPrimary,
