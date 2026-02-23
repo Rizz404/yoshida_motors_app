@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
@@ -26,9 +28,8 @@ class PhotoCategoryScreen extends ConsumerStatefulWidget {
 }
 
 class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
-
   bool _isSubmitting = false;
+  bool _isAddPhotoVisible = true;
 
   @override
   void dispose() {
@@ -39,6 +40,17 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     final formState = ref.read(appraisalFormProvider);
     if (formState == null) {
       AppToast.error('Appraisal form is not ready.');
+      return;
+    }
+
+    final labels = formState.photoLabels ?? [];
+    if (labels.isEmpty) {
+      AppToast.error('Please add at least one photo.');
+      return;
+    }
+
+    if (labels.any((label) => label.trim().isEmpty)) {
+      AppToast.error('Please enter a category name for all photos.');
       return;
     }
 
@@ -61,24 +73,25 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     });
   }
 
-  Future<void> _handleCamera(String categoryName) async {
-    if (categoryName.trim().isEmpty) {
-      AppToast.error('Please enter a category name first');
+  Future<void> _handleCamera() async {
+    final formState = ref.read(appraisalFormProvider);
+    final currentPhotosCount = formState?.photos?.length ?? 0;
+
+    if (currentPhotosCount >= 7) {
+      AppToast.error('Maksimal 7 foto telah tercapai.');
       return;
     }
-    ref.read(currentPhotoCategoryProvider.notifier).state = categoryName.trim();
+
+    ref.read(currentPhotoCategoryProvider.notifier).state = '';
     context.router.push(const CameraCaptureRoute());
   }
 
-  Future<void> _handleUpload(String categoryName, int currentCount) async {
-    if (categoryName.trim().isEmpty) {
-      AppToast.error('Please enter a category name first');
-      return;
-    }
+  Future<void> _handleUpload() async {
+    final formState = ref.read(appraisalFormProvider);
+    final currentPhotosCount = formState?.photos?.length ?? 0;
 
-    final maxAllowed = 7 - currentCount;
-    if (maxAllowed <= 0) {
-      AppToast.error('Maximum 7 photos reached for this category');
+    if (currentPhotosCount >= 7) {
+      AppToast.error('Maksimal 7 foto telah tercapai.');
       return;
     }
 
@@ -87,35 +100,29 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
 
     if (images.isEmpty) return;
 
-    if (images.length > maxAllowed) {
+    final availableSlots = 7 - currentPhotosCount;
+    final imagesToAdd = images.take(availableSlots).toList();
+    final imagesRejected = images.skip(availableSlots).toList();
+
+    for (final image in imagesToAdd) {
+      ref.read(appraisalFormProvider.notifier).addPhoto('', image.path);
+    }
+
+    if (imagesRejected.isNotEmpty) {
+      final rejectedNames = imagesRejected.map((e) => e.name).join(', ');
       AppToast.error(
-        'You can only upload $maxAllowed more photos for this category',
+        'Maksimal 7 foto. Foto berikut tidak ditambahkan: $rejectedNames',
       );
-      return;
     }
-
-    for (final image in images) {
-      ref
-          .read(appraisalFormProvider.notifier)
-          .addPhoto(categoryName.trim(), image.path);
-    }
-
-    _formKey.currentState?.fields['new_category']?.didChange(null);
   }
 
   @override
   Widget build(BuildContext context) {
     final formState = ref.watch(appraisalFormProvider);
 
-    // Group photos locally from the form state
-    final photoGroups = <String, int>{};
-    if (formState != null && formState.photoLabels != null) {
-      for (final label in formState.photoLabels!) {
-        photoGroups[label] = (photoGroups[label] ?? 0) + 1;
-      }
-    }
-
-    final hasAnyPhotos = photoGroups.isNotEmpty;
+    final photos = formState?.photos ?? [];
+    final labels = formState?.photoLabels ?? [];
+    final hasAnyPhotos = photos.isNotEmpty;
 
     return AppLoaderOverlay(
       child: Scaffold(
@@ -141,15 +148,15 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                   children: [
                     Icon(
                       Icons.warning_amber_rounded,
-                      color: context.semantic.warning,
+                      color: context.semantic.warningDark,
                       size: 20,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: AppText(
-                        'Peringatan: Pastikan foto yang diambil terlihat jelas, tidak blur, dan mencakup semua bagian yang diperlukan.',
+                        'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.',
                         style: AppTextStyle.bodySmall,
-                        color: context.colors.textPrimary,
+                        color: context.semantic.warningDark,
                       ),
                     ),
                   ],
@@ -158,71 +165,66 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
 
               const SizedBox(height: 24),
 
-              // * Add New Category Section
-              AppText('Add New Category', style: AppTextStyle.titleSmall),
-              const SizedBox(height: 12),
-              FormBuilder(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const AppTextField(
-                      name: 'new_category',
-                      label: 'Category Name',
-                      placeHolder: 'e.g., Mesin Kanan, Interior Depan',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText('Add New Photo', style: AppTextStyle.titleSmall),
+                  if (photos.length < 7)
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isAddPhotoVisible = !_isAddPhotoVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _isAddPhotoVisible
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        color: context.colors.textSecondary,
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppButton(
-                            text: 'Camera',
-                            variant: AppButtonVariant.outlined,
-                            onPressed: () {
-                              _formKey.currentState?.save();
-                              final val =
-                                  _formKey.currentState?.value['new_category']
-                                      as String?;
-                              _handleCamera(val ?? '');
-                            },
-                            leadingIcon: Icon(
-                              Icons.camera_alt_outlined,
-                              color: context.colorScheme.primary,
-                            ),
-                          ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              if (photos.length < 7 && _isAddPhotoVisible) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppButton(
+                        text: 'Camera',
+                        variant: AppButtonVariant.outlined,
+                        onPressed: () => _handleCamera(),
+                        leadingIcon: Icon(
+                          Icons.camera_alt_outlined,
+                          color: context.colorScheme.primary,
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: AppButton(
-                            text: 'Upload',
-                            variant: AppButtonVariant.outlined,
-                            onPressed: () {
-                              _formKey.currentState?.save();
-                              final val =
-                                  _formKey.currentState?.value['new_category']
-                                      as String?;
-                              _handleUpload(val ?? '', 0);
-                            },
-                            leadingIcon: Icon(
-                              Icons.upload_file_outlined,
-                              color: context.colorScheme.primary,
-                            ),
-                          ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppButton(
+                        text: 'Upload',
+                        variant: AppButtonVariant.outlined,
+                        onPressed: () => _handleUpload(),
+                        leadingIcon: Icon(
+                          Icons.upload_file_outlined,
+                          color: context.colorScheme.primary,
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-              const SizedBox(height: 24),
+                const SizedBox(height: 24),
+              ],
               const Divider(),
               const SizedBox(height: 16),
 
-              // * Uploaded Categories List
+              // * Uploaded Photos List
               AppText('Uploaded Photos', style: AppTextStyle.titleSmall),
               const SizedBox(height: 12),
 
-              if (photoGroups.isEmpty)
+              if (photos.isEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: Center(
@@ -235,15 +237,13 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
               else
                 Expanded(
                   child: ListView.separated(
-                    itemCount: photoGroups.length,
+                    itemCount: photos.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
-                      final category = photoGroups.keys.elementAt(index);
-                      final count = photoGroups[category]!;
-                      return _buildCategoryCard(
-                        context,
-                        name: category,
-                        count: count,
+                      return _PhotoCard(
+                        index: index,
+                        imagePath: photos[index],
+                        label: labels[index],
                         isLoading: _isSubmitting,
                       );
                     },
@@ -271,114 +271,28 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     );
   }
 
-  Widget _buildCategoryCard(
-    BuildContext context, {
-    required String name,
-    required int count,
-    required bool isLoading,
-  }) {
-    final isFull = count >= 7;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isFull ? context.semantic.successLight : context.colors.card,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isFull ? context.semantic.success : context.colors.border,
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: isFull
-                      ? context.semantic.success.withValues(alpha: 0.15)
-                      : context.colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  isFull
-                      ? Icons.check_circle_outline
-                      : Icons.photo_library_outlined,
-                  color: isFull
-                      ? context.semantic.success
-                      : context.colorScheme.primary,
-                  size: 24,
-                ),
+  void _showPhotoPreview(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(File(imagePath), fit: BoxFit.contain),
+            ),
+            IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close, color: Colors.white),
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.black.withValues(alpha: 0.5),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: AppText(
-                  name,
-                  style: AppTextStyle.bodyMedium,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: isFull
-                      ? context.semantic.success
-                      : context.colors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: AppText(
-                  '$count / 7',
-                  style: AppTextStyle.labelSmall,
-                  color: isFull
-                      ? context.colors.textOnPrimary
-                      : context.colors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          if (!isFull) ...[
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton.icon(
-                  onPressed: isLoading ? null : () => _handleCamera(name),
-                  icon: Icon(
-                    Icons.camera_alt_outlined,
-                    size: 18,
-                    color: context.colors.textSecondary,
-                  ),
-                  label: AppText(
-                    'Camera',
-                    style: AppTextStyle.labelMedium,
-                    color: context.colors.textSecondary,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                TextButton.icon(
-                  onPressed: isLoading
-                      ? null
-                      : () => _handleUpload(name, count),
-                  icon: Icon(
-                    Icons.upload_file_outlined,
-                    size: 18,
-                    color: context.colors.textSecondary,
-                  ),
-                  label: AppText(
-                    'Upload',
-                    style: AppTextStyle.labelMedium,
-                    color: context.colors.textSecondary,
-                  ),
-                ),
-              ],
             ),
           ],
-        ],
+        ),
       ),
     );
   }
@@ -459,6 +373,163 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
           fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
         ),
       ],
+    );
+  }
+}
+
+class _PhotoCard extends ConsumerStatefulWidget {
+  final int index;
+  final String imagePath;
+  final String label;
+  final bool isLoading;
+
+  const _PhotoCard({
+    required this.index,
+    required this.imagePath,
+    required this.label,
+    required this.isLoading,
+  });
+
+  @override
+  ConsumerState<_PhotoCard> createState() => _PhotoCardState();
+}
+
+class _PhotoCardState extends ConsumerState<_PhotoCard> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.label);
+  }
+
+  @override
+  void didUpdateWidget(covariant _PhotoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.label != widget.label && _controller.text != widget.label) {
+      _controller.text = widget.label;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _showPhotoPreview(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(File(imagePath), fit: BoxFit.contain),
+            ),
+            IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close, color: Colors.white),
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.black.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: context.colors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: context.colors.border),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Thumbnail with preview button
+          GestureDetector(
+            onTap: () => _showPhotoPreview(context, widget.imagePath),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(widget.imagePath),
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.zoom_in,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          // Category Name Field
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: _controller,
+                  enabled: !widget.isLoading,
+                  decoration: InputDecoration(
+                    labelText: 'Category Name',
+                    hintText: 'e.g., Mesin Kanan',
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    ref
+                        .read(appraisalFormProvider.notifier)
+                        .updatePhotoLabel(widget.index, value);
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          // Remove Button
+          IconButton(
+            onPressed: widget.isLoading
+                ? null
+                : () {
+                    ref
+                        .read(appraisalFormProvider.notifier)
+                        .removePhoto(widget.index);
+                  },
+            icon: Icon(Icons.delete_outline, color: context.semantic.error),
+            tooltip: 'Remove Photo',
+          ),
+        ],
+      ),
     );
   }
 }

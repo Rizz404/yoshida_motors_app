@@ -7,7 +7,9 @@ import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provi
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -48,14 +50,52 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
 
   Future<void> _usePhoto() async {
     final image = _capturedImage;
-    final category = ref.read(currentPhotoCategoryProvider);
+    String? category = ref.read(currentPhotoCategoryProvider);
 
-    if (image == null || category == null) return;
+    if (image == null) return;
 
-    ref.read(appraisalFormProvider.notifier).addPhoto(category, image.path);
+    ref
+        .read(appraisalFormProvider.notifier)
+        .addPhoto(category?.trim() ?? '', image.path);
 
     AppToast.success('Photo added');
     if (mounted) await context.router.maybePop();
+  }
+
+  Future<String?> _showCategoryNameDialog() async {
+    final formKey = GlobalKey<FormBuilderState>();
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.colors.surface,
+        title: AppText('Enter Category Name', style: AppTextStyle.titleSmall),
+        content: FormBuilder(
+          key: formKey,
+          child: const AppTextField(
+            name: 'category_name',
+            label: 'Category Name',
+            placeHolder: 'e.g., Mesin Kanan, Interior Depan',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: AppText('Cancel', color: context.colors.textSecondary),
+          ),
+          TextButton(
+            onPressed: () {
+              formKey.currentState?.save();
+              final val =
+                  formKey.currentState?.value['category_name'] as String?;
+              if (val != null && val.trim().isNotEmpty) {
+                Navigator.of(context).pop(val.trim());
+              }
+            },
+            child: AppText('Save', color: context.colorScheme.primary),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

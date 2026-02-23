@@ -63,6 +63,16 @@ class AppraisalFormNotifier extends StateNotifier<CreateAppraisalPayload?> {
     }
   }
 
+  void updatePhotoLabel(int index, String newLabel) {
+    if (state == null) return;
+
+    final currentLabels = List<String>.from(state!.photoLabels ?? []);
+    if (index >= 0 && index < currentLabels.length) {
+      currentLabels[index] = newLabel;
+      state = state!.copyWith(photoLabels: currentLabels);
+    }
+  }
+
   void clearForm() {
     state = null;
   }

@@ -186,7 +186,7 @@ class SummaryScreen extends ConsumerWidget {
                         ref
                             .read(
                               appraisalDetailNotifierProvider(
-                                appraisalId!,
+                                appraisalId,
                               ).notifier,
                             )
                             .submitAppraisal();
