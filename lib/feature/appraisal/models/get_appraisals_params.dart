@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:equatable/equatable.dart';
 
 class GetAppraisalsParams extends Equatable {
   final String? search;

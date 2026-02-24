@@ -10,11 +10,9 @@ import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
-import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -169,7 +167,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppText('Add New Photo', style: AppTextStyle.titleSmall),
+                  const AppText('Add New Photo', style: AppTextStyle.titleSmall),
                   if (photos.length < 7)
                     IconButton(
                       onPressed: () {
@@ -195,7 +193,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                       child: AppButton(
                         text: 'Camera',
                         variant: AppButtonVariant.outlined,
-                        onPressed: () => _handleCamera(),
+                        onPressed: _handleCamera,
                         leadingIcon: Icon(
                           Icons.camera_alt_outlined,
                           color: context.colorScheme.primary,
@@ -207,7 +205,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                       child: AppButton(
                         text: 'Upload',
                         variant: AppButtonVariant.outlined,
-                        onPressed: () => _handleUpload(),
+                        onPressed: _handleUpload,
                         leadingIcon: Icon(
                           Icons.upload_file_outlined,
                           color: context.colorScheme.primary,
@@ -222,7 +220,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
               const SizedBox(height: 16),
 
               // * Uploaded Photos List
-              AppText('Uploaded Photos', style: AppTextStyle.titleSmall),
+              const AppText('Uploaded Photos', style: AppTextStyle.titleSmall),
               const SizedBox(height: 12),
 
               if (photos.isEmpty)
@@ -257,7 +255,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
               AppButton(
                 text: 'Continue to Summary',
                 onPressed: hasAnyPhotos && !_isSubmitting
-                    ? () => _handleSubmit()
+                    ? _handleSubmit
                     : null,
                 trailingIcon: Icon(
                   Icons.arrow_forward_rounded,

@@ -75,6 +75,38 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ListAppraisalsScreen]
+class ListAppraisalsRoute extends PageRouteInfo<void> {
+  const ListAppraisalsRoute({List<PageRouteInfo>? children})
+    : super(ListAppraisalsRoute.name, initialChildren: children);
+
+  static const String name = 'ListAppraisalsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ListAppraisalsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ListNotificationsScreen]
+class ListNotificationsRoute extends PageRouteInfo<void> {
+  const ListNotificationsRoute({List<PageRouteInfo>? children})
+    : super(ListNotificationsRoute.name, initialChildren: children);
+
+  static const String name = 'ListNotificationsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ListNotificationsScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})

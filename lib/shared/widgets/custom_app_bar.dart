@@ -32,24 +32,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       style: AppTextStyle.titleMedium,
     );
 
-    // * MenuButton hanya ditampilkan jika actions kosong
-    final menuButton = Builder(
+    final defaultLeading = Builder(
       builder: (innerContext) => IconButton(
         icon: const Icon(Icons.menu),
         tooltip: context.l10n.customAppBarOpenMenu,
         onPressed: () {
-          Scaffold.of(innerContext).openEndDrawer();
+          Scaffold.of(innerContext).openDrawer();
         },
       ),
     );
 
-    final allActions = actions ?? [menuButton, const SizedBox(width: 4)];
-
     return AppBar(
       title: titleWidget,
-      actions: allActions,
+      actions: actions,
       automaticallyImplyLeading: automaticLeading,
-      leading: leading,
+      leading: leading ?? (automaticLeading ? defaultLeading : null),
       backgroundColor: backgroundColor,
       elevation: elevation,
       centerTitle: centerTitle,

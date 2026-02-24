@@ -58,6 +58,6 @@ class LatestAppraisalNotifier extends AsyncNotifier<LatestAppraisalState> {
 
   Future<void> refresh() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetchLatest());
+    state = await AsyncValue.guard(_fetchLatest);
   }
 }

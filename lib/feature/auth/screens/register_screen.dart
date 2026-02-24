@@ -161,7 +161,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                 const SizedBox(height: 24),
 
                 // * Title
-                AppText(
+                const AppText(
                   'Create Account',
                   style: AppTextStyle.headlineLarge,
                   fontWeight: FontWeight.bold,
@@ -236,7 +236,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        AppText(
+                        const AppText(
                           'Already have an account? ',
                           style: AppTextStyle.bodyMedium,
                         ),
@@ -361,7 +361,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             color: context.colors.textSecondary,
           ),
           const SizedBox(height: 16),
-          AppText(
+          const AppText(
             'Phone OTP Temporarily Disabled',
             style: AppTextStyle.titleMedium,
             fontWeight: FontWeight.w600,

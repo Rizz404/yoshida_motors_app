@@ -219,7 +219,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        AppText(
+                        const AppText(
                           "Don't have an account? ",
                           style: AppTextStyle.bodyMedium,
                         ),
@@ -298,7 +298,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             color: context.colors.textSecondary,
           ),
           const SizedBox(height: 16),
-          AppText(
+          const AppText(
             'Phone OTP Temporarily Disabled',
             style: AppTextStyle.titleMedium,
             fontWeight: FontWeight.w600,

@@ -219,7 +219,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                     '$number',
                     style: AppTextStyle.labelMedium,
                     fontWeight: FontWeight.bold,
-                    color: (isActive)
+                    color: isActive
                         ? context.colors.textOnPrimary
                         : context.colors.textTertiary,
                   ),
