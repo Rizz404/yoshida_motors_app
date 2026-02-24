@@ -1,77 +1,73 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 
 /// Service untuk handle navigation dari notification tap
 class NotificationNavigationService {
   const NotificationNavigationService();
 
-  /// Handle navigation berdasarkan notification data
-  /// * entityType/related_entity_type: asset, category, location, user, asset_movement, maintenance_schedule, maintenance_record, issue_report, scan_log
-  /// * entityId/related_entity_id: ID dari entity yang bersangkutan
+  /// Handle navigation berdasarkan notification data (FCM payload)
+  /// * type: appraisal_created, appraisal_updated, appraisal_submitted
+  /// * appraisal_id: ID dari appraisal yang bersangkutan
   void handleNotificationNavigation(
     StackRouter router,
-    Map<String, String> data,
-  ) {
+    Map<String, String> data, {
+    void Function(int appraisalId)? onSetAppraisalId,
+  }) {
     try {
-      // * Support both formats: camelCase (legacy) and snake_case (FCM)
-      final entityType = data['entityType'] ?? data['related_entity_type'];
-      final entityId = data['entityId'] ?? data['related_entity_id'];
+      final type = data['type'];
 
-      if (entityType == null || entityId == null) {
-        logger.info('No navigation data in notification: $data');
+      if (type == null) {
+        logger.info('No notification type in data: $data');
         return;
       }
 
-      logger.info('Navigating to $entityType with ID: $entityId');
+      logger.info('Handling notification type: $type');
 
-      // * Mapping entity type ke route dengan path parameter
-      switch (entityType.toLowerCase()) {
-        // case 'asset':
-        //   router.push('/asset/$entityId');
-        //   break;
-
-        // case 'category':
-        //   router.push('/category/$entityId');
-        //   break;
-
-        // case 'location':
-        //   router.push('/location/$entityId');
-        //   break;
-
-        // case 'user':
-        //   router.push('/user/$entityId');
-        //   break;
-
-        // case 'asset_movement':
-        //   router.push('/asset-movement/$entityId');
-        //   break;
-
-        // case 'maintenance_schedule':
-        //   router.push('/maintenance-schedule/$entityId');
-        //   break;
-
-        // case 'maintenance_record':
-        //   router.push('/maintenance-record/$entityId');
-        //   break;
-
-        // case 'issue_report':
-        //   router.push('/issue-report/$entityId');
-        //   break;
-
-        // case 'scan_log':
-        //   router.push('/scan-log/$entityId');
-        //   break;
+      switch (type) {
+        case 'appraisal_created':
+        case 'appraisal_updated':
+        case 'appraisal_submitted':
+          _navigateToAppraisalResult(router, data, onSetAppraisalId);
+          break;
 
         default:
-          logger.info('Unknown entity type: $entityType');
+          logger.info('Unknown notification type: $type');
       }
     } catch (e, s) {
       logger.error('Failed to navigate from notification', e, s);
     }
   }
 
+  // * Navigate ke AppraisalResultScreen
+  void _navigateToAppraisalResult(
+    StackRouter router,
+    Map<String, String> data,
+    void Function(int appraisalId)? onSetAppraisalId,
+  ) {
+    final appraisalIdStr = data['appraisal_id'];
+
+    if (appraisalIdStr == null) {
+      logger.info('No appraisal_id in notification data');
+      return;
+    }
+
+    final appraisalId = int.tryParse(appraisalIdStr);
+
+    if (appraisalId == null) {
+      logger.info('Invalid appraisal_id: $appraisalIdStr');
+      return;
+    }
+
+    // * Set appraisal ID via callback sebelum navigate
+    onSetAppraisalId?.call(appraisalId);
+
+    router.push(const AppraisalResultRoute());
+    logger.info('Navigated to AppraisalResultScreen with ID: $appraisalId');
+  }
+
   /// Parse payload dari local notification
-  /// Format: entityType=asset&entityId=123&assetId=456
+  /// Format: type=appraisal_updated&appraisal_id=123
   Map<String, String> parsePayload(String? payload) {
     if (payload == null || payload.isEmpty) return {};
 

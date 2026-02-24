@@ -49,7 +49,18 @@ class ApiConstant {
   // DELETE /appraisals/{id} (Delete)
   static String deleteAppraisal(String id) => '$appraisalPrefix/$id';
 
-  // * APPRAISAL ACTIONS (Submit)
+  // * SHORTCUTS
   // POST /appraisals/{id}/submit
   static String submitAppraisal(String id) => '$appraisalPrefix/$id/submit';
+
+  // * NOTIFICATIONS
+  static const String notificationPrefix = '$baseUrl/notifications';
+  // GET /notifications
+  static const String getNotifications = notificationPrefix;
+  // PUT /notifications/{id}/mark-read
+  static String markNotificationRead(String id) =>
+      '$notificationPrefix/$id/mark-read';
+  // PUT /notifications/mark-all-read
+  static const String markAllNotificationsRead =
+      '$notificationPrefix/mark-all-read';
 }

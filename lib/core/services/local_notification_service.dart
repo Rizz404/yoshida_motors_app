@@ -24,7 +24,7 @@ class LocalNotificationService {
         'car_rongsok_app_default', // id
         'Default Notifications', // name
         description: 'General notifications from Yoshida Motors',
-        importance: Importance.max,
+        importance: Importance.defaultImportance,
         enableVibration: true,
         playSound: true,
         showBadge: true,

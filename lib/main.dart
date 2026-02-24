@@ -5,6 +5,7 @@ import 'package:car_rongsok_app/core/router/app_router.dart';
 import 'package:car_rongsok_app/core/themes/app_theme.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/di/common_providers.dart';
 import 'package:car_rongsok_app/di/service_providers.dart';
 import 'package:car_rongsok_app/firebase_options.dart';
@@ -187,7 +188,13 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final router = ref.read(appRouterProvider);
       final navigationService = ref.read(notificationNavigationServiceProvider);
-      navigationService.handleNotificationNavigation(router, dataString);
+      navigationService.handleNotificationNavigation(
+        router,
+        dataString,
+        onSetAppraisalId: (id) {
+          ref.read(currentAppraisalIdProvider.notifier).state = id;
+        },
+      );
     });
   }
 
@@ -202,7 +209,13 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
 
       // * Navigate to relevant screen
       final router = ref.read(appRouterProvider);
-      navigationService.handleNotificationNavigation(router, params);
+      navigationService.handleNotificationNavigation(
+        router,
+        params,
+        onSetAppraisalId: (id) {
+          ref.read(currentAppraisalIdProvider.notifier).state = id;
+        },
+      );
     }
   }
 
@@ -225,7 +238,13 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
         // * Delay navigation sampai router dan auth state ready
         WidgetsBinding.instance.addPostFrameCallback((_) {
           final router = ref.read(appRouterProvider);
-          navigationService.handleNotificationNavigation(router, params);
+          navigationService.handleNotificationNavigation(
+            router,
+            params,
+            onSetAppraisalId: (id) {
+              ref.read(currentAppraisalIdProvider.notifier).state = id;
+            },
+          );
         });
       }
     }
