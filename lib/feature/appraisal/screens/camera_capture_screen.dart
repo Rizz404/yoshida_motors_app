@@ -5,6 +5,7 @@ import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
@@ -149,7 +150,12 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                     child: Container(
                       width: double.infinity,
                       color: Colors.black,
-                      child: Image.file(_capturedImage!, fit: BoxFit.contain),
+                      child: AppImage(
+                        imageFile: _capturedImage!,
+                        fit: BoxFit.contain,
+                        size: ImageSize.fullWidth,
+                        height: double.infinity,
+                      ),
                     ),
                   ),
 

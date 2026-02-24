@@ -7,6 +7,7 @@ import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
@@ -271,32 +272,6 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     );
   }
 
-  void _showPhotoPreview(BuildContext context, String imagePath) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(16),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.file(File(imagePath), fit: BoxFit.contain),
-            ),
-            IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close, color: Colors.white),
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.black.withValues(alpha: 0.5),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildStepIndicatorPhotos(BuildContext context) {
     const steps = ['Info', 'Photos', 'Summary'];
     return Row(
@@ -417,32 +392,6 @@ class _PhotoCardState extends ConsumerState<_PhotoCard> {
     super.dispose();
   }
 
-  void _showPhotoPreview(BuildContext context, String imagePath) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(16),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.file(File(imagePath), fit: BoxFit.contain),
-            ),
-            IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close, color: Colors.white),
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.black.withValues(alpha: 0.5),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -456,21 +405,21 @@ class _PhotoCardState extends ConsumerState<_PhotoCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Thumbnail with preview button
-          GestureDetector(
-            onTap: () => _showPhotoPreview(context, widget.imagePath),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.file(
-                    File(widget.imagePath),
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: AppImage(
+                  imageFile: File(widget.imagePath),
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                  enablePreview: true,
                 ),
-                Container(
+              ),
+              IgnorePointer(
+                child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
@@ -482,8 +431,8 @@ class _PhotoCardState extends ConsumerState<_PhotoCard> {
                     size: 20,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SizedBox(width: 16),
           // Category Name Field

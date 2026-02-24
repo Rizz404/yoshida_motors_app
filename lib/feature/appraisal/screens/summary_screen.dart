@@ -258,6 +258,7 @@ class SummaryScreen extends ConsumerWidget {
               fit: BoxFit.cover,
               shape: ImageShape.rectangle,
               size: ImageSize.fullWidth,
+              enablePreview: true,
             ),
           ),
         ),

@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
@@ -15,6 +17,11 @@ import 'package:intl/intl.dart';
 @RoutePage()
 class AppraisalResultScreen extends ConsumerWidget {
   const AppraisalResultScreen({super.key});
+
+  String _resolveUrl(String path) {
+    if (path.startsWith('http')) return path;
+    return 'https://yoshida-motors-admin.fts.biz.id/$path';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -125,6 +132,35 @@ class AppraisalResultScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     _buildVehicleDetails(context, appraisal),
                     const SizedBox(height: 24),
+
+                    // * Photos
+                    if (appraisal.photos != null &&
+                        appraisal.photos!.isNotEmpty) ...[
+                      AppText(
+                        'Photos (${appraisal.photos!.length})',
+                        style: AppTextStyle.titleSmall,
+                        fontWeight: FontWeight.w600,
+                        color: context.colors.textSecondary,
+                      ),
+                      const SizedBox(height: 8),
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: 1.1,
+                            ),
+                        itemCount: appraisal.photos!.length,
+                        itemBuilder: (context, index) => _buildPhotoThumbnail(
+                          context,
+                          photo: appraisal.photos![index],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
 
                     // * Contact us (if under appraisal)
                     if (isUnderAppraisal)
@@ -367,6 +403,36 @@ class AppraisalResultScreen extends ConsumerWidget {
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _buildPhotoThumbnail(
+    BuildContext context, {
+    required AppraisalPhoto photo,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: AppImage(
+              imageUrl: _resolveUrl(photo.imagePath),
+              fit: BoxFit.cover,
+              shape: ImageShape.rectangle,
+              size: ImageSize.fullWidth,
+              enablePreview: true,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        AppText(
+          photo.categoryName,
+          style: AppTextStyle.labelSmall,
+          color: context.colors.textSecondary,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

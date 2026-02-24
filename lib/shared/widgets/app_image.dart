@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +25,11 @@ class AppImage extends StatelessWidget {
   final ImageSize size;
   final String? imageUrl;
   final String? assetPath;
+  final File? imageFile;
   final Widget? placeholder;
   final Widget? errorWidget;
   final VoidCallback? onTap;
+  final bool enablePreview;
   final bool showBorder;
   final Color? borderColor;
   final double? borderWidth;
@@ -42,9 +46,11 @@ class AppImage extends StatelessWidget {
     this.size = ImageSize.medium,
     this.imageUrl,
     this.assetPath,
+    this.imageFile,
     this.placeholder,
     this.errorWidget,
     this.onTap,
+    this.enablePreview = false,
     this.showBorder = false,
     this.borderColor,
     this.borderWidth,
@@ -115,6 +121,20 @@ class AppImage extends StatelessWidget {
               color: theme.colorScheme.error,
             ),
       );
+    } else if (imageFile != null) {
+      imageWidget = Image.file(
+        imageFile!,
+        width: effectiveWidth,
+        height: effectiveHeight,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) =>
+            errorWidget ??
+            Icon(
+              Icons.broken_image,
+              size: effectiveWidth * 0.5,
+              color: theme.colorScheme.error,
+            ),
+      );
     } else {
       imageWidget =
           placeholder ??
@@ -150,9 +170,79 @@ class AppImage extends StatelessWidget {
       child: ClipRRect(borderRadius: borderRadius, child: imageWidget),
     );
 
-    if (onTap != null) {
+    void handleTap() {
+      if (onTap != null) {
+        onTap!();
+      } else if (enablePreview) {
+        Widget? previewImage;
+        if (_isNetworkImage) {
+          previewImage = CachedNetworkImage(
+            imageUrl: imageUrl!,
+            fit: BoxFit.contain,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            ),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.broken_image, color: Colors.white, size: 48),
+          );
+        } else if (assetPath != null) {
+          previewImage = Image.asset(assetPath!, fit: BoxFit.contain);
+        } else if (imageFile != null) {
+          previewImage = Image.file(imageFile!, fit: BoxFit.contain);
+        }
+
+        if (previewImage != null) {
+          showDialog(
+            context: context,
+            builder: (context) => Dialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.zero,
+              child: Stack(
+                fit: StackFit.loose,
+                alignment: Alignment.center,
+                children: [
+                  InteractiveViewer(
+                    panEnabled: true,
+                    minScale: 1.0,
+                    maxScale: 4.0,
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.black.withValues(alpha: 0.8),
+                        child: previewImage,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: SafeArea(
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      }
+    }
+
+    if (onTap != null || enablePreview) {
       return InkWell(
-        onTap: onTap,
+        onTap: handleTap,
         borderRadius: borderRadius,
         child: container,
       );
