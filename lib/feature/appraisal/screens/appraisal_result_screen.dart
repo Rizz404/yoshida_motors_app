@@ -57,8 +57,10 @@ class AppraisalResultScreen extends ConsumerWidget {
           ),
           data: (state) {
             final appraisal = state.appraisal;
-            final isPriceDetermined = appraisal.status == 'price_determined';
-            final isUnderAppraisal = appraisal.status == 'under_appraisal';
+            final isPriceDetermined =
+                appraisal.status == AppraisalStatus.completed;
+            final isUnderAppraisal =
+                appraisal.status == AppraisalStatus.underReview;
 
             return ScreenWrapper(
               child: SingleChildScrollView(
@@ -95,7 +97,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                     ],
 
                     // * Admin notes
-                    if (appraisal.adminNotes?.isNotEmpty == true) ...[
+                    if (appraisal.adminNote?.isNotEmpty == true) ...[
                       AppText(
                         'Admin Notes',
                         style: AppTextStyle.titleSmall,
@@ -114,7 +116,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                           ),
                         ),
                         child: AppText(
-                          appraisal.adminNotes!,
+                          appraisal.adminNote!,
                           style: AppTextStyle.bodySmall,
                           color: context.colors.textPrimary,
                         ),
@@ -185,7 +187,7 @@ class AppraisalResultScreen extends ConsumerWidget {
   }
 
   Widget _buildStatusBanner(BuildContext context, AppraisalRequest appraisal) {
-    final isPriceDetermined = appraisal.status == 'price_determined';
+    final isPriceDetermined = appraisal.status == AppraisalStatus.completed;
 
     final bgColor = isPriceDetermined
         ? context.semantic.successLight
@@ -359,6 +361,9 @@ class AppraisalResultScreen extends ConsumerWidget {
       ('Brand', appraisal.vehicleBrand),
       ('Model', appraisal.vehicleModel),
       ('Year', '${appraisal.yearManufacture}'),
+      if (appraisal.licensePlate?.isNotEmpty == true)
+        ('License Plate', appraisal.licensePlate!),
+      if (appraisal.mileage != null) ('Mileage', '${appraisal.mileage} km'),
       if (appraisal.description?.isNotEmpty == true)
         ('Notes', appraisal.description!),
     ];

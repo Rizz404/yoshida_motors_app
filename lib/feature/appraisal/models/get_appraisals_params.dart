@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 
 class GetAppraisalsParams extends Equatable {
   final String? search;
-  final String? status;
+  final AppraisalStatus? status;
   final int? yearMin;
   final int? yearMax;
   final String? sortBy;
@@ -25,7 +26,7 @@ class GetAppraisalsParams extends Equatable {
   Map<String, dynamic> toQueryParams() {
     return <String, dynamic>{
       if (search != null) 'search': search,
-      if (status != null) 'status': status,
+      if (status != null) 'status': status!.value,
       if (yearMin != null) 'year_min': yearMin,
       if (yearMax != null) 'year_max': yearMax,
       if (sortBy != null) 'sort_by': sortBy,
@@ -37,7 +38,7 @@ class GetAppraisalsParams extends Equatable {
 
   GetAppraisalsParams copyWith({
     String? search,
-    String? status,
+    AppraisalStatus? status,
     int? yearMin,
     int? yearMax,
     String? sortBy,

@@ -10,6 +10,8 @@ class CreateAppraisalPayload extends Equatable {
   final String vehicleModel;
   final int yearManufacture;
   final String? description;
+  final String? licensePlate;
+  final int? mileage;
   final List<String>? photos;
   final List<String>? photoLabels;
 
@@ -18,6 +20,8 @@ class CreateAppraisalPayload extends Equatable {
     required this.vehicleModel,
     required this.yearManufacture,
     this.description,
+    this.licensePlate,
+    this.mileage,
     this.photos,
     this.photoLabels,
   });
@@ -27,6 +31,8 @@ class CreateAppraisalPayload extends Equatable {
     String? vehicleModel,
     int? yearManufacture,
     String? description,
+    String? licensePlate,
+    int? mileage,
     List<String>? photos,
     List<String>? photoLabels,
   }) {
@@ -35,6 +41,8 @@ class CreateAppraisalPayload extends Equatable {
       vehicleModel: vehicleModel ?? this.vehicleModel,
       yearManufacture: yearManufacture ?? this.yearManufacture,
       description: description ?? this.description,
+      licensePlate: licensePlate ?? this.licensePlate,
+      mileage: mileage ?? this.mileage,
       photos: photos ?? this.photos,
       photoLabels: photoLabels ?? this.photoLabels,
     );
@@ -46,6 +54,8 @@ class CreateAppraisalPayload extends Equatable {
       'vehicle_model': vehicleModel,
       'year_manufacture': yearManufacture,
       if (description != null) 'description': description,
+      if (licensePlate != null) 'license_plate': licensePlate,
+      if (mileage != null) 'mileage': mileage,
     };
   }
 
@@ -75,6 +85,8 @@ class CreateAppraisalPayload extends Equatable {
       vehicleModel: map.getField<String>('vehicle_model'),
       yearManufacture: map.getField<int>('year_manufacture'),
       description: map.getFieldOrNull<String>('description'),
+      licensePlate: map.getFieldOrNull<String>('license_plate'),
+      mileage: map.getFieldOrNull<int>('mileage'),
     );
   }
 
@@ -94,6 +106,8 @@ class CreateAppraisalPayload extends Equatable {
     vehicleModel,
     yearManufacture,
     description,
+    licensePlate,
+    mileage,
     photos,
     photoLabels,
   ];

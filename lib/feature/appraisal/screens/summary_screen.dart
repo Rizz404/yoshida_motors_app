@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
@@ -34,7 +35,7 @@ class SummaryScreen extends ConsumerWidget {
       if (previous?.value?.isMutating == true && !state.isMutating) {
         if (state.mutationError != null) {
           AppToast.error(state.mutationError?.message ?? 'Submission failed');
-        } else if (state.appraisal.status == 'submitted') {
+        } else if (state.appraisal.status == AppraisalStatus.submitted) {
           AppToast.success('Appraisal submitted successfully!');
           context.router.replaceAll([const AppShellRoute()]);
         }
@@ -118,6 +119,18 @@ class SummaryScreen extends ConsumerWidget {
                             label: 'Year',
                             value: '${appraisal.yearManufacture}',
                           ),
+                          if (appraisal.licensePlate?.isNotEmpty == true)
+                            _buildInfoRow(
+                              context,
+                              label: 'License Plate',
+                              value: appraisal.licensePlate!,
+                            ),
+                          if (appraisal.mileage != null)
+                            _buildInfoRow(
+                              context,
+                              label: 'Mileage',
+                              value: '${appraisal.mileage} km',
+                            ),
                           if (appraisal.description?.isNotEmpty == true)
                             _buildInfoRow(
                               context,

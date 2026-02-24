@@ -29,12 +29,16 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
 
     final formData = _formKey.currentState!.value;
 
+    final mileageString = formData['mileage'] as String?;
+
     ref
         .read(appraisalFormProvider.notifier)
         .setVehicleInfo(
           brand: (formData['vehicle_brand'] as String).trim(),
           model: (formData['vehicle_model'] as String).trim(),
           year: int.parse((formData['year_manufacture'] as String).trim()),
+          licensePlate: (formData['license_plate'] as String?)?.trim(),
+          mileage: mileageString != null ? int.tryParse(mileageString) : null,
           description: (formData['description'] as String?)?.trim(),
         );
 
@@ -93,6 +97,29 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                           color: context.colors.primary,
                         ),
                         validator: VehicleInfoValidators.yearManufacture(),
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextField(
+                        name: 'license_plate',
+                        label: 'License Plate (Optional)',
+                        placeHolder: 'B 1234 ABC',
+                        prefixIcon: Icon(
+                          Icons.pin_outlined,
+                          color: context.colors.primary,
+                        ),
+                        // Optionally add a validator if it's required later
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextField(
+                        name: 'mileage',
+                        label: 'Mileage (Optional)',
+                        placeHolder: '50000',
+                        type: AppTextFieldType.number,
+                        prefixIcon: Icon(
+                          Icons.speed_outlined,
+                          color: context.colors.primary,
+                        ),
+                        // Optionally add a validator if it's required later
                       ),
                       const SizedBox(height: 16),
                       AppTextField(

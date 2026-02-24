@@ -29,3 +29,27 @@ enum UserRole {
     }
   }
 }
+
+enum AppraisalStatus {
+  draft('draft'),
+  submitted('submitted'),
+  underReview('under_review'),
+  completed('completed');
+
+  const AppraisalStatus(this.value);
+
+  final String value;
+
+  String get label {
+    switch (this) {
+      case AppraisalStatus.draft:
+        return 'Draft';
+      case AppraisalStatus.submitted:
+        return 'Submitted';
+      case AppraisalStatus.underReview:
+        return 'Under Review';
+      case AppraisalStatus.completed:
+        return 'Completed';
+    }
+  }
+}

@@ -10,6 +10,8 @@ class UpdateAppraisalPayload extends Equatable {
   final String? vehicleModel;
   final int? yearManufacture;
   final String? description;
+  final String? licensePlate;
+  final int? mileage;
   final List<String>? newPhotos;
   final List<String>? newPhotoLabels;
   final List<int>? deletePhotos;
@@ -19,6 +21,8 @@ class UpdateAppraisalPayload extends Equatable {
     this.vehicleModel,
     this.yearManufacture,
     this.description,
+    this.licensePlate,
+    this.mileage,
     this.newPhotos,
     this.newPhotoLabels,
     this.deletePhotos,
@@ -29,6 +33,8 @@ class UpdateAppraisalPayload extends Equatable {
     String? vehicleModel,
     int? yearManufacture,
     String? description,
+    String? licensePlate,
+    int? mileage,
     List<String>? newPhotos,
     List<String>? newPhotoLabels,
     List<int>? deletePhotos,
@@ -38,6 +44,8 @@ class UpdateAppraisalPayload extends Equatable {
       vehicleModel: vehicleModel ?? this.vehicleModel,
       yearManufacture: yearManufacture ?? this.yearManufacture,
       description: description ?? this.description,
+      licensePlate: licensePlate ?? this.licensePlate,
+      mileage: mileage ?? this.mileage,
       newPhotos: newPhotos ?? this.newPhotos,
       newPhotoLabels: newPhotoLabels ?? this.newPhotoLabels,
       deletePhotos: deletePhotos ?? this.deletePhotos,
@@ -50,6 +58,8 @@ class UpdateAppraisalPayload extends Equatable {
       if (vehicleModel != null) 'vehicle_model': vehicleModel,
       if (yearManufacture != null) 'year_manufacture': yearManufacture,
       if (description != null) 'description': description,
+      if (licensePlate != null) 'license_plate': licensePlate,
+      if (mileage != null) 'mileage': mileage,
     };
   }
 
@@ -85,6 +95,8 @@ class UpdateAppraisalPayload extends Equatable {
       vehicleModel: map.getFieldOrNull<String>('vehicle_model'),
       yearManufacture: map.getFieldOrNull<int>('year_manufacture'),
       description: map.getFieldOrNull<String>('description'),
+      licensePlate: map.getFieldOrNull<String>('license_plate'),
+      mileage: map.getFieldOrNull<int>('mileage'),
     );
   }
 
@@ -104,6 +116,8 @@ class UpdateAppraisalPayload extends Equatable {
     vehicleModel,
     yearManufacture,
     description,
+    licensePlate,
+    mileage,
     newPhotos,
     newPhotoLabels,
     deletePhotos,

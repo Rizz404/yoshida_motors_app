@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:equatable/equatable.dart';
@@ -12,9 +13,12 @@ class AppraisalRequest extends Equatable {
   final String vehicleModel;
   final int yearManufacture;
   final String? description;
-  final String status;
+  final String? licensePlate;
+  final int? mileage;
+  final AppraisalStatus status;
   final double? finalPrice;
-  final String? adminNotes;
+  final String? adminNote;
+  final DateTime? priceValidUntil;
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<AppraisalPhoto>? photos;
@@ -26,9 +30,12 @@ class AppraisalRequest extends Equatable {
     required this.vehicleModel,
     required this.yearManufacture,
     this.description,
+    this.licensePlate,
+    this.mileage,
     required this.status,
     this.finalPrice,
-    this.adminNotes,
+    this.adminNote,
+    this.priceValidUntil,
     required this.createdAt,
     required this.updatedAt,
     this.photos,
@@ -41,9 +48,12 @@ class AppraisalRequest extends Equatable {
     String? vehicleModel,
     int? yearManufacture,
     String? description,
-    String? status,
+    String? licensePlate,
+    int? mileage,
+    AppraisalStatus? status,
     double? finalPrice,
-    String? adminNotes,
+    String? adminNote,
+    DateTime? priceValidUntil,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<AppraisalPhoto>? photos,
@@ -55,9 +65,12 @@ class AppraisalRequest extends Equatable {
       vehicleModel: vehicleModel ?? this.vehicleModel,
       yearManufacture: yearManufacture ?? this.yearManufacture,
       description: description ?? this.description,
+      licensePlate: licensePlate ?? this.licensePlate,
+      mileage: mileage ?? this.mileage,
       status: status ?? this.status,
       finalPrice: finalPrice ?? this.finalPrice,
-      adminNotes: adminNotes ?? this.adminNotes,
+      adminNote: adminNote ?? this.adminNote,
+      priceValidUntil: priceValidUntil ?? this.priceValidUntil,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       photos: photos ?? this.photos,
@@ -72,9 +85,13 @@ class AppraisalRequest extends Equatable {
       'vehicle_model': vehicleModel,
       'year_manufacture': yearManufacture,
       if (description != null) 'description': description,
-      'status': status,
+      if (licensePlate != null) 'license_plate': licensePlate,
+      if (mileage != null) 'mileage': mileage,
+      'status': status.value,
       if (finalPrice != null) 'final_price': finalPrice,
-      if (adminNotes != null) 'admin_notes': adminNotes,
+      if (adminNote != null) 'admin_note': adminNote,
+      if (priceValidUntil != null)
+        'price_valid_until': priceValidUntil?.toIso8601String(),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       if (photos != null) 'photos': photos!.map((x) => x.toMap()).toList(),
@@ -89,9 +106,15 @@ class AppraisalRequest extends Equatable {
       vehicleModel: map.getField<String>('vehicle_model'),
       yearManufacture: map.getField<int>('year_manufacture'),
       description: map.getFieldOrNull<String>('description'),
-      status: map.getField<String>('status'),
+      licensePlate: map.getFieldOrNull<String>('license_plate'),
+      mileage: map.getFieldOrNull<int>('mileage'),
+      status: AppraisalStatus.values.firstWhere(
+        (e) => e.value == map['status'],
+        orElse: () => AppraisalStatus.draft,
+      ),
       finalPrice: map.getFieldOrNull<double>('final_price'),
-      adminNotes: map.getFieldOrNull<String>('admin_notes'),
+      adminNote: map.getFieldOrNull<String>('admin_note'),
+      priceValidUntil: map.getFieldOrNull<DateTime>('price_valid_until'),
       createdAt: map.getField<DateTime>('created_at'),
       updatedAt: map.getField<DateTime>('updated_at'),
       photos: map['photos'] != null
@@ -122,9 +145,12 @@ class AppraisalRequest extends Equatable {
     vehicleModel,
     yearManufacture,
     description,
+    licensePlate,
+    mileage,
     status,
     finalPrice,
-    adminNotes,
+    adminNote,
+    priceValidUntil,
     createdAt,
     updatedAt,
     photos,

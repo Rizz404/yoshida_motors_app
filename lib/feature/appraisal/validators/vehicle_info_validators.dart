@@ -18,6 +18,21 @@ class VehicleInfoValidators {
     ]);
   }
 
+  /// Validator untuk license plate
+  static String? Function(String?) licensePlate() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(errorText: 'License plate is required'),
+    ]);
+  }
+
+  /// Validator untuk mileage
+  static String? Function(String?) mileage() {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(errorText: 'Mileage is required'),
+      FormBuilderValidators.numeric(errorText: 'Mileage must be a number'),
+    ]);
+  }
+
   /// Validator untuk year of manufacture
   static String? Function(String?) yearManufacture() {
     return (val) {

@@ -11,6 +11,7 @@ class User extends Equatable {
   final String? phoneNumber;
   final String? name;
   final String? email;
+  final DateTime? emailVerifiedAt;
   final String? address;
   final UserRole role;
   final String? fcmToken;
@@ -23,6 +24,7 @@ class User extends Equatable {
     required this.phoneNumber,
     required this.name,
     required this.email,
+    this.emailVerifiedAt,
     required this.address,
     required this.role,
     required this.fcmToken,
@@ -36,6 +38,7 @@ class User extends Equatable {
     String? phoneNumber,
     String? name,
     String? email,
+    DateTime? emailVerifiedAt,
     String? address,
     UserRole? role,
     String? fcmToken,
@@ -48,6 +51,7 @@ class User extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       name: name ?? this.name,
       email: email ?? this.email,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
       address: address ?? this.address,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
@@ -63,6 +67,7 @@ class User extends Equatable {
       'phone_number': phoneNumber,
       'name': name,
       'email': email,
+      'email_verified_at': emailVerifiedAt?.toIso8601String(),
       'address': address,
       'role': role.value,
       'fcm_token': fcmToken,
@@ -78,6 +83,7 @@ class User extends Equatable {
       phoneNumber: map.getFieldOrNull<String>('phone_number'),
       name: map.getFieldOrNull<String>('name'),
       email: map.getFieldOrNull<String>('email'),
+      emailVerifiedAt: map.getFieldOrNull<DateTime>('email_verified_at'),
       address: map.getFieldOrNull<String>('address'),
       role: UserRole.values.firstWhere((e) => e.value == map['role']),
       fcmToken: map.getFieldOrNull<String>('fcm_token'),
@@ -102,6 +108,7 @@ class User extends Equatable {
       phoneNumber,
       name,
       email,
+      emailVerifiedAt,
       address,
       role,
       fcmToken,

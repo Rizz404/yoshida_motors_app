@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
@@ -234,19 +235,13 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Color _statusColor(BuildContext context, String status) => switch (status) {
-    'draft' => context.colors.textTertiary,
-    'submitted' => context.colorScheme.primary,
-    'under_appraisal' => context.colors.accent,
-    'price_determined' => context.semantic.success,
-    _ => context.colors.textTertiary,
-  };
+  Color _statusColor(BuildContext context, AppraisalStatus status) =>
+      switch (status) {
+        AppraisalStatus.draft => context.colors.textTertiary,
+        AppraisalStatus.submitted => context.colorScheme.primary,
+        AppraisalStatus.underReview => context.colors.accent,
+        AppraisalStatus.completed => context.semantic.success,
+      };
 
-  String _statusLabel(String status) => switch (status) {
-    'draft' => 'Draft',
-    'submitted' => 'Submitted',
-    'under_appraisal' => 'Under Appraisal',
-    'price_determined' => 'Price Determined',
-    _ => status,
-  };
+  String _statusLabel(AppraisalStatus status) => status.label;
 }

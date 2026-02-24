@@ -23,12 +23,16 @@ class AppraisalFormNotifier extends StateNotifier<CreateAppraisalPayload?> {
     required String brand,
     required String model,
     required int year,
+    String? licensePlate,
+    int? mileage,
     String? description,
   }) {
     state = CreateAppraisalPayload(
       vehicleBrand: brand,
       vehicleModel: model,
       yearManufacture: year,
+      licensePlate: licensePlate,
+      mileage: mileage,
       description: description,
       photos: [],
       photoLabels: [],
