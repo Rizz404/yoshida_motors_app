@@ -18,6 +18,7 @@ class AppDrawer extends ConsumerWidget {
     final authState = ref.watch(authNotifierProvider);
 
     return Drawer(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: authState.when(
         data: (state) {
           if (state.status != AuthStatus.authenticated) {

@@ -167,7 +167,10 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppText('Add New Photo', style: AppTextStyle.titleSmall),
+                  const AppText(
+                    'Add New Photo',
+                    style: AppTextStyle.titleSmall,
+                  ),
                   if (photos.length < 7)
                     IconButton(
                       onPressed: () {

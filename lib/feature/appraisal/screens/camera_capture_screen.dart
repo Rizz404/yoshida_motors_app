@@ -69,7 +69,10 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
-        title: const AppText('Enter Category Name', style: AppTextStyle.titleSmall),
+        title: const AppText(
+          'Enter Category Name',
+          style: AppTextStyle.titleSmall,
+        ),
         content: FormBuilder(
           key: formKey,
           child: const AppTextField(

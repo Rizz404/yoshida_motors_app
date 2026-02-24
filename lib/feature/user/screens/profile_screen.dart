@@ -8,7 +8,6 @@ import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
-import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -74,7 +73,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'My Profile'),
+        // * NOTE: AppBar dan Drawer sekarang di-handle oleh AppShellScreen (routes.dart)
         body: profileAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(

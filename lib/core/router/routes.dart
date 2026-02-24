@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/app_transitions.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/appraisal_result_screen.dart';
@@ -12,7 +13,11 @@ import 'package:car_rongsok_app/feature/auth/screens/register_screen.dart';
 import 'package:car_rongsok_app/feature/home/screens/home_screen.dart';
 import 'package:car_rongsok_app/feature/notification/screens/list_notifications_screen.dart';
 import 'package:car_rongsok_app/feature/user/screens/profile_screen.dart';
+import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
+import 'package:car_rongsok_app/shared/widgets/app_drawer.dart';
 import 'package:car_rongsok_app/shared/widgets/app_shell.dart';
+import 'package:car_rongsok_app/shared/widgets/app_text.dart';
+import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,18 +26,57 @@ part 'routes.gr.dart';
 // ==================== SHELL SCREEN ====================
 
 @RoutePage()
-class AppShellScreen extends StatelessWidget {
+class AppShellScreen extends ConsumerWidget {
   const AppShellScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileAsync = ref.watch(userProfileNotifierProvider);
+    final userName = profileAsync.value?.user?.name ?? 'User';
+
     return AutoTabsRouter(
       routes: const [HomeRoute(), ProfileRoute()],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
+        final isHome = tabsRouter.activeIndex == 0;
 
         return Scaffold(
+          appBar: isHome
+              ? CustomAppBar(
+                  backgroundColor: context.colorScheme.primary,
+                  titleWidget: Row(
+                    children: [
+                      Icon(
+                        Icons.directions_car_filled_rounded,
+                        color: context.colors.textOnPrimary,
+                        size: 28,
+                      ),
+                      const SizedBox(width: 8),
+                      AppText(
+                        'Yoshida Motors',
+                        style: AppTextStyle.titleMedium,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textOnPrimary,
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Center(
+                        child: AppText(
+                          userName,
+                          style: AppTextStyle.bodyMedium,
+                          fontWeight: FontWeight.w600,
+                          color: context.colors.textOnPrimary,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const CustomAppBar(title: 'My Profile'),
           body: child,
+          drawer: const AppDrawer(),
           bottomNavigationBar: AppBottomNav(
             currentIndex: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,

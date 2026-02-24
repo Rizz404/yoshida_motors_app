@@ -26,39 +26,7 @@ class HomeScreen extends ConsumerWidget {
     final latestAppraisal = latestAppraisalAsync.value?.appraisal;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colorScheme.primary,
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            Icon(
-              Icons.directions_car_filled_rounded,
-              color: context.colors.textOnPrimary,
-              size: 28,
-            ),
-            const SizedBox(width: 8),
-            AppText(
-              'Yoshida Motors',
-              style: AppTextStyle.titleMedium,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textOnPrimary,
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Center(
-              child: AppText(
-                userName,
-                style: AppTextStyle.bodyMedium,
-                fontWeight: FontWeight.w600,
-                color: context.colors.textOnPrimary,
-              ),
-            ),
-          ),
-        ],
-      ),
+      // * NOTE: AppBar dan Drawer sekarang di-handle oleh AppShellScreen (routes.dart)
       body: ScreenWrapper(
         child: RefreshIndicator(
           onRefresh: () => ref.refresh(latestAppraisalNotifierProvider.future),
