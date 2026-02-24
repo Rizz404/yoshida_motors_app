@@ -127,7 +127,7 @@ class _AppTextFieldState extends State<AppTextField> {
         case AppTextFieldType.number:
           return [FilteringTextInputFormatter.digitsOnly];
         case AppTextFieldType.price:
-          return [FilteringTextInputFormatter.digitsOnly, _IDRPriceFormatter()];
+          return [FilteringTextInputFormatter.digitsOnly, _YenPriceFormatter()];
         case AppTextFieldType.phone:
           return [FilteringTextInputFormatter.allow(RegExp(r'[0-9+\-\s\(\)]'))];
         default:
@@ -141,7 +141,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
       switch (widget.type) {
         case AppTextFieldType.price:
-          return 'Rp';
+          return '¥';
         default:
           return null;
       }
@@ -150,7 +150,7 @@ class _AppTextFieldState extends State<AppTextField> {
     // * Format initial value untuk price field
     String? formattedInitialValue = widget.initialValue;
     if (widget.type == AppTextFieldType.price && widget.initialValue != null) {
-      formattedInitialValue = _IDRPriceFormatter.formatPrice(
+      formattedInitialValue = _YenPriceFormatter.formatPrice(
         widget.initialValue!,
       );
     }
@@ -219,8 +219,8 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 }
 
-// Custom formatter untuk harga IDR (format: 1.000.000)
-class _IDRPriceFormatter extends TextInputFormatter {
+// Custom formatter untuk harga JPY (format: 1.000.000)
+class _YenPriceFormatter extends TextInputFormatter {
   // * Static method untuk format initial value
   static String formatPrice(String value) {
     if (value.isEmpty) return value;

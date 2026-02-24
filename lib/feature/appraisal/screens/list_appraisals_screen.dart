@@ -11,7 +11,7 @@ import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 
 @RoutePage()
 class ListAppraisalsScreen extends ConsumerWidget {
@@ -110,12 +110,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
     required VoidCallback onViewDetails,
   }) {
     final statusColor = _statusColor(context, appraisal.status);
-    final priceFormatted = appraisal.finalPrice != null
-        ? NumberFormat.currency(
-            locale: 'id_ID',
-            symbol: 'Rp ',
-          ).format(appraisal.finalPrice)
-        : null;
+    final priceFormatted = appraisal.finalPrice?.toYen();
 
     return Card(
       color: context.colors.card,

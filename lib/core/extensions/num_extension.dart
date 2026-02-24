@@ -1,19 +1,19 @@
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 
 extension NumExtension on num {
-  /// Format number as IDR (Rupiah) currency string
-  /// Example: 1500000.toRupiah() => "Rp 1.500.000"
-  String toRupiah() {
-    final formatter = _RupiahFormatter();
+  /// Format number as JPY (Yen) currency string
+  /// Example: 1500000.toYen() => "¥ 1.500.000"
+  String toYen() {
+    final formatter = _YenFormatter();
     return formatter.format(this);
   }
 
-  /// Format number as IDR (Rupiah) currency string with short format
+  /// Format number as JPY (Yen) currency string with short format
   /// Example:
-  /// 1500000000.toRupiahShort() => "Rp 1.5M" (Miliar)
-  /// 1500000.toRupiahShort() => "Rp 1.5jt" (Juta)
-  /// 1500.toRupiahShort() => "Rp 1.5rb" (Ribu)
-  String toRupiahShort() {
+  /// 1500000000.toYenShort() => "¥ 1.5M" (Miliar)
+  /// 1500000.toYenShort() => "¥ 1.5jt" (Juta)
+  /// 1500.toYenShort() => "¥ 1.5rb" (Ribu)
+  String toYenShort() {
     String billionSuffix = 'M';
     String millionSuffix = 'jt';
     String thousandSuffix = 'rb';
@@ -30,28 +30,28 @@ extension NumExtension on num {
     // Cek Miliar (1.000.000.000)
     if (this >= 1000000000) {
       double result = this / 1000000000;
-      return 'Rp ${result.toStringAsFixed(1).replaceAll('.0', '')}$billionSuffix';
+      return '¥ ${result.toStringAsFixed(1).replaceAll('.0', '')}$billionSuffix';
     }
     // Cek Juta (1.000.000)
     else if (this >= 1000000) {
       double result = this / 1000000;
-      return 'Rp ${result.toStringAsFixed(1).replaceAll('.0', '')}$millionSuffix';
+      return '¥ ${result.toStringAsFixed(1).replaceAll('.0', '')}$millionSuffix';
     }
     // Cek Ribu (1.000)
     else if (this >= 1000) {
       double result = this / 1000;
-      return 'Rp ${result.toStringAsFixed(1).replaceAll('.0', '')}$thousandSuffix';
+      return '¥ ${result.toStringAsFixed(1).replaceAll('.0', '')}$thousandSuffix';
     }
 
-    return 'Rp ${toStringAsFixed(0)}';
+    return '¥ ${toStringAsFixed(0)}';
   }
 }
 
-class _RupiahFormatter {
+class _YenFormatter {
   String format(num value) {
     final intValue = value.toInt();
     final stringValue = intValue.toString();
-    return 'Rp ${_formatWithDots(stringValue)}';
+    return '¥ ${_formatWithDots(stringValue)}';
   }
 
   String _formatWithDots(String value) {

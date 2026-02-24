@@ -13,6 +13,7 @@ import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:intl/intl.dart';
 
 @RoutePage()
@@ -246,10 +247,7 @@ class AppraisalResultScreen extends ConsumerWidget {
     double price,
     DateTime updatedAt,
   ) {
-    final formatted = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp ',
-    ).format(price);
+    final formatted = price.toYen();
 
     final validUntil = DateFormat(
       'dd MMMM yyyy',
