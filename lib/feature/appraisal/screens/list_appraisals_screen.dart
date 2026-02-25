@@ -23,7 +23,17 @@ class ListAppraisalsScreen extends ConsumerWidget {
     final notifier = ref.read(appraisalListNotifierProvider.notifier);
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'My Appraisals'),
+      appBar: CustomAppBar(
+        title: 'My Appraisals',
+        actions: [
+          IconButton(
+            onPressed: notifier.refresh,
+            icon: const Icon(Icons.refresh_rounded),
+            tooltip: 'Refresh',
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
       body: ScreenWrapper(
         child: RefreshIndicator(
           onRefresh: notifier.refresh,

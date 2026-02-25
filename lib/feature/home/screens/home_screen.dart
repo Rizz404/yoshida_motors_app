@@ -24,6 +24,8 @@ class HomeScreen extends ConsumerWidget {
 
     final userName = profileAsync.value?.user?.name ?? 'User';
     final latestAppraisal = latestAppraisalAsync.value?.appraisal;
+    final isRefreshingAppraisal =
+        latestAppraisalAsync.isLoading || latestAppraisalAsync.isRefreshing;
 
     return Scaffold(
       // * NOTE: AppBar dan Drawer sekarang di-handle oleh AppShellScreen (routes.dart)
@@ -73,23 +75,90 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
 
                 // * Active status card
-                if (latestAppraisal != null) ...[
-                  AppText(
-                    'Latest Appraisal',
-                    style: AppTextStyle.titleSmall,
-                    fontWeight: FontWeight.w600,
-                    color: context.colors.textSecondary,
+                if (latestAppraisal != null || isRefreshingAppraisal) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(
+                        'Latest Appraisal',
+                        style: AppTextStyle.titleSmall,
+                        fontWeight: FontWeight.w600,
+                        color: context.colors.textSecondary,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextButton.icon(
+                            onPressed: isRefreshingAppraisal
+                                ? null
+                                : () => ref.refresh(
+                                    latestAppraisalNotifierProvider.future,
+                                  ),
+                            icon: isRefreshingAppraisal
+                                ? SizedBox(
+                                    width: 14,
+                                    height: 14,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: context.colors.textTertiary,
+                                    ),
+                                  )
+                                : Icon(
+                                    Icons.refresh_rounded,
+                                    size: 16,
+                                    color: context.colorScheme.primary,
+                                  ),
+                            label: AppText(
+                              'Refresh',
+                              style: AppTextStyle.bodySmall,
+                              color: isRefreshingAppraisal
+                                  ? context.colors.textTertiary
+                                  : context.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => context.router.push(
+                              const ListAppraisalsRoute(),
+                            ),
+                            child: AppText(
+                              'See All',
+                              style: AppTextStyle.bodySmall,
+                              color: context.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
-                  _buildAppraisalStatusCard(
-                    context,
-                    appraisal: latestAppraisal,
-                    onViewDetails: () {
-                      ref.read(currentAppraisalIdProvider.notifier).state =
-                          latestAppraisal.id;
-                      context.router.push(const AppraisalResultRoute());
-                    },
-                  ),
+                  if (latestAppraisal != null)
+                    _buildAppraisalStatusCard(
+                      context,
+                      appraisal: latestAppraisal,
+                      isLoading: isRefreshingAppraisal,
+                      onViewDetails: () {
+                        ref.read(currentAppraisalIdProvider.notifier).state =
+                            latestAppraisal.id;
+                        context.router.push(const AppraisalResultRoute());
+                      },
+                    )
+                  else
+                    Card(
+                      color: context.colors.card,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: context.colors.border),
+                      ),
+                      elevation: 0,
+                      child: Container(
+                        height: 140,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      ),
+                    ),
                   const SizedBox(height: 24),
                 ],
 
@@ -116,6 +185,7 @@ class HomeScreen extends ConsumerWidget {
     BuildContext context, {
     required AppraisalRequest appraisal,
     required VoidCallback onViewDetails,
+    bool isLoading = false,
   }) {
     final statusColor = _statusColor(context, appraisal.status);
     final priceFormatted = appraisal.finalPrice?.toYen();
@@ -127,73 +197,84 @@ class HomeScreen extends ConsumerWidget {
         side: BorderSide(color: context.colors.border),
       ),
       elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Opacity(
+              opacity: isLoading ? 0.3 : 1.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      AppText(
-                        '${appraisal.vehicleBrand} ${appraisal.vehicleModel}',
-                        style: AppTextStyle.titleSmall,
-                        fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                              '${appraisal.vehicleBrand} ${appraisal.vehicleModel}',
+                              style: AppTextStyle.titleSmall,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            const SizedBox(height: 2),
+                            AppText(
+                              '${appraisal.yearManufacture}',
+                              style: AppTextStyle.bodySmall,
+                              color: context.colors.textSecondary,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 2),
-                      AppText(
-                        '${appraisal.yearManufacture}',
-                        style: AppTextStyle.bodySmall,
-                        color: context.colors.textSecondary,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: statusColor.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: AppText(
+                          _statusLabel(appraisal.status),
+                          style: AppTextStyle.labelSmall,
+                          fontWeight: FontWeight.w600,
+                          color: statusColor,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
+                  if (priceFormatted != null) ...[
+                    const SizedBox(height: 12),
+                    AppText(
+                      priceFormatted,
+                      style: AppTextStyle.titleMedium,
+                      fontWeight: FontWeight.bold,
+                      color: context.semantic.success,
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  AppButton(
+                    text: 'View Details',
+                    onPressed: onViewDetails,
+                    size: AppButtonSize.small,
+                    variant: AppButtonVariant.outlined,
+                    isFullWidth: false,
+                    trailingIcon: Icon(
+                      Icons.arrow_forward_rounded,
+                      size: 16,
+                      color: context.colorScheme.primary,
+                    ),
                   ),
-                  decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: AppText(
-                    _statusLabel(appraisal.status),
-                    style: AppTextStyle.labelSmall,
-                    fontWeight: FontWeight.w600,
-                    color: statusColor,
-                  ),
-                ),
-              ],
-            ),
-            if (priceFormatted != null) ...[
-              const SizedBox(height: 12),
-              AppText(
-                priceFormatted,
-                style: AppTextStyle.titleMedium,
-                fontWeight: FontWeight.bold,
-                color: context.semantic.success,
-              ),
-            ],
-            const SizedBox(height: 12),
-            AppButton(
-              text: 'View Details',
-              onPressed: onViewDetails,
-              size: AppButtonSize.small,
-              variant: AppButtonVariant.outlined,
-              isFullWidth: false,
-              trailingIcon: Icon(
-                Icons.arrow_forward_rounded,
-                size: 16,
-                color: context.colorScheme.primary,
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          if (isLoading)
+            const Positioned.fill(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+        ],
       ),
     );
   }
