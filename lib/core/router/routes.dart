@@ -15,6 +15,7 @@ import 'package:car_rongsok_app/feature/notification/screens/list_notifications_
 import 'package:car_rongsok_app/feature/user/screens/profile_screen.dart';
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_drawer.dart';
+import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_shell.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
@@ -32,7 +33,18 @@ class AppShellScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(userProfileNotifierProvider);
-    final userName = profileAsync.value?.user?.name ?? 'User';
+    final user = profileAsync.value?.user;
+    final userName = user?.name ?? 'User';
+    final photoUrl = user?.profilePhoto;
+
+    final initials = userName.isNotEmpty
+        ? userName
+              .trim()
+              .split(RegExp(r'\s+'))
+              .map((e) => e.isNotEmpty ? e[0].toUpperCase() : '')
+              .take(2)
+              .join()
+        : 'U';
 
     return AutoTabsRouter(
       routes: const [HomeRoute(), ProfileRoute()],
@@ -41,40 +53,52 @@ class AppShellScreen extends ConsumerWidget {
         final isHome = tabsRouter.activeIndex == 0;
 
         return Scaffold(
-          appBar: isHome
-              ? CustomAppBar(
-                  backgroundColor: context.colorScheme.primary,
-                  titleWidget: Row(
-                    children: [
-                      Icon(
-                        Icons.directions_car_filled_rounded,
-                        color: context.colors.textOnPrimary,
-                        size: 28,
-                      ),
-                      const SizedBox(width: 8),
-                      AppText(
-                        'Yoshida Motors',
-                        style: AppTextStyle.titleMedium,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textOnPrimary,
-                      ),
-                    ],
+          appBar: CustomAppBar(
+            backgroundColor: context.colorScheme.primary,
+            titleSpacing: 0,
+            titleWidget: Row(
+              children: [
+                if (isHome) ...[
+                  const AppImage(
+                    assetPath: 'assets/images/app-icon.png',
+                    width: 32,
+                    height: 32,
                   ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Center(
-                        child: AppText(
-                          userName,
-                          style: AppTextStyle.bodyMedium,
-                          fontWeight: FontWeight.w600,
-                          color: context.colors.textOnPrimary,
+                  const SizedBox(width: 8),
+                ],
+                AppText(
+                  isHome ? 'Yoshida Motors' : 'My Profile',
+                  style: AppTextStyle.titleMedium,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.textOnPrimary,
+                ),
+              ],
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Center(
+                  child: photoUrl != null && photoUrl.isNotEmpty
+                      ? AppImage(
+                          imageUrl: photoUrl,
+                          width: 32,
+                          height: 32,
+                          shape: ImageShape.circle,
+                        )
+                      : CircleAvatar(
+                          radius: 16,
+                          backgroundColor: context.colorScheme.surface,
+                          child: AppText(
+                            initials,
+                            style: AppTextStyle.bodyMedium,
+                            fontWeight: FontWeight.bold,
+                            color: context.colorScheme.primary,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                )
-              : const CustomAppBar(title: 'My Profile'),
+                ),
+              ),
+            ],
+          ),
           body: child,
           drawer: const AppDrawer(),
           bottomNavigationBar: AppBottomNav(

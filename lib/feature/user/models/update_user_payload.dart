@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 class UpdateUserPayload extends Equatable {
@@ -9,12 +10,14 @@ class UpdateUserPayload extends Equatable {
   final String? email;
   final String? address;
   final String? fcmToken;
+  final String? profilePhotoPath;
 
   const UpdateUserPayload({
     required this.name,
     required this.email,
     required this.address,
     required this.fcmToken,
+    this.profilePhotoPath,
   });
 
   UpdateUserPayload copyWith({
@@ -22,12 +25,14 @@ class UpdateUserPayload extends Equatable {
     String? email,
     String? address,
     String? fcmToken,
+    String? profilePhotoPath,
   }) {
     return UpdateUserPayload(
       name: name ?? this.name,
       email: email ?? this.email,
       address: address ?? this.address,
       fcmToken: fcmToken ?? this.fcmToken,
+      profilePhotoPath: profilePhotoPath ?? this.profilePhotoPath,
     );
   }
 
@@ -37,7 +42,31 @@ class UpdateUserPayload extends Equatable {
       'email': email,
       'address': address,
       'fcmToken': fcmToken,
+      'profilePhotoPath': profilePhotoPath,
     };
+  }
+
+  Future<FormData> toFormData() async {
+    final formDataMap = <String, dynamic>{
+      '_method': 'PUT',
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (address != null) 'address': address,
+      if (fcmToken != null) 'fcmToken': fcmToken,
+    };
+
+    final formData = FormData.fromMap(formDataMap);
+
+    if (profilePhotoPath != null) {
+      formData.files.add(
+        MapEntry(
+          'profile_photo',
+          await MultipartFile.fromFile(profilePhotoPath!),
+        ),
+      );
+    }
+
+    return formData;
   }
 
   factory UpdateUserPayload.fromMap(Map<String, dynamic> map) {
@@ -46,6 +75,7 @@ class UpdateUserPayload extends Equatable {
       email: map.getFieldOrNull<String>('email'),
       address: map.getFieldOrNull<String>('address'),
       fcmToken: map.getFieldOrNull<String>('fcmToken'),
+      profilePhotoPath: map.getFieldOrNull<String>('profilePhotoPath'),
     );
   }
 
@@ -58,5 +88,5 @@ class UpdateUserPayload extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [name, email, address, fcmToken];
+  List<Object?> get props => [name, email, address, fcmToken, profilePhotoPath];
 }

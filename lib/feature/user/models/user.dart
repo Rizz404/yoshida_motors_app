@@ -15,6 +15,7 @@ class User extends Equatable {
   final String? address;
   final UserRole role;
   final String? fcmToken;
+  final String? profilePhoto;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -28,6 +29,7 @@ class User extends Equatable {
     required this.address,
     required this.role,
     required this.fcmToken,
+    this.profilePhoto,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -42,6 +44,7 @@ class User extends Equatable {
     String? address,
     UserRole? role,
     String? fcmToken,
+    String? profilePhoto,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -55,6 +58,7 @@ class User extends Equatable {
       address: address ?? this.address,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
+      profilePhoto: profilePhoto ?? this.profilePhoto,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -71,6 +75,7 @@ class User extends Equatable {
       'address': address,
       'role': role.value,
       'fcm_token': fcmToken,
+      'profile_photo': profilePhoto,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -87,6 +92,7 @@ class User extends Equatable {
       address: map.getFieldOrNull<String>('address'),
       role: UserRole.values.firstWhere((e) => e.value == map['role']),
       fcmToken: map.getFieldOrNull<String>('fcm_token'),
+      profilePhoto: map.getFieldOrNull<String>('profile_photo'),
       createdAt: map.getField<DateTime>('created_at'),
       updatedAt: map.getField<DateTime>('updated_at'),
     );
@@ -112,6 +118,7 @@ class User extends Equatable {
       address,
       role,
       fcmToken,
+      profilePhoto,
       createdAt,
       updatedAt,
     ];

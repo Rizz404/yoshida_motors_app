@@ -5,11 +5,14 @@ import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/feature/user/validators/profile_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:car_rongsok_app/shared/widgets/app_file_picker.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -29,11 +32,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
     final formData = _formKey.currentState!.value;
+
+    final profilePhotos = formData['profilePhotoPath'] as List<PlatformFile>?;
+    final String? photoPath = profilePhotos?.isNotEmpty == true
+        ? profilePhotos!.first.path
+        : null;
+
     final payload = UpdateUserPayload(
       name: formData['name'] as String?,
       email: formData['email'] as String?,
       address: formData['address'] as String?,
       fcmToken: null,
+      profilePhotoPath: photoPath,
     );
 
     await ref.read(userProfileNotifierProvider.notifier).updateProfile(payload);
@@ -91,17 +101,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   children: [
                     const SizedBox(height: 24),
 
-                    // * Avatar placeholder
+                    // * Avatar
                     Center(
-                      child: CircleAvatar(
-                        radius: 48,
-                        backgroundColor: context.colors.primaryContainer,
-                        child: Icon(
-                          Icons.person_outline_rounded,
-                          size: 52,
-                          color: context.colors.primary,
-                        ),
-                      ),
+                      child: user?.profilePhoto != null
+                          ? AppImage(
+                              imageUrl: user!.profilePhoto,
+                              width: 96,
+                              height: 96,
+                              shape: ImageShape.circle,
+                              fit: BoxFit.cover,
+                            )
+                          : CircleAvatar(
+                              radius: 48,
+                              backgroundColor: context.colors.primaryContainer,
+                              child: Icon(
+                                Icons.person_outline_rounded,
+                                size: 52,
+                                color: context.colors.primary,
+                              ),
+                            ),
                     ),
                     const SizedBox(height: 8),
                     if (user != null)
@@ -119,6 +137,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
+                          AppFilePicker(
+                            name: 'profilePhotoPath',
+                            label: 'Update Profile Photo',
+                            hintText: 'Select an image',
+                            fileType: FileType.image,
+                            allowMultiple: false,
+                            maxFiles: 1,
+                            maxSizeInMB: 2,
+                            allowedExtensions: const [
+                              'jpg',
+                              'jpeg',
+                              'png',
+                              'webp',
+                            ],
+                          ),
+                          const SizedBox(height: 16),
                           AppTextField(
                             name: 'name',
                             label: 'Full Name',

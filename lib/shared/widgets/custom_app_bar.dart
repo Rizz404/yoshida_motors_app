@@ -12,6 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? elevation;
   final bool centerTitle;
   final List<Widget>? actions;
+  final double? titleSpacing;
 
   const CustomAppBar({
     super.key,
@@ -23,6 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation,
     this.centerTitle = false,
     this.actions,
+    this.titleSpacing,
   });
 
   @override
@@ -59,6 +61,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       elevation: elevation,
       centerTitle: centerTitle,
+      titleSpacing: titleSpacing,
     );
   }
 }

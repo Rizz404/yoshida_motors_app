@@ -110,7 +110,7 @@ class AppDrawer extends ConsumerWidget {
             children: [
               AppImage(
                 size: ImageSize.large,
-                assetPath: 'assets/images/app-logo.png',
+                assetPath: 'assets/images/app-icon.png',
                 backgroundColor: context.colorScheme.primaryContainer,
                 shape: ImageShape.rectangle,
               ),

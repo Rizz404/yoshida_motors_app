@@ -128,129 +128,140 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
         appBar: const CustomAppBar(title: 'Take Photos'),
         body: ScreenWrapper(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 16),
-              _buildStepIndicatorPhotos(context),
-              const SizedBox(height: 20),
-
-              // * Warning Message
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: context.semantic.warningLight,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: context.semantic.warning),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      color: context.semantic.warningDark,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: AppText(
-                        'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.',
-                        style: AppTextStyle.bodySmall,
-                        color: context.semantic.warningDark,
+                    const SizedBox(height: 16),
+                    _buildStepIndicatorPhotos(context),
+                    const SizedBox(height: 20),
+
+                    // * Warning Message
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: context.semantic.warningLight,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.semantic.warning),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: context.semantic.warningDark,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: AppText(
+                              'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.',
+                              style: AppTextStyle.bodySmall,
+                              color: context.semantic.warningDark,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+
+                    const SizedBox(height: 24),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const AppText(
+                          'Add New Photo',
+                          style: AppTextStyle.titleSmall,
+                        ),
+                        if (photos.length < 7)
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isAddPhotoVisible = !_isAddPhotoVisible;
+                              });
+                            },
+                            icon: Icon(
+                              _isAddPhotoVisible
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              color: context.colors.textSecondary,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    if (photos.length < 7 && _isAddPhotoVisible) ...[
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              text: 'Camera',
+                              variant: AppButtonVariant.outlined,
+                              onPressed: _handleCamera,
+                              leadingIcon: Icon(
+                                Icons.camera_alt_outlined,
+                                color: context.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: AppButton(
+                              text: 'Upload',
+                              variant: AppButtonVariant.outlined,
+                              onPressed: _handleUpload,
+                              leadingIcon: Icon(
+                                Icons.upload_file_outlined,
+                                color: context.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                    const Divider(),
+                    const SizedBox(height: 16),
+
+                    // * Uploaded Photos List
+                    const AppText(
+                      'Uploaded Photos',
+                      style: AppTextStyle.titleSmall,
+                    ),
+                    const SizedBox(height: 12),
+
+                    if (photos.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Center(
+                          child: AppText(
+                            'No photos uploaded yet',
+                            color: context.colors.textSecondary,
+                          ),
+                        ),
+                      )
+                    else
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: photos.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          return _PhotoCard(
+                            index: index,
+                            imagePath: photos[index],
+                            label: labels[index],
+                            isLoading: _isSubmitting,
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 24),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const AppText(
-                    'Add New Photo',
-                    style: AppTextStyle.titleSmall,
-                  ),
-                  if (photos.length < 7)
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isAddPhotoVisible = !_isAddPhotoVisible;
-                        });
-                      },
-                      icon: Icon(
-                        _isAddPhotoVisible
-                            ? Icons.keyboard_arrow_up_rounded
-                            : Icons.keyboard_arrow_down_rounded,
-                        color: context.colors.textSecondary,
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              if (photos.length < 7 && _isAddPhotoVisible) ...[
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppButton(
-                        text: 'Camera',
-                        variant: AppButtonVariant.outlined,
-                        onPressed: _handleCamera,
-                        leadingIcon: Icon(
-                          Icons.camera_alt_outlined,
-                          color: context.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: AppButton(
-                        text: 'Upload',
-                        variant: AppButtonVariant.outlined,
-                        onPressed: _handleUpload,
-                        leadingIcon: Icon(
-                          Icons.upload_file_outlined,
-                          color: context.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-              ],
-              const Divider(),
-              const SizedBox(height: 16),
-
-              // * Uploaded Photos List
-              const AppText('Uploaded Photos', style: AppTextStyle.titleSmall),
-              const SizedBox(height: 12),
-
-              if (photos.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Center(
-                    child: AppText(
-                      'No photos uploaded yet',
-                      color: context.colors.textSecondary,
-                    ),
-                  ),
-                )
-              else
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: photos.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      return _PhotoCard(
-                        index: index,
-                        imagePath: photos[index],
-                        label: labels[index],
-                        isLoading: _isSubmitting,
-                      );
-                    },
-                  ),
-                ),
 
               const SizedBox(height: 16),
 
@@ -265,7 +276,6 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                   color: context.colors.textOnPrimary,
                 ),
               ),
-              const SizedBox(height: 24),
             ],
           ),
         ),

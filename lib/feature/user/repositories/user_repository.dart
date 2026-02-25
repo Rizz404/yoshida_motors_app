@@ -1,4 +1,5 @@
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:dio/dio.dart';
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/auth_service.dart';
@@ -73,9 +74,15 @@ class UserRepositoryImpl implements UserRepository {
     return TaskEither(() async {
       logService('Updating user profile...');
       try {
-        final result = await _dioClient.put<User>(
+        final result = await _dioClient.post<User>(
           ApiConstant.authProfile,
-          data: params.toMap(),
+          data: await params.toFormData(),
+          options: Options(
+            contentType: 'multipart/form-data',
+            receiveTimeout: const Duration(
+              milliseconds: ApiConstant.longOperationTimeout,
+            ),
+          ),
           fromJson: (json) => User.fromMap(json as Map<String, dynamic>),
         );
 

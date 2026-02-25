@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
+import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
 import 'package:car_rongsok_app/feature/user/models/user.dart';
@@ -85,8 +86,11 @@ class UserProfileNotifier extends AsyncNotifier<UserProfileState> {
       (failure) => state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => failure),
       ),
-      // * Re-fetch fresh data from server
-      (_) => ref.invalidateSelf(),
+      // * Re-fetch fresh data from server and sync with AuthProvider
+      (success) {
+        ref.read(authNotifierProvider.notifier).updateUserData(success.data);
+        ref.invalidateSelf();
+      },
     );
   }
 }
