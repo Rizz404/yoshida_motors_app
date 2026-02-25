@@ -12,6 +12,8 @@ import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_photo_card.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,7 +137,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                   padding: EdgeInsets.zero,
                   children: [
                     const SizedBox(height: 16),
-                    _buildStepIndicatorPhotos(context),
+                    const AppraisalStepIndicator(currentStep: 2),
                     const SizedBox(height: 20),
 
                     // * Warning Message
@@ -251,7 +253,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                         itemCount: photos.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
-                          return _PhotoCard(
+                          return AppraisalPhotoCard(
                             index: index,
                             imagePath: photos[index],
                             label: labels[index],
@@ -279,216 +281,6 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildStepIndicatorPhotos(BuildContext context) {
-    const steps = ['Info', 'Photos', 'Summary'];
-    return Row(
-      children: List.generate(steps.length * 2 - 1, (index) {
-        if (index.isOdd) {
-          final stepIndex = index ~/ 2;
-          final isDone = stepIndex < 1;
-          return Expanded(
-            child: Container(
-              height: 2,
-              color: isDone
-                  ? context.colorScheme.primary
-                  : context.colors.border,
-            ),
-          );
-        }
-        final stepIndex = index ~/ 2;
-        final isActive = stepIndex == 1;
-        final isDone = stepIndex < 1;
-        return _buildDot(
-          context,
-          label: steps[stepIndex],
-          number: stepIndex + 1,
-          isActive: isActive,
-          isDone: isDone,
-        );
-      }),
-    );
-  }
-
-  Widget _buildDot(
-    BuildContext context, {
-    required String label,
-    required int number,
-    required bool isActive,
-    required bool isDone,
-  }) {
-    final color = (isActive || isDone)
-        ? context.colorScheme.primary
-        : context.colors.textTertiary;
-    return Column(
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: (isActive || isDone)
-                ? context.colorScheme.primary
-                : context.colors.border,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: isDone
-                ? Icon(
-                    Icons.check_rounded,
-                    size: 16,
-                    color: context.colors.textOnPrimary,
-                  )
-                : AppText(
-                    '$number',
-                    style: AppTextStyle.labelMedium,
-                    fontWeight: FontWeight.bold,
-                    color: isActive
-                        ? context.colors.textOnPrimary
-                        : context.colors.textTertiary,
-                  ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        AppText(
-          label,
-          style: AppTextStyle.labelSmall,
-          color: color,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-        ),
-      ],
-    );
-  }
-}
-
-class _PhotoCard extends ConsumerStatefulWidget {
-  final int index;
-  final String imagePath;
-  final String label;
-  final bool isLoading;
-
-  const _PhotoCard({
-    required this.index,
-    required this.imagePath,
-    required this.label,
-    required this.isLoading,
-  });
-
-  @override
-  ConsumerState<_PhotoCard> createState() => _PhotoCardState();
-}
-
-class _PhotoCardState extends ConsumerState<_PhotoCard> {
-  late final TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.label);
-  }
-
-  @override
-  void didUpdateWidget(covariant _PhotoCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.label != widget.label && _controller.text != widget.label) {
-      _controller.text = widget.label;
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: context.colors.card,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.colors.border),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Thumbnail with preview button
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: AppImage(
-                  imageFile: File(widget.imagePath),
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                  enablePreview: true,
-                ),
-              ),
-              IgnorePointer(
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.zoom_in,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          // Category Name Field
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  controller: _controller,
-                  enabled: !widget.isLoading,
-                  decoration: InputDecoration(
-                    labelText: 'Category Name',
-                    hintText: 'e.g., Mesin Kanan',
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 12,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    ref
-                        .read(appraisalFormProvider.notifier)
-                        .updatePhotoLabel(widget.index, value);
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          // Remove Button
-          IconButton(
-            onPressed: widget.isLoading
-                ? null
-                : () {
-                    ref
-                        .read(appraisalFormProvider.notifier)
-                        .removePhoto(widget.index);
-                  },
-            icon: Icon(Icons.delete_outline, color: context.semantic.error),
-            tooltip: 'Remove Photo',
-          ),
-        ],
       ),
     );
   }

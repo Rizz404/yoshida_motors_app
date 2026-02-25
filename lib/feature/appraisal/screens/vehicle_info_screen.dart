@@ -3,6 +3,7 @@ import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/validators/vehicle_info_validators.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
@@ -58,7 +59,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                 const SizedBox(height: 16),
 
                 // * Step indicator
-                _buildStepIndicator(context, current: 1),
+                const AppraisalStepIndicator(currentStep: 1),
                 const SizedBox(height: 24),
 
                 FormBuilder(
@@ -152,87 +153,6 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildStepIndicator(BuildContext context, {required int current}) {
-    const steps = ['Info', 'Photos', 'Summary'];
-    return Row(
-      children: List.generate(steps.length * 2 - 1, (index) {
-        if (index.isOdd) {
-          // * Connector line
-          final stepIndex = index ~/ 2;
-          final isDone = stepIndex < current - 1;
-          return Expanded(
-            child: Container(
-              height: 2,
-              color: isDone
-                  ? context.colorScheme.primary
-                  : context.colors.border,
-            ),
-          );
-        }
-        final stepIndex = index ~/ 2;
-        final isActive = stepIndex == current - 1;
-        final isDone = stepIndex < current - 1;
-        return _buildStepDot(
-          context,
-          label: steps[stepIndex],
-          number: stepIndex + 1,
-          isActive: isActive,
-          isDone: isDone,
-        );
-      }),
-    );
-  }
-
-  Widget _buildStepDot(
-    BuildContext context, {
-    required String label,
-    required int number,
-    required bool isActive,
-    required bool isDone,
-  }) {
-    final color = (isActive || isDone)
-        ? context.colorScheme.primary
-        : context.colors.textTertiary;
-
-    return Column(
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: (isActive || isDone)
-                ? context.colorScheme.primary
-                : context.colors.border,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: isDone
-                ? Icon(
-                    Icons.check_rounded,
-                    size: 16,
-                    color: context.colors.textOnPrimary,
-                  )
-                : AppText(
-                    '$number',
-                    style: AppTextStyle.labelMedium,
-                    fontWeight: FontWeight.bold,
-                    color: isActive
-                        ? context.colors.textOnPrimary
-                        : context.colors.textTertiary,
-                  ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        AppText(
-          label,
-          style: AppTextStyle.labelSmall,
-          color: color,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-        ),
-      ],
     );
   }
 }

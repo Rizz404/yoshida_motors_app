@@ -6,6 +6,7 @@ import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
@@ -83,7 +84,7 @@ class SummaryScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    _buildStepIndicatorSummary(context),
+                    const AppraisalStepIndicator(currentStep: 3),
                     const SizedBox(height: 24),
 
                     // * Vehicle info section
@@ -283,54 +284,6 @@ class SummaryScreen extends ConsumerWidget {
           textAlign: TextAlign.center,
         ),
       ],
-    );
-  }
-
-  Widget _buildStepIndicatorSummary(BuildContext context) {
-    const steps = ['Info', 'Photos', 'Summary'];
-    return Row(
-      children: List.generate(steps.length * 2 - 1, (index) {
-        if (index.isOdd) {
-          return Expanded(
-            child: Container(height: 2, color: context.colorScheme.primary),
-          );
-        }
-        final stepIndex = index ~/ 2;
-        final isActive = stepIndex == 2;
-        return Column(
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: context.colorScheme.primary,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: isActive
-                    ? AppText(
-                        '3',
-                        style: AppTextStyle.labelMedium,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textOnPrimary,
-                      )
-                    : Icon(
-                        Icons.check_rounded,
-                        size: 16,
-                        color: context.colors.textOnPrimary,
-                      ),
-              ),
-            ),
-            const SizedBox(height: 4),
-            AppText(
-              steps[stepIndex],
-              style: AppTextStyle.labelSmall,
-              color: context.colorScheme.primary,
-              fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-            ),
-          ],
-        );
-      }),
     );
   }
 }
