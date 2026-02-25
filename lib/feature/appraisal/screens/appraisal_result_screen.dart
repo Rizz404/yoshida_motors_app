@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
@@ -19,11 +20,6 @@ import 'package:intl/intl.dart';
 @RoutePage()
 class AppraisalResultScreen extends ConsumerWidget {
   const AppraisalResultScreen({super.key});
-
-  String _resolveUrl(String path) {
-    if (path.startsWith('http')) return path;
-    return 'https://yoshida-motors-admin.fts.biz.id/$path';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -421,7 +417,7 @@ class AppraisalResultScreen extends ConsumerWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: AppImage(
-              imageUrl: _resolveUrl(photo.imagePath),
+              imageUrl: ApiConstant.resolveUrl(photo.imagePath),
               fit: BoxFit.cover,
               shape: ImageShape.rectangle,
               size: ImageSize.fullWidth,

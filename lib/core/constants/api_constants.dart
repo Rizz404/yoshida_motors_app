@@ -5,6 +5,13 @@ class ApiConstant {
   // * Base URL
   static const String baseUrl =
       'https://yoshida-motors-admin.fts.biz.id/api/v1';
+  static const String baseMediaUrl =
+      'https://yoshida-motors-admin.fts.biz.id/storage/';
+
+  static String resolveUrl(String path) {
+    if (path.startsWith('http')) return path;
+    return '$baseMediaUrl$path';
+  }
 
   // * Timeouts
   static const int defaultReceiveTimeout = 180000; // 3 minutes
