@@ -116,6 +116,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       next.whenData((authState) {
         if (authState.status == AuthStatus.authenticated) {
           AppToast.success('Login successful');
+          context.router.replaceAll([const HomeRoute()]);
         } else if (authState.failure != null) {
           AppToast.error(authState.failure?.message ?? 'Login failed');
         }
