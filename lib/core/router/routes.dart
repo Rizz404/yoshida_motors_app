@@ -4,6 +4,7 @@ import 'package:car_rongsok_app/core/router/app_transitions.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/appraisal_result_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/camera_capture_screen.dart';
+import 'package:car_rongsok_app/feature/appraisal/screens/edit_appraisal_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/list_appraisals_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/photo_category_screen.dart';
 import 'package:car_rongsok_app/feature/appraisal/screens/summary_screen.dart';
@@ -220,6 +221,13 @@ class AppRouter extends RootStackRouter {
     CustomRoute<void>(
       page: AppraisalResultRoute.page,
       path: '/appraisal/result',
+      guards: [AuthGuard(_ref)],
+      transitionsBuilder: AppTransitions.slideFromRight,
+      duration: const Duration(milliseconds: 300),
+    ),
+    CustomRoute<void>(
+      page: EditAppraisalRoute.page,
+      path: '/appraisal/edit/:id',
       guards: [AuthGuard(_ref)],
       transitionsBuilder: AppTransitions.slideFromRight,
       duration: const Duration(milliseconds: 300),

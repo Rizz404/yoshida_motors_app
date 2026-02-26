@@ -59,6 +59,58 @@ class CameraCaptureRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [EditAppraisalScreen]
+class EditAppraisalRoute extends PageRouteInfo<EditAppraisalRouteArgs> {
+  EditAppraisalRoute({
+    Key? key,
+    required int appraisalId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditAppraisalRoute.name,
+         args: EditAppraisalRouteArgs(key: key, appraisalId: appraisalId),
+         rawPathParams: {'id': appraisalId},
+         initialChildren: children,
+       );
+
+  static const String name = 'EditAppraisalRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<EditAppraisalRouteArgs>(
+        orElse: () =>
+            EditAppraisalRouteArgs(appraisalId: pathParams.getInt('id')),
+      );
+      return EditAppraisalScreen(key: args.key, appraisalId: args.appraisalId);
+    },
+  );
+}
+
+class EditAppraisalRouteArgs {
+  const EditAppraisalRouteArgs({this.key, required this.appraisalId});
+
+  final Key? key;
+
+  final int appraisalId;
+
+  @override
+  String toString() {
+    return 'EditAppraisalRouteArgs{key: $key, appraisalId: $appraisalId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EditAppraisalRouteArgs) return false;
+    return key == other.key && appraisalId == other.appraisalId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ appraisalId.hashCode;
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})

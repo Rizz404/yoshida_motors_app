@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
+import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
@@ -59,6 +60,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                 appraisal.status == AppraisalStatus.completed;
             final isUnderAppraisal =
                 appraisal.status == AppraisalStatus.underReview;
+            final isDraft = appraisal.status == AppraisalStatus.draft;
 
             return ScreenWrapper(
               child: SingleChildScrollView(
@@ -172,6 +174,22 @@ class AppraisalResultScreen extends ConsumerWidget {
                           color: context.colorScheme.primary,
                         ),
                         onPressed: () {},
+                      ),
+
+                    // * Edit Appraisal (if draft)
+                    if (isDraft)
+                      AppButton(
+                        text: 'Edit Appraisal',
+                        variant: AppButtonVariant.outlined,
+                        leadingIcon: Icon(
+                          Icons.edit_outlined,
+                          color: context.colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          context.router.push(
+                            EditAppraisalRoute(appraisalId: appraisalId),
+                          );
+                        },
                       ),
                     const SizedBox(height: 32),
                   ],
