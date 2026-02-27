@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -28,6 +29,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
+  final _filePickerKey = GlobalKey<AppFilePickerState>();
 
   Future<void> _onSave() async {
     if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
@@ -67,6 +69,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             state.mutationError?.message ?? context.l10n.profileSaveFailed,
           );
         } else {
+          FocusScope.of(context).unfocus();
+          _filePickerKey.currentState?.reset();
           AppToast.success(context.l10n.profileSaveSuccess);
         }
       }
@@ -106,7 +110,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Center(
                       child: user?.profilePhoto != null
                           ? AppImage(
-                              imageUrl: user!.profilePhoto,
+                              imageUrl: ApiConstant.resolveUrl(
+                                user!.profilePhoto!,
+                              ),
                               width: 96,
                               height: 96,
                               shape: ImageShape.circle,
@@ -139,6 +145,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: Column(
                         children: [
                           AppFilePicker(
+                            key: _filePickerKey,
                             name: 'profilePhotoPath',
                             label: context.l10n.profileUpdatePhotoLabel,
                             hintText: context.l10n.profileUpdatePhotoHint,

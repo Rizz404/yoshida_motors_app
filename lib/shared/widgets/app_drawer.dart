@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
@@ -144,6 +145,9 @@ class AppDrawer extends ConsumerWidget {
             AppImage(
               size: ImageSize.large,
               shape: ImageShape.circle,
+              imageUrl: user.profilePhoto != null
+                  ? ApiConstant.resolveUrl(user.profilePhoto!)
+                  : null,
               placeholder: Icon(
                 Icons.person,
                 size: 24,

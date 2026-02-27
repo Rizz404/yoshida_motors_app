@@ -42,6 +42,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
 
   bool _isInit = false;
   bool _isSubmitting = false;
+  bool _isPickingImage = false;
 
   final List<AppraisalPhoto> _existingPhotos = [];
   final List<int> _deletePhotos = [];
@@ -75,13 +76,20 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
   int get _totalPhotos => _existingPhotos.length + _newPhotos.length;
 
   Future<void> _handleUpload() async {
+    if (_isPickingImage) return;
     if (_totalPhotos >= 7) {
       AppToast.error(context.l10n.photoCategoryMaxPhotos);
       return;
     }
 
-    final picker = ImagePicker();
-    final List<XFile> images = await picker.pickMultiImage(imageQuality: 80);
+    setState(() => _isPickingImage = true);
+    final List<XFile> images;
+    try {
+      final picker = ImagePicker();
+      images = await picker.pickMultiImage(imageQuality: 80);
+    } finally {
+      if (mounted) setState(() => _isPickingImage = false);
+    }
 
     if (images.isEmpty) return;
 
@@ -165,6 +173,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
     setState(() => _isSubmitting = false);
 
     result.fold((failure) => AppToast.error(failure.message), (success) {
+      FocusScope.of(context).unfocus();
       AppToast.success(context.l10n.editAppraisalSuccess);
       // Refresh the detail provider
       ref.invalidate(appraisalDetailNotifierProvider(widget.appraisalId));
@@ -309,7 +318,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                         ),
                         if (_totalPhotos < 7)
                           TextButton.icon(
-                            onPressed: _handleUpload,
+                            onPressed: _isPickingImage ? null : _handleUpload,
                             icon: Icon(
                               Icons.add_photo_alternate_outlined,
                               color: context.colorScheme.primary,

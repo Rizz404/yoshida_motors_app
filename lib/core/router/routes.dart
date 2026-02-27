@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/app_transitions.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
@@ -81,7 +82,7 @@ class AppShellScreen extends ConsumerWidget {
                 child: Center(
                   child: photoUrl != null && photoUrl.isNotEmpty
                       ? AppImage(
-                          imageUrl: photoUrl,
+                          imageUrl: ApiConstant.resolveUrl(photoUrl),
                           width: 32,
                           height: 32,
                           shape: ImageShape.circle,
