@@ -1,19 +1,17 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_photo_card.dart';
+import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
-import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
-import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_photo_card.dart';
-import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,12 +44,12 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
 
     final labels = formState.photoLabels ?? [];
     if (labels.isEmpty) {
-      AppToast.error('Please add at least one photo.');
+      AppToast.error(context.l10n.photoCategoryErrorNoPhotos);
       return;
     }
 
     if (labels.any((label) => label.trim().isEmpty)) {
-      AppToast.error('Please enter a category name for all photos.');
+      AppToast.error(context.l10n.photoCategoryErrorCategoryRequired);
       return;
     }
 
@@ -68,7 +66,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     setState(() => _isSubmitting = false);
 
     result.fold((failure) => AppToast.error(failure.message), (success) {
-      AppToast.success('Appraisal created successfully!');
+      AppToast.success(context.l10n.photoCategorySuccessCreated);
       ref.read(currentAppraisalIdProvider.notifier).state = success.data.id;
       context.router.push(const SummaryRoute());
     });
@@ -79,7 +77,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     final currentPhotosCount = formState?.photos?.length ?? 0;
 
     if (currentPhotosCount >= 7) {
-      AppToast.error('Maksimal 7 foto telah tercapai.');
+      AppToast.error(context.l10n.photoCategoryMaxPhotos);
       return;
     }
 
@@ -92,7 +90,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
     final currentPhotosCount = formState?.photos?.length ?? 0;
 
     if (currentPhotosCount >= 7) {
-      AppToast.error('Maksimal 7 foto telah tercapai.');
+      AppToast.error(context.l10n.photoCategoryMaxPhotos);
       return;
     }
 
@@ -127,7 +125,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
 
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Take Photos'),
+        appBar: CustomAppBar(title: context.l10n.photoCategoryTitle),
         body: ScreenWrapper(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -159,7 +157,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: AppText(
-                              'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.',
+                              context.l10n.photoCategoryWarning,
                               style: AppTextStyle.bodySmall,
                               color: context.semantic.warningDark,
                             ),
@@ -173,8 +171,8 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const AppText(
-                          'Add New Photo',
+                        AppText(
+                          context.l10n.photoCategoryAddNewPhoto,
                           style: AppTextStyle.titleSmall,
                         ),
                         if (photos.length < 7)
@@ -200,7 +198,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                         children: [
                           Expanded(
                             child: AppButton(
-                              text: 'Camera',
+                              text: context.l10n.photoCategoryCamera,
                               variant: AppButtonVariant.outlined,
                               onPressed: _handleCamera,
                               leadingIcon: Icon(
@@ -212,7 +210,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: AppButton(
-                              text: 'Upload',
+                              text: context.l10n.photoCategoryUpload,
                               variant: AppButtonVariant.outlined,
                               onPressed: _handleUpload,
                               leadingIcon: Icon(
@@ -229,8 +227,8 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                     const SizedBox(height: 16),
 
                     // * Uploaded Photos List
-                    const AppText(
-                      'Uploaded Photos',
+                    AppText(
+                      context.l10n.photoCategoryUploadedPhotos,
                       style: AppTextStyle.titleSmall,
                     ),
                     const SizedBox(height: 12),
@@ -240,7 +238,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: Center(
                           child: AppText(
-                            'No photos uploaded yet',
+                            context.l10n.photoCategoryEmpty,
                             color: context.colors.textSecondary,
                           ),
                         ),
@@ -269,7 +267,7 @@ class _PhotoCategoryScreenState extends ConsumerState<PhotoCategoryScreen> {
 
               // * Continue button
               AppButton(
-                text: 'Continue to Summary',
+                text: context.l10n.photoCategoryContinueButton,
                 onPressed: hasAnyPhotos && !_isSubmitting
                     ? _handleSubmit
                     : null,

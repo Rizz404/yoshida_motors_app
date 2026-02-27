@@ -1,0 +1,19 @@
+{
+  "@@locale": "ja",
+  "listNotificationsTitle": "通知",
+  "@listNotificationsTitle": {
+    "description": "Notifications screen title"
+  },
+  "listNotificationsMarkAllRead": "すべて既読にする",
+  "@listNotificationsMarkAllRead": {
+    "description": "Tooltip for mark all as read button"
+  },
+  "listNotificationsFailedToLoad": "通知の読み込みに失敗しました",
+  "@listNotificationsFailedToLoad": {
+    "description": "Error message when notifications fail to load"
+  },
+  "listNotificationsEmpty": "まだ通知はありません",
+  "@listNotificationsEmpty": {
+    "description": "Empty state message for notifications"
+  }
+}

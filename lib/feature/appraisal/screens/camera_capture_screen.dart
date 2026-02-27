@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
@@ -59,7 +60,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
         .read(appraisalFormProvider.notifier)
         .addPhoto(category?.trim() ?? '', image.path);
 
-    AppToast.success('Photo added');
+    AppToast.success(context.l10n.cameraCapturePhotoAdded);
     if (mounted) await context.router.maybePop();
   }
 
@@ -69,22 +70,25 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
-        title: const AppText(
-          'Enter Category Name',
+        title: AppText(
+          context.l10n.cameraCaptureDialogTitle,
           style: AppTextStyle.titleSmall,
         ),
         content: FormBuilder(
           key: formKey,
-          child: const AppTextField(
+          child: AppTextField(
             name: 'category_name',
-            label: 'Category Name',
-            placeHolder: 'e.g., Mesin Kanan, Interior Depan',
+            label: context.l10n.cameraCaptureDialogCategoryLabel,
+            placeHolder: context.l10n.cameraCaptureDialogCategoryPlaceholder,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: AppText('Cancel', color: context.colors.textSecondary),
+            child: AppText(
+              context.l10n.cameraCaptureDialogCancel,
+              color: context.colors.textSecondary,
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -95,7 +99,10 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                 Navigator.of(context).pop(val.trim());
               }
             },
-            child: AppText('Save', color: context.colorScheme.primary),
+            child: AppText(
+              context.l10n.cameraCaptureDialogSave,
+              color: context.colorScheme.primary,
+            ),
           ),
         ],
       ),
@@ -113,7 +120,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           title: AppText(
-            'Take Photo: $category',
+            context.l10n.cameraCaptureTitle(category),
             style: AppTextStyle.titleSmall,
             color: Colors.white,
           ),
@@ -129,8 +136,8 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                       color: Colors.white54,
                     ),
                     const SizedBox(height: 16),
-                    const AppText(
-                      'Opening camera...',
+                    AppText(
+                      context.l10n.cameraCaptureOpeningCamera,
                       color: Colors.white54,
                       style: AppTextStyle.bodyMedium,
                     ),
@@ -141,7 +148,10 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                         Icons.camera_alt_rounded,
                         color: Colors.white,
                       ),
-                      label: const AppText('Open Camera', color: Colors.white),
+                      label: AppText(
+                        context.l10n.cameraCaptureOpenCameraButton,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -170,7 +180,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                       children: [
                         Expanded(
                           child: AppButton(
-                            text: 'Retake',
+                            text: context.l10n.cameraCaptureRetake,
                             variant: AppButtonVariant.outlined,
                             onPressed: _openCamera,
                             leadingIcon: const Icon(
@@ -182,7 +192,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: AppButton(
-                            text: 'Use This Photo',
+                            text: context.l10n.cameraCaptureUsePhoto,
                             onPressed: _usePhoto,
                             leadingIcon: Icon(
                               Icons.check_rounded,

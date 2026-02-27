@@ -1,0 +1,135 @@
+{
+  "@@locale": "ja",
+  "loginTitle": "おかえりなさい",
+  "@loginTitle": {
+    "description": "Login screen title"
+  },
+  "loginSubtitle": "アカウントにサインイン",
+  "@loginSubtitle": {
+    "description": "Login screen subtitle"
+  },
+  "loginTabEmail": "メール",
+  "@loginTabEmail": {
+    "description": "Email tab label on login"
+  },
+  "loginTabPhoneOtp": "電話OTP",
+  "@loginTabPhoneOtp": {
+    "description": "Phone OTP tab label on login"
+  },
+  "loginEmailLabel": "メールアドレス",
+  "@loginEmailLabel": {
+    "description": "Email field label"
+  },
+  "loginPasswordLabel": "パスワード",
+  "@loginPasswordLabel": {
+    "description": "Password field label"
+  },
+  "loginButton": "ログイン",
+  "@loginButton": {
+    "description": "Login button label"
+  },
+  "loginContinueWithGoogle": "Googleで続ける",
+  "@loginContinueWithGoogle": {
+    "description": "Google sign-in button"
+  },
+  "loginOr": "または",
+  "@loginOr": {
+    "description": "Divider between login methods"
+  },
+  "loginNoAccount": "アカウントをお持ちでないですか？ ",
+  "@loginNoAccount": {
+    "description": "Prompt for users without account"
+  },
+  "loginRegisterLink": "登録",
+  "@loginRegisterLink": {
+    "description": "Link to register screen"
+  },
+  "loginPhoneDisabledTitle": "電話OTPは一時的に無効です",
+  "@loginPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled"
+  },
+  "loginPhoneDisabledSubtitle": "メールまたはGoogleサインインをご利用ください。",
+  "@loginPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled"
+  },
+  "loginSuccess": "ログイン成功",
+  "@loginSuccess": {
+    "description": "Toast on login success"
+  },
+  "loginFailed": "ログイン失敗",
+  "@loginFailed": {
+    "description": "Toast on login failure"
+  },
+  "registerTitle": "アカウントを作成",
+  "@registerTitle": {
+    "description": "Register screen title"
+  },
+  "registerSubtitle": "始めるために登録してください",
+  "@registerSubtitle": {
+    "description": "Register screen subtitle"
+  },
+  "registerTabEmail": "メール",
+  "@registerTabEmail": {
+    "description": "Email tab label on register"
+  },
+  "registerTabPhoneOtp": "電話OTP",
+  "@registerTabPhoneOtp": {
+    "description": "Phone OTP tab label on register"
+  },
+  "registerEmailLabel": "メールアドレス",
+  "@registerEmailLabel": {
+    "description": "Email field label on register"
+  },
+  "registerPasswordLabel": "パスワード",
+  "@registerPasswordLabel": {
+    "description": "Password field label on register"
+  },
+  "registerConfirmPasswordLabel": "パスワードの確認",
+  "@registerConfirmPasswordLabel": {
+    "description": "Confirm password field label"
+  },
+  "registerFullNameOptional": "氏名（任意）",
+  "@registerFullNameOptional": {
+    "description": "Full name optional field label"
+  },
+  "registerAddressOptional": "住所（任意）",
+  "@registerAddressOptional": {
+    "description": "Address optional field label"
+  },
+  "registerButton": "登録",
+  "@registerButton": {
+    "description": "Register button label"
+  },
+  "registerContinueWithGoogle": "Googleで続ける",
+  "@registerContinueWithGoogle": {
+    "description": "Google register button"
+  },
+  "registerOr": "または",
+  "@registerOr": {
+    "description": "Divider between register methods"
+  },
+  "registerAlreadyAccount": "すでにアカウントをお持ちですか？ ",
+  "@registerAlreadyAccount": {
+    "description": "Prompt for users already registered"
+  },
+  "registerLoginLink": "ログイン",
+  "@registerLoginLink": {
+    "description": "Link back to login screen"
+  },
+  "registerPhoneDisabledTitle": "電話OTPは一時的に無効です",
+  "@registerPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled on register"
+  },
+  "registerPhoneDisabledSubtitle": "メールまたはGoogleサインインをご利用ください。",
+  "@registerPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled on register"
+  },
+  "registerSuccess": "登録成功",
+  "@registerSuccess": {
+    "description": "Toast on registration success"
+  },
+  "registerFailed": "登録失敗",
+  "@registerFailed": {
+    "description": "Toast on registration failure"
+  }
+}

@@ -1,0 +1,383 @@
+{
+  "@@locale": "en",
+  "vehicleInfoTitle": "Vehicle Information",
+  "@vehicleInfoTitle": {
+    "description": "Vehicle info screen app bar title"
+  },
+  "vehicleInfoBrandLabel": "Vehicle Brand",
+  "@vehicleInfoBrandLabel": {
+    "description": "Vehicle brand field label"
+  },
+  "vehicleInfoBrandPlaceholder": "Toyota, Honda, Suzuki...",
+  "@vehicleInfoBrandPlaceholder": {
+    "description": "Vehicle brand placeholder"
+  },
+  "vehicleInfoModelLabel": "Vehicle Model",
+  "@vehicleInfoModelLabel": {
+    "description": "Vehicle model field label"
+  },
+  "vehicleInfoModelPlaceholder": "Avanza, Brio, Ertiga...",
+  "@vehicleInfoModelPlaceholder": {
+    "description": "Vehicle model placeholder"
+  },
+  "vehicleInfoYearLabel": "Year of Manufacture",
+  "@vehicleInfoYearLabel": {
+    "description": "Year of manufacture field label"
+  },
+  "vehicleInfoYearPlaceholder": "2020",
+  "@vehicleInfoYearPlaceholder": {
+    "description": "Year of manufacture placeholder"
+  },
+  "vehicleInfoLicensePlateLabel": "License Plate (Optional)",
+  "@vehicleInfoLicensePlateLabel": {
+    "description": "License plate optional field label"
+  },
+  "vehicleInfoMileageLabel": "Mileage (Optional)",
+  "@vehicleInfoMileageLabel": {
+    "description": "Mileage optional field label"
+  },
+  "vehicleInfoNotesLabel": "Additional Notes (Optional)",
+  "@vehicleInfoNotesLabel": {
+    "description": "Additional notes optional field label"
+  },
+  "vehicleInfoNotesPlaceholder": "Condition, modifications, etc.",
+  "@vehicleInfoNotesPlaceholder": {
+    "description": "Additional notes placeholder"
+  },
+  "vehicleInfoNextButton": "Next: Take Photos",
+  "@vehicleInfoNextButton": {
+    "description": "Next step button on vehicle info"
+  },
+  "photoCategoryTitle": "Take Photos",
+  "@photoCategoryTitle": {
+    "description": "Photo category screen app bar title"
+  },
+  "photoCategoryWarning": "Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.",
+  "@photoCategoryWarning": {
+    "description": "Warning message on photo category screen"
+  },
+  "photoCategoryAddNewPhoto": "Add New Photo",
+  "@photoCategoryAddNewPhoto": {
+    "description": "Add new photo section header"
+  },
+  "photoCategoryCamera": "Camera",
+  "@photoCategoryCamera": {
+    "description": "Camera button label"
+  },
+  "photoCategoryUpload": "Upload",
+  "@photoCategoryUpload": {
+    "description": "Upload button label"
+  },
+  "photoCategoryUploadedPhotos": "Uploaded Photos",
+  "@photoCategoryUploadedPhotos": {
+    "description": "Uploaded photos section header"
+  },
+  "photoCategoryEmpty": "No photos uploaded yet",
+  "@photoCategoryEmpty": {
+    "description": "Empty state for uploaded photos"
+  },
+  "photoCategoryContinueButton": "Continue to Summary",
+  "@photoCategoryContinueButton": {
+    "description": "Continue to summary button"
+  },
+  "photoCategoryErrorNoPhotos": "Please add at least one photo.",
+  "@photoCategoryErrorNoPhotos": {
+    "description": "Error when no photos are added"
+  },
+  "photoCategoryErrorCategoryRequired": "Please enter a category name for all photos.",
+  "@photoCategoryErrorCategoryRequired": {
+    "description": "Error when a photo has no category name"
+  },
+  "photoCategorySuccessCreated": "Appraisal created successfully!",
+  "@photoCategorySuccessCreated": {
+    "description": "Toast on appraisal creation success"
+  },
+  "photoCategoryMaxPhotos": "Maximum 7 photos reached.",
+  "@photoCategoryMaxPhotos": {
+    "description": "Error when max photos are reached"
+  },
+  "cameraCaptureTitle": "Take Photo: {category}",
+  "@cameraCaptureTitle": {
+    "description": "Camera capture screen app bar title",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "cameraCaptureOpeningCamera": "Opening camera...",
+  "@cameraCaptureOpeningCamera": {
+    "description": "Text while camera is opening"
+  },
+  "cameraCaptureOpenCameraButton": "Open Camera",
+  "@cameraCaptureOpenCameraButton": {
+    "description": "Button to open camera manually"
+  },
+  "cameraCaptureRetake": "Retake",
+  "@cameraCaptureRetake": {
+    "description": "Retake photo button"
+  },
+  "cameraCaptureUsePhoto": "Use This Photo",
+  "@cameraCaptureUsePhoto": {
+    "description": "Use this photo button"
+  },
+  "cameraCaptureDialogTitle": "Enter Category Name",
+  "@cameraCaptureDialogTitle": {
+    "description": "Title of category name dialog"
+  },
+  "cameraCaptureDialogCategoryLabel": "Category Name",
+  "@cameraCaptureDialogCategoryLabel": {
+    "description": "Category name field label in dialog"
+  },
+  "cameraCaptureDialogCategoryPlaceholder": "e.g., Right Engine, Front Interior",
+  "@cameraCaptureDialogCategoryPlaceholder": {
+    "description": "Category name placeholder in dialog"
+  },
+  "cameraCaptureDialogCancel": "Cancel",
+  "@cameraCaptureDialogCancel": {
+    "description": "Cancel button in dialog"
+  },
+  "cameraCaptureDialogSave": "Save",
+  "@cameraCaptureDialogSave": {
+    "description": "Save button in dialog"
+  },
+  "cameraCapturePhotoAdded": "Photo added",
+  "@cameraCapturePhotoAdded": {
+    "description": "Toast when a photo is added successfully"
+  },
+  "summaryTitle": "Review & Submit",
+  "@summaryTitle": {
+    "description": "Summary screen app bar title"
+  },
+  "summaryVehicleInfoSection": "Vehicle Information",
+  "@summaryVehicleInfoSection": {
+    "description": "Vehicle information section header on summary"
+  },
+  "summaryBrand": "Brand",
+  "@summaryBrand": {
+    "description": "Brand row label on summary"
+  },
+  "summaryModel": "Model",
+  "@summaryModel": {
+    "description": "Model row label on summary"
+  },
+  "summaryYear": "Year",
+  "@summaryYear": {
+    "description": "Year row label on summary"
+  },
+  "summaryLicensePlate": "License Plate",
+  "@summaryLicensePlate": {
+    "description": "License plate row label on summary"
+  },
+  "summaryMileage": "Mileage",
+  "@summaryMileage": {
+    "description": "Mileage row label on summary"
+  },
+  "summaryNotes": "Notes",
+  "@summaryNotes": {
+    "description": "Notes row label on summary"
+  },
+  "summaryPhotosSection": "Photos ({count})",
+  "@summaryPhotosSection": {
+    "description": "Photos section header on summary with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryNoPhotos": "No photos uploaded yet.",
+  "@summaryNoPhotos": {
+    "description": "Empty state for photos on summary"
+  },
+  "summaryDisclaimer": "By submitting, you agree that the information provided is accurate.",
+  "@summaryDisclaimer": {
+    "description": "Disclaimer text on summary"
+  },
+  "summarySubmitButton": "Submit Appraisal",
+  "@summarySubmitButton": {
+    "description": "Submit appraisal button"
+  },
+  "summaryFailedToLoad": "Failed to load",
+  "@summaryFailedToLoad": {
+    "description": "Error message on summary screen"
+  },
+  "summarySubmissionFailed": "Submission failed",
+  "@summarySubmissionFailed": {
+    "description": "Toast on submission failure"
+  },
+  "summarySubmitSuccess": "Appraisal submitted successfully!",
+  "@summarySubmitSuccess": {
+    "description": "Toast on submission success"
+  },
+  "appraisalResultTitle": "Appraisal Result",
+  "@appraisalResultTitle": {
+    "description": "Appraisal result screen title"
+  },
+  "appraisalResultFailedToLoad": "Failed to load appraisal",
+  "@appraisalResultFailedToLoad": {
+    "description": "Error when appraisal result fails to load"
+  },
+  "appraisalResultNextStepsSection": "Next Steps",
+  "@appraisalResultNextStepsSection": {
+    "description": "Next steps section header"
+  },
+  "appraisalResultAdminNotesSection": "Admin Notes",
+  "@appraisalResultAdminNotesSection": {
+    "description": "Admin notes section header"
+  },
+  "appraisalResultVehicleDetailsSection": "Vehicle Details",
+  "@appraisalResultVehicleDetailsSection": {
+    "description": "Vehicle details section header"
+  },
+  "appraisalResultStatusCompleteTitle": "Review Complete!",
+  "@appraisalResultStatusCompleteTitle": {
+    "description": "Status banner title when review is complete"
+  },
+  "appraisalResultStatusUnderReviewTitle": "Under Review",
+  "@appraisalResultStatusUnderReviewTitle": {
+    "description": "Status banner title when under review"
+  },
+  "appraisalResultStatusCompleteSubtitle": "Your appraisal has been reviewed and a price has been set.",
+  "@appraisalResultStatusCompleteSubtitle": {
+    "description": "Status banner subtitle when review is complete"
+  },
+  "appraisalResultStatusUnderReviewSubtitle": "We'll notify you once the review is complete.",
+  "@appraisalResultStatusUnderReviewSubtitle": {
+    "description": "Status banner subtitle when under review"
+  },
+  "appraisalResultOfferedPrice": "Offered Purchase Price",
+  "@appraisalResultOfferedPrice": {
+    "description": "Label for offered purchase price"
+  },
+  "appraisalResultValidUntil": "Valid until: {date}",
+  "@appraisalResultValidUntil": {
+    "description": "Validity date for offered price",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "appraisalResultContactUs": "Contact Us",
+  "@appraisalResultContactUs": {
+    "description": "Contact us button label"
+  },
+  "appraisalResultEditAppraisal": "Edit Appraisal",
+  "@appraisalResultEditAppraisal": {
+    "description": "Edit appraisal button label"
+  },
+  "appraisalResultNextStepComplete1": "Review the offered price carefully.",
+  "@appraisalResultNextStepComplete1": {
+    "description": "Next step 1 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete2": "Contact our team to accept or negotiate.",
+  "@appraisalResultNextStepComplete2": {
+    "description": "Next step 2 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete3": "Bring your vehicle for a physical inspection.",
+  "@appraisalResultNextStepComplete3": {
+    "description": "Next step 3 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete4": "Complete the transaction and documentation.",
+  "@appraisalResultNextStepComplete4": {
+    "description": "Next step 4 for completed appraisal"
+  },
+  "appraisalResultNextStepPending1": "Our team will review your submission.",
+  "@appraisalResultNextStepPending1": {
+    "description": "Next step 1 for pending appraisal"
+  },
+  "appraisalResultNextStepPending2": "You will receive a notification when done.",
+  "@appraisalResultNextStepPending2": {
+    "description": "Next step 2 for pending appraisal"
+  },
+  "appraisalResultNextStepPending3": "You can contact us for updates at any time.",
+  "@appraisalResultNextStepPending3": {
+    "description": "Next step 3 for pending appraisal"
+  },
+  "appraisalResultBrandLabel": "Brand",
+  "@appraisalResultBrandLabel": {
+    "description": "Brand row label on result screen"
+  },
+  "appraisalResultModelLabel": "Model",
+  "@appraisalResultModelLabel": {
+    "description": "Model row label on result screen"
+  },
+  "appraisalResultYearLabel": "Year",
+  "@appraisalResultYearLabel": {
+    "description": "Year row label on result screen"
+  },
+  "appraisalResultLicensePlateLabel": "License Plate",
+  "@appraisalResultLicensePlateLabel": {
+    "description": "License plate row label on result screen"
+  },
+  "appraisalResultMileageLabel": "Mileage",
+  "@appraisalResultMileageLabel": {
+    "description": "Mileage row label on result screen"
+  },
+  "appraisalResultNotesLabel": "Notes",
+  "@appraisalResultNotesLabel": {
+    "description": "Notes row label on result screen"
+  },
+  "listAppraisalsTitle": "My Appraisals",
+  "@listAppraisalsTitle": {
+    "description": "List appraisals screen title"
+  },
+  "listAppraisalsFailedToLoad": "Failed to load appraisals",
+  "@listAppraisalsFailedToLoad": {
+    "description": "Error when appraisal list fails to load"
+  },
+  "listAppraisalsEmpty": "No appraisals found",
+  "@listAppraisalsEmpty": {
+    "description": "Empty state for appraisal list"
+  },
+  "listAppraisalsViewDetails": "View Details",
+  "@listAppraisalsViewDetails": {
+    "description": "View details button on appraisal list card"
+  },
+  "editAppraisalTitle": "Edit Appraisal",
+  "@editAppraisalTitle": {
+    "description": "Edit appraisal screen title"
+  },
+  "editAppraisalVehicleInfoSection": "Vehicle Information",
+  "@editAppraisalVehicleInfoSection": {
+    "description": "Vehicle info section header on edit appraisal"
+  },
+  "editAppraisalPhotosSection": "Photos ({count}/7)",
+  "@editAppraisalPhotosSection": {
+    "description": "Photos section header on edit appraisal",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editAppraisalAddPhoto": "Add Photo",
+  "@editAppraisalAddPhoto": {
+    "description": "Add photo button on edit appraisal"
+  },
+  "editAppraisalNoPhotos": "No photos added yet",
+  "@editAppraisalNoPhotos": {
+    "description": "Empty state for photos on edit appraisal"
+  },
+  "editAppraisalSaveButton": "Save Changes",
+  "@editAppraisalSaveButton": {
+    "description": "Save changes button on edit appraisal"
+  },
+  "editAppraisalSuccess": "Appraisal updated successfully!",
+  "@editAppraisalSuccess": {
+    "description": "Toast on appraisal update success"
+  },
+  "editAppraisalFailedToLoad": "Failed to load detail",
+  "@editAppraisalFailedToLoad": {
+    "description": "Error when edit appraisal detail fails to load"
+  },
+  "editAppraisalErrorMinPhotos": "Please add at least one photo.",
+  "@editAppraisalErrorMinPhotos": {
+    "description": "Error when no photos on edit appraisal"
+  },
+  "editAppraisalErrorCategoryRequired": "Please enter a category name for all new photos.",
+  "@editAppraisalErrorCategoryRequired": {
+    "description": "Error when a new photo has no category on edit"
+  }
+}

@@ -12,7 +12,7 @@ void main() async {
   }
 
   // Semua locale yang didukung
-  final locales = ['en', 'ja', 'id'];
+  final locales = ['en', 'ja'];
 
   for (final locale in locales) {
     final combinedMap = <String, dynamic>{};

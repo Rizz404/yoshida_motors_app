@@ -1,0 +1,51 @@
+{
+  "@@locale": "ja",
+  "profileFailedToLoad": "プロフィールの読み込みに失敗しました",
+  "@profileFailedToLoad": {
+    "description": "Error message when profile fails to load"
+  },
+  "profileUpdatePhotoLabel": "プロフィール写真を更新",
+  "@profileUpdatePhotoLabel": {
+    "description": "Profile photo picker label"
+  },
+  "profileUpdatePhotoHint": "画像を選択",
+  "@profileUpdatePhotoHint": {
+    "description": "Profile photo picker hint text"
+  },
+  "profileFullNameLabel": "氏名",
+  "@profileFullNameLabel": {
+    "description": "Full name field label"
+  },
+  "profileFullNamePlaceholder": "山田太郎",
+  "@profileFullNamePlaceholder": {
+    "description": "Full name field placeholder"
+  },
+  "profileEmailLabel": "メールアドレス",
+  "@profileEmailLabel": {
+    "description": "Email field label on profile"
+  },
+  "profileEmailPlaceholder": "yamada@example.com",
+  "@profileEmailPlaceholder": {
+    "description": "Email field placeholder on profile"
+  },
+  "profileAddressLabel": "住所",
+  "@profileAddressLabel": {
+    "description": "Address field label"
+  },
+  "profileAddressPlaceholder": "東京都渋谷区",
+  "@profileAddressPlaceholder": {
+    "description": "Address field placeholder"
+  },
+  "profileSaveButton": "プロフィールを保存",
+  "@profileSaveButton": {
+    "description": "Save profile button label"
+  },
+  "profileSaveSuccess": "プロフィールが正常に保存されました",
+  "@profileSaveSuccess": {
+    "description": "Toast on profile save success"
+  },
+  "profileSaveFailed": "プロフィールの保存に失敗しました",
+  "@profileSaveFailed": {
+    "description": "Toast on profile save failure"
+  }
+}

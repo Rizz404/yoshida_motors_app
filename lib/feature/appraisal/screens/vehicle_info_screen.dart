@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
@@ -6,7 +7,6 @@ import 'package:car_rongsok_app/feature/appraisal/validators/vehicle_info_valida
 import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_step_indicator.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
-import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
@@ -50,7 +50,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
   Widget build(BuildContext context) {
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Vehicle Information'),
+        appBar: CustomAppBar(title: context.l10n.vehicleInfoTitle),
         body: ScreenWrapper(
           child: SingleChildScrollView(
             child: Column(
@@ -68,8 +68,8 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                     children: [
                       AppTextField(
                         name: 'vehicle_brand',
-                        label: 'Vehicle Brand',
-                        placeHolder: 'Toyota, Honda, Suzuki...',
+                        label: context.l10n.vehicleInfoBrandLabel,
+                        placeHolder: context.l10n.vehicleInfoBrandPlaceholder,
                         prefixIcon: Icon(
                           Icons.directions_car_outlined,
                           color: context.colors.primary,
@@ -79,8 +79,8 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       const SizedBox(height: 16),
                       AppTextField(
                         name: 'vehicle_model',
-                        label: 'Vehicle Model',
-                        placeHolder: 'Avanza, Brio, Ertiga...',
+                        label: context.l10n.vehicleInfoModelLabel,
+                        placeHolder: context.l10n.vehicleInfoModelPlaceholder,
                         prefixIcon: Icon(
                           Icons.commute_outlined,
                           color: context.colors.primary,
@@ -90,8 +90,8 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       const SizedBox(height: 16),
                       AppTextField(
                         name: 'year_manufacture',
-                        label: 'Year of Manufacture',
-                        placeHolder: '2020',
+                        label: context.l10n.vehicleInfoYearLabel,
+                        placeHolder: context.l10n.vehicleInfoYearPlaceholder,
                         type: AppTextFieldType.number,
                         prefixIcon: Icon(
                           Icons.calendar_today_outlined,
@@ -102,7 +102,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       const SizedBox(height: 16),
                       AppTextField(
                         name: 'license_plate',
-                        label: 'License Plate (Optional)',
+                        label: context.l10n.vehicleInfoLicensePlateLabel,
                         placeHolder: 'B 1234 ABC',
                         prefixIcon: Icon(
                           Icons.pin_outlined,
@@ -113,7 +113,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       const SizedBox(height: 16),
                       AppTextField(
                         name: 'mileage',
-                        label: 'Mileage (Optional)',
+                        label: context.l10n.vehicleInfoMileageLabel,
                         placeHolder: '50000',
                         type: AppTextFieldType.number,
                         prefixIcon: Icon(
@@ -125,8 +125,8 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       const SizedBox(height: 16),
                       AppTextField(
                         name: 'description',
-                        label: 'Additional Notes (Optional)',
-                        placeHolder: 'Condition, modifications, etc.',
+                        label: context.l10n.vehicleInfoNotesLabel,
+                        placeHolder: context.l10n.vehicleInfoNotesPlaceholder,
                         type: AppTextFieldType.multiline,
                         maxLines: 4,
                         prefixIcon: Icon(
@@ -137,7 +137,7 @@ class _VehicleInfoScreenState extends ConsumerState<VehicleInfoScreen> {
                       ),
                       const SizedBox(height: 32),
                       AppButton(
-                        text: 'Next: Take Photos',
+                        text: context.l10n.vehicleInfoNextButton,
                         onPressed: _onNext,
                         trailingIcon: Icon(
                           Icons.arrow_forward_rounded,

@@ -582,6 +582,615 @@
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   },
+  "vehicleInfoTitle": "車両情報",
+  "@vehicleInfoTitle": {
+    "description": "Vehicle info screen app bar title"
+  },
+  "vehicleInfoBrandLabel": "車両ブランド",
+  "@vehicleInfoBrandLabel": {
+    "description": "Vehicle brand field label"
+  },
+  "vehicleInfoBrandPlaceholder": "トヨタ、ホンダ、スズキ...",
+  "@vehicleInfoBrandPlaceholder": {
+    "description": "Vehicle brand placeholder"
+  },
+  "vehicleInfoModelLabel": "車両モデル",
+  "@vehicleInfoModelLabel": {
+    "description": "Vehicle model field label"
+  },
+  "vehicleInfoModelPlaceholder": "アバンザ、ブリオ、エルティガ...",
+  "@vehicleInfoModelPlaceholder": {
+    "description": "Vehicle model placeholder"
+  },
+  "vehicleInfoYearLabel": "製造年",
+  "@vehicleInfoYearLabel": {
+    "description": "Year of manufacture field label"
+  },
+  "vehicleInfoYearPlaceholder": "2020",
+  "@vehicleInfoYearPlaceholder": {
+    "description": "Year of manufacture placeholder"
+  },
+  "vehicleInfoLicensePlateLabel": "ナンバープレート（任意）",
+  "@vehicleInfoLicensePlateLabel": {
+    "description": "License plate optional field label"
+  },
+  "vehicleInfoMileageLabel": "走行距離（任意）",
+  "@vehicleInfoMileageLabel": {
+    "description": "Mileage optional field label"
+  },
+  "vehicleInfoNotesLabel": "追加メモ（任意）",
+  "@vehicleInfoNotesLabel": {
+    "description": "Additional notes optional field label"
+  },
+  "vehicleInfoNotesPlaceholder": "状態、改造など",
+  "@vehicleInfoNotesPlaceholder": {
+    "description": "Additional notes placeholder"
+  },
+  "vehicleInfoNextButton": "次へ：写真を撮る",
+  "@vehicleInfoNextButton": {
+    "description": "Next step button on vehicle info"
+  },
+  "photoCategoryTitle": "写真を撮る",
+  "@photoCategoryTitle": {
+    "description": "Photo category screen app bar title"
+  },
+  "photoCategoryWarning": "警告：写真が鮮明で、ぼやけておらず、必要な部分をすべてカバーしていることを確認してください。",
+  "@photoCategoryWarning": {
+    "description": "Warning message on photo category screen"
+  },
+  "photoCategoryAddNewPhoto": "新しい写真を追加",
+  "@photoCategoryAddNewPhoto": {
+    "description": "Add new photo section header"
+  },
+  "photoCategoryCamera": "カメラ",
+  "@photoCategoryCamera": {
+    "description": "Camera button label"
+  },
+  "photoCategoryUpload": "アップロード",
+  "@photoCategoryUpload": {
+    "description": "Upload button label"
+  },
+  "photoCategoryUploadedPhotos": "アップロードされた写真",
+  "@photoCategoryUploadedPhotos": {
+    "description": "Uploaded photos section header"
+  },
+  "photoCategoryEmpty": "まだ写真がアップロードされていません",
+  "@photoCategoryEmpty": {
+    "description": "Empty state for uploaded photos"
+  },
+  "photoCategoryContinueButton": "サマリーに続く",
+  "@photoCategoryContinueButton": {
+    "description": "Continue to summary button"
+  },
+  "photoCategoryErrorNoPhotos": "少なくとも1枚の写真を追加してください。",
+  "@photoCategoryErrorNoPhotos": {
+    "description": "Error when no photos are added"
+  },
+  "photoCategoryErrorCategoryRequired": "すべての写真のカテゴリ名を入力してください。",
+  "@photoCategoryErrorCategoryRequired": {
+    "description": "Error when a photo has no category name"
+  },
+  "photoCategorySuccessCreated": "査定が正常に作成されました！",
+  "@photoCategorySuccessCreated": {
+    "description": "Toast on appraisal creation success"
+  },
+  "photoCategoryMaxPhotos": "最大7枚の写真に達しました。",
+  "@photoCategoryMaxPhotos": {
+    "description": "Error when max photos are reached"
+  },
+  "cameraCaptureTitle": "写真を撮る：{category}",
+  "@cameraCaptureTitle": {
+    "description": "Camera capture screen app bar title",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "cameraCaptureOpeningCamera": "カメラを開いています...",
+  "@cameraCaptureOpeningCamera": {
+    "description": "Text while camera is opening"
+  },
+  "cameraCaptureOpenCameraButton": "カメラを開く",
+  "@cameraCaptureOpenCameraButton": {
+    "description": "Button to open camera manually"
+  },
+  "cameraCaptureRetake": "撮り直し",
+  "@cameraCaptureRetake": {
+    "description": "Retake photo button"
+  },
+  "cameraCaptureUsePhoto": "この写真を使用",
+  "@cameraCaptureUsePhoto": {
+    "description": "Use this photo button"
+  },
+  "cameraCaptureDialogTitle": "カテゴリ名を入力",
+  "@cameraCaptureDialogTitle": {
+    "description": "Title of category name dialog"
+  },
+  "cameraCaptureDialogCategoryLabel": "カテゴリ名",
+  "@cameraCaptureDialogCategoryLabel": {
+    "description": "Category name field label in dialog"
+  },
+  "cameraCaptureDialogCategoryPlaceholder": "例：右エンジン、フロントインテリア",
+  "@cameraCaptureDialogCategoryPlaceholder": {
+    "description": "Category name placeholder in dialog"
+  },
+  "cameraCaptureDialogCancel": "キャンセル",
+  "@cameraCaptureDialogCancel": {
+    "description": "Cancel button in dialog"
+  },
+  "cameraCaptureDialogSave": "保存",
+  "@cameraCaptureDialogSave": {
+    "description": "Save button in dialog"
+  },
+  "cameraCapturePhotoAdded": "写真が追加されました",
+  "@cameraCapturePhotoAdded": {
+    "description": "Toast when a photo is added successfully"
+  },
+  "summaryTitle": "確認して提出",
+  "@summaryTitle": {
+    "description": "Summary screen app bar title"
+  },
+  "summaryVehicleInfoSection": "車両情報",
+  "@summaryVehicleInfoSection": {
+    "description": "Vehicle information section header on summary"
+  },
+  "summaryBrand": "ブランド",
+  "@summaryBrand": {
+    "description": "Brand row label on summary"
+  },
+  "summaryModel": "モデル",
+  "@summaryModel": {
+    "description": "Model row label on summary"
+  },
+  "summaryYear": "年",
+  "@summaryYear": {
+    "description": "Year row label on summary"
+  },
+  "summaryLicensePlate": "ナンバープレート",
+  "@summaryLicensePlate": {
+    "description": "License plate row label on summary"
+  },
+  "summaryMileage": "走行距離",
+  "@summaryMileage": {
+    "description": "Mileage row label on summary"
+  },
+  "summaryNotes": "メモ",
+  "@summaryNotes": {
+    "description": "Notes row label on summary"
+  },
+  "summaryPhotosSection": "写真（{count}枚）",
+  "@summaryPhotosSection": {
+    "description": "Photos section header on summary with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryNoPhotos": "まだ写真がアップロードされていません。",
+  "@summaryNoPhotos": {
+    "description": "Empty state for photos on summary"
+  },
+  "summaryDisclaimer": "提出することで、提供された情報が正確であることに同意します。",
+  "@summaryDisclaimer": {
+    "description": "Disclaimer text on summary"
+  },
+  "summarySubmitButton": "査定を提出",
+  "@summarySubmitButton": {
+    "description": "Submit appraisal button"
+  },
+  "summaryFailedToLoad": "読み込みに失敗しました",
+  "@summaryFailedToLoad": {
+    "description": "Error message on summary screen"
+  },
+  "summarySubmissionFailed": "提出に失敗しました",
+  "@summarySubmissionFailed": {
+    "description": "Toast on submission failure"
+  },
+  "summarySubmitSuccess": "査定が正常に提出されました！",
+  "@summarySubmitSuccess": {
+    "description": "Toast on submission success"
+  },
+  "appraisalResultTitle": "査定結果",
+  "@appraisalResultTitle": {
+    "description": "Appraisal result screen title"
+  },
+  "appraisalResultFailedToLoad": "査定の読み込みに失敗しました",
+  "@appraisalResultFailedToLoad": {
+    "description": "Error when appraisal result fails to load"
+  },
+  "appraisalResultNextStepsSection": "次のステップ",
+  "@appraisalResultNextStepsSection": {
+    "description": "Next steps section header"
+  },
+  "appraisalResultAdminNotesSection": "管理者メモ",
+  "@appraisalResultAdminNotesSection": {
+    "description": "Admin notes section header"
+  },
+  "appraisalResultVehicleDetailsSection": "車両詳細",
+  "@appraisalResultVehicleDetailsSection": {
+    "description": "Vehicle details section header"
+  },
+  "appraisalResultStatusCompleteTitle": "審査完了！",
+  "@appraisalResultStatusCompleteTitle": {
+    "description": "Status banner title when review is complete"
+  },
+  "appraisalResultStatusUnderReviewTitle": "審査中",
+  "@appraisalResultStatusUnderReviewTitle": {
+    "description": "Status banner title when under review"
+  },
+  "appraisalResultStatusCompleteSubtitle": "査定が審査され、価格が設定されました。",
+  "@appraisalResultStatusCompleteSubtitle": {
+    "description": "Status banner subtitle when review is complete"
+  },
+  "appraisalResultStatusUnderReviewSubtitle": "審査が完了したらお知らせします。",
+  "@appraisalResultStatusUnderReviewSubtitle": {
+    "description": "Status banner subtitle when under review"
+  },
+  "appraisalResultOfferedPrice": "提示購入価格",
+  "@appraisalResultOfferedPrice": {
+    "description": "Label for offered purchase price"
+  },
+  "appraisalResultValidUntil": "有効期限：{date}",
+  "@appraisalResultValidUntil": {
+    "description": "Validity date for offered price",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "appraisalResultContactUs": "お問い合わせ",
+  "@appraisalResultContactUs": {
+    "description": "Contact us button label"
+  },
+  "appraisalResultEditAppraisal": "査定を編集",
+  "@appraisalResultEditAppraisal": {
+    "description": "Edit appraisal button label"
+  },
+  "appraisalResultNextStepComplete1": "提示価格をよく確認してください。",
+  "@appraisalResultNextStepComplete1": {
+    "description": "Next step 1 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete2": "チームに連絡して承認または交渉してください。",
+  "@appraisalResultNextStepComplete2": {
+    "description": "Next step 2 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete3": "車両を持参して実地検査を受けてください。",
+  "@appraisalResultNextStepComplete3": {
+    "description": "Next step 3 for completed appraisal"
+  },
+  "appraisalResultNextStepComplete4": "取引と書類を完了させてください。",
+  "@appraisalResultNextStepComplete4": {
+    "description": "Next step 4 for completed appraisal"
+  },
+  "appraisalResultNextStepPending1": "チームが提出物を審査します。",
+  "@appraisalResultNextStepPending1": {
+    "description": "Next step 1 for pending appraisal"
+  },
+  "appraisalResultNextStepPending2": "完了したら通知が届きます。",
+  "@appraisalResultNextStepPending2": {
+    "description": "Next step 2 for pending appraisal"
+  },
+  "appraisalResultNextStepPending3": "いつでも更新情報についてご連絡いただけます。",
+  "@appraisalResultNextStepPending3": {
+    "description": "Next step 3 for pending appraisal"
+  },
+  "appraisalResultBrandLabel": "ブランド",
+  "@appraisalResultBrandLabel": {
+    "description": "Brand row label on result screen"
+  },
+  "appraisalResultModelLabel": "モデル",
+  "@appraisalResultModelLabel": {
+    "description": "Model row label on result screen"
+  },
+  "appraisalResultYearLabel": "年",
+  "@appraisalResultYearLabel": {
+    "description": "Year row label on result screen"
+  },
+  "appraisalResultLicensePlateLabel": "ナンバープレート",
+  "@appraisalResultLicensePlateLabel": {
+    "description": "License plate row label on result screen"
+  },
+  "appraisalResultMileageLabel": "走行距離",
+  "@appraisalResultMileageLabel": {
+    "description": "Mileage row label on result screen"
+  },
+  "appraisalResultNotesLabel": "メモ",
+  "@appraisalResultNotesLabel": {
+    "description": "Notes row label on result screen"
+  },
+  "listAppraisalsTitle": "私の査定",
+  "@listAppraisalsTitle": {
+    "description": "List appraisals screen title"
+  },
+  "listAppraisalsFailedToLoad": "査定の読み込みに失敗しました",
+  "@listAppraisalsFailedToLoad": {
+    "description": "Error when appraisal list fails to load"
+  },
+  "listAppraisalsEmpty": "査定が見つかりません",
+  "@listAppraisalsEmpty": {
+    "description": "Empty state for appraisal list"
+  },
+  "listAppraisalsViewDetails": "詳細を見る",
+  "@listAppraisalsViewDetails": {
+    "description": "View details button on appraisal list card"
+  },
+  "editAppraisalTitle": "査定を編集",
+  "@editAppraisalTitle": {
+    "description": "Edit appraisal screen title"
+  },
+  "editAppraisalVehicleInfoSection": "車両情報",
+  "@editAppraisalVehicleInfoSection": {
+    "description": "Vehicle info section header on edit appraisal"
+  },
+  "editAppraisalPhotosSection": "写真（{count}/7）",
+  "@editAppraisalPhotosSection": {
+    "description": "Photos section header on edit appraisal",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editAppraisalAddPhoto": "写真を追加",
+  "@editAppraisalAddPhoto": {
+    "description": "Add photo button on edit appraisal"
+  },
+  "editAppraisalNoPhotos": "まだ写真が追加されていません",
+  "@editAppraisalNoPhotos": {
+    "description": "Empty state for photos on edit appraisal"
+  },
+  "editAppraisalSaveButton": "変更を保存",
+  "@editAppraisalSaveButton": {
+    "description": "Save changes button on edit appraisal"
+  },
+  "editAppraisalSuccess": "査定が正常に更新されました！",
+  "@editAppraisalSuccess": {
+    "description": "Toast on appraisal update success"
+  },
+  "editAppraisalFailedToLoad": "詳細の読み込みに失敗しました",
+  "@editAppraisalFailedToLoad": {
+    "description": "Error when edit appraisal detail fails to load"
+  },
+  "editAppraisalErrorMinPhotos": "少なくとも1枚の写真を追加してください。",
+  "@editAppraisalErrorMinPhotos": {
+    "description": "Error when no photos on edit appraisal"
+  },
+  "editAppraisalErrorCategoryRequired": "すべての新しい写真のカテゴリ名を入力してください。",
+  "@editAppraisalErrorCategoryRequired": {
+    "description": "Error when a new photo has no category on edit"
+  },
+  "loginTitle": "おかえりなさい",
+  "@loginTitle": {
+    "description": "Login screen title"
+  },
+  "loginSubtitle": "アカウントにサインイン",
+  "@loginSubtitle": {
+    "description": "Login screen subtitle"
+  },
+  "loginTabEmail": "メール",
+  "@loginTabEmail": {
+    "description": "Email tab label on login"
+  },
+  "loginTabPhoneOtp": "電話OTP",
+  "@loginTabPhoneOtp": {
+    "description": "Phone OTP tab label on login"
+  },
+  "loginEmailLabel": "メールアドレス",
+  "@loginEmailLabel": {
+    "description": "Email field label"
+  },
+  "loginPasswordLabel": "パスワード",
+  "@loginPasswordLabel": {
+    "description": "Password field label"
+  },
+  "loginButton": "ログイン",
+  "@loginButton": {
+    "description": "Login button label"
+  },
+  "loginContinueWithGoogle": "Googleで続ける",
+  "@loginContinueWithGoogle": {
+    "description": "Google sign-in button"
+  },
+  "loginOr": "または",
+  "@loginOr": {
+    "description": "Divider between login methods"
+  },
+  "loginNoAccount": "アカウントをお持ちでないですか？ ",
+  "@loginNoAccount": {
+    "description": "Prompt for users without account"
+  },
+  "loginRegisterLink": "登録",
+  "@loginRegisterLink": {
+    "description": "Link to register screen"
+  },
+  "loginPhoneDisabledTitle": "電話OTPは一時的に無効です",
+  "@loginPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled"
+  },
+  "loginPhoneDisabledSubtitle": "メールまたはGoogleサインインをご利用ください。",
+  "@loginPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled"
+  },
+  "loginSuccess": "ログイン成功",
+  "@loginSuccess": {
+    "description": "Toast on login success"
+  },
+  "loginFailed": "ログイン失敗",
+  "@loginFailed": {
+    "description": "Toast on login failure"
+  },
+  "registerTitle": "アカウントを作成",
+  "@registerTitle": {
+    "description": "Register screen title"
+  },
+  "registerSubtitle": "始めるために登録してください",
+  "@registerSubtitle": {
+    "description": "Register screen subtitle"
+  },
+  "registerTabEmail": "メール",
+  "@registerTabEmail": {
+    "description": "Email tab label on register"
+  },
+  "registerTabPhoneOtp": "電話OTP",
+  "@registerTabPhoneOtp": {
+    "description": "Phone OTP tab label on register"
+  },
+  "registerEmailLabel": "メールアドレス",
+  "@registerEmailLabel": {
+    "description": "Email field label on register"
+  },
+  "registerPasswordLabel": "パスワード",
+  "@registerPasswordLabel": {
+    "description": "Password field label on register"
+  },
+  "registerConfirmPasswordLabel": "パスワードの確認",
+  "@registerConfirmPasswordLabel": {
+    "description": "Confirm password field label"
+  },
+  "registerFullNameOptional": "氏名（任意）",
+  "@registerFullNameOptional": {
+    "description": "Full name optional field label"
+  },
+  "registerAddressOptional": "住所（任意）",
+  "@registerAddressOptional": {
+    "description": "Address optional field label"
+  },
+  "registerButton": "登録",
+  "@registerButton": {
+    "description": "Register button label"
+  },
+  "registerContinueWithGoogle": "Googleで続ける",
+  "@registerContinueWithGoogle": {
+    "description": "Google register button"
+  },
+  "registerOr": "または",
+  "@registerOr": {
+    "description": "Divider between register methods"
+  },
+  "registerAlreadyAccount": "すでにアカウントをお持ちですか？ ",
+  "@registerAlreadyAccount": {
+    "description": "Prompt for users already registered"
+  },
+  "registerLoginLink": "ログイン",
+  "@registerLoginLink": {
+    "description": "Link back to login screen"
+  },
+  "registerPhoneDisabledTitle": "電話OTPは一時的に無効です",
+  "@registerPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled on register"
+  },
+  "registerPhoneDisabledSubtitle": "メールまたはGoogleサインインをご利用ください。",
+  "@registerPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled on register"
+  },
+  "registerSuccess": "登録成功",
+  "@registerSuccess": {
+    "description": "Toast on registration success"
+  },
+  "registerFailed": "登録失敗",
+  "@registerFailed": {
+    "description": "Toast on registration failure"
+  },
+  "homeGreeting": "こんにちは、{name}さん！",
+  "@homeGreeting": {
+    "description": "Greeting banner with user name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeReadyForAppraisal": "査定の準備はできていますか？",
+  "@homeReadyForAppraisal": {
+    "description": "Subtitle under greeting"
+  },
+  "homeLatestAppraisal": "最新の査定",
+  "@homeLatestAppraisal": {
+    "description": "Section header for latest appraisal"
+  },
+  "homeRefresh": "更新",
+  "@homeRefresh": {
+    "description": "Refresh button label"
+  },
+  "homeSeeAll": "すべて見る",
+  "@homeSeeAll": {
+    "description": "See all appraisals link"
+  },
+  "homeStartNewAppraisal": "新しい査定を開始",
+  "@homeStartNewAppraisal": {
+    "description": "Start new appraisal button"
+  },
+  "homeViewDetails": "詳細を見る",
+  "@homeViewDetails": {
+    "description": "View details button on appraisal card"
+  },
+  "listNotificationsTitle": "通知",
+  "@listNotificationsTitle": {
+    "description": "Notifications screen title"
+  },
+  "listNotificationsMarkAllRead": "すべて既読にする",
+  "@listNotificationsMarkAllRead": {
+    "description": "Tooltip for mark all as read button"
+  },
+  "listNotificationsFailedToLoad": "通知の読み込みに失敗しました",
+  "@listNotificationsFailedToLoad": {
+    "description": "Error message when notifications fail to load"
+  },
+  "listNotificationsEmpty": "まだ通知はありません",
+  "@listNotificationsEmpty": {
+    "description": "Empty state message for notifications"
+  },
+  "profileFailedToLoad": "プロフィールの読み込みに失敗しました",
+  "@profileFailedToLoad": {
+    "description": "Error message when profile fails to load"
+  },
+  "profileUpdatePhotoLabel": "プロフィール写真を更新",
+  "@profileUpdatePhotoLabel": {
+    "description": "Profile photo picker label"
+  },
+  "profileUpdatePhotoHint": "画像を選択",
+  "@profileUpdatePhotoHint": {
+    "description": "Profile photo picker hint text"
+  },
+  "profileFullNameLabel": "氏名",
+  "@profileFullNameLabel": {
+    "description": "Full name field label"
+  },
+  "profileFullNamePlaceholder": "山田太郎",
+  "@profileFullNamePlaceholder": {
+    "description": "Full name field placeholder"
+  },
+  "profileEmailLabel": "メールアドレス",
+  "@profileEmailLabel": {
+    "description": "Email field label on profile"
+  },
+  "profileEmailPlaceholder": "yamada@example.com",
+  "@profileEmailPlaceholder": {
+    "description": "Email field placeholder on profile"
+  },
+  "profileAddressLabel": "住所",
+  "@profileAddressLabel": {
+    "description": "Address field label"
+  },
+  "profileAddressPlaceholder": "東京都渋谷区",
+  "@profileAddressPlaceholder": {
+    "description": "Address field placeholder"
+  },
+  "profileSaveButton": "プロフィールを保存",
+  "@profileSaveButton": {
+    "description": "Save profile button label"
+  },
+  "profileSaveSuccess": "プロフィールが正常に保存されました",
+  "@profileSaveSuccess": {
+    "description": "Toast on profile save success"
+  },
+  "profileSaveFailed": "プロフィールの保存に失敗しました",
+  "@profileSaveFailed": {
+    "description": "Toast on profile save failure"
+  },
   "adminShellBottomNavDashboard": "ダッシュボード",
   "@adminShellBottomNavDashboard": {
     "description": "Admin shell bottom navigation label for dashboard"

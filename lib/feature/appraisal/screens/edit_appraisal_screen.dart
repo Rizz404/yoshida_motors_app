@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
-import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/update_appraisal_payload.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/validators/vehicle_info_validators.dart';
-import 'package:car_rongsok_app/feature/appraisal/widgets/appraisal_photo_card.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
@@ -62,7 +61,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
     final detailAsync = ref.read(
       appraisalDetailNotifierProvider(widget.appraisalId),
     );
-    final appraisal = detailAsync.valueOrNull?.appraisal;
+    final appraisal = detailAsync.value?.appraisal;
 
     if (appraisal != null) {
       _isInit = true;
@@ -77,7 +76,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
 
   Future<void> _handleUpload() async {
     if (_totalPhotos >= 7) {
-      AppToast.error('Maksimal 7 foto telah tercapai.');
+      AppToast.error(context.l10n.photoCategoryMaxPhotos);
       return;
     }
 
@@ -127,12 +126,12 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
     if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
     if (_totalPhotos == 0) {
-      AppToast.error('Please add at least one photo.');
+      AppToast.error(context.l10n.editAppraisalErrorMinPhotos);
       return;
     }
 
     if (_newPhotoLabels.any((label) => label.trim().isEmpty)) {
-      AppToast.error('Please enter a category name for all new photos.');
+      AppToast.error(context.l10n.editAppraisalErrorCategoryRequired);
       return;
     }
 
@@ -166,7 +165,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
     setState(() => _isSubmitting = false);
 
     result.fold((failure) => AppToast.error(failure.message), (success) {
-      AppToast.success('Appraisal updated successfully!');
+      AppToast.success(context.l10n.editAppraisalSuccess);
       // Refresh the detail provider
       ref.invalidate(appraisalDetailNotifierProvider(widget.appraisalId));
       context.router.maybePop();
@@ -181,12 +180,12 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
 
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Edit Appraisal'),
+        appBar: CustomAppBar(title: context.l10n.editAppraisalTitle),
         body: detailAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
             child: AppText(
-              'Failed to load detail',
+              context.l10n.editAppraisalFailedToLoad,
               color: context.semantic.error,
             ),
           ),
@@ -207,7 +206,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                   children: [
                     const SizedBox(height: 16),
                     AppText(
-                      'Vehicle Information',
+                      context.l10n.editAppraisalVehicleInfoSection,
                       style: AppTextStyle.titleMedium,
                       fontWeight: FontWeight.bold,
                     ),
@@ -227,8 +226,9 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                         children: [
                           AppTextField(
                             name: 'vehicle_brand',
-                            label: 'Vehicle Brand',
-                            placeHolder: 'Toyota, Honda, Suzuki...',
+                            label: context.l10n.vehicleInfoBrandLabel,
+                            placeHolder:
+                                context.l10n.vehicleInfoBrandPlaceholder,
                             prefixIcon: Icon(
                               Icons.directions_car_outlined,
                               color: context.colors.primary,
@@ -238,8 +238,9 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'vehicle_model',
-                            label: 'Vehicle Model',
-                            placeHolder: 'Avanza, Brio, Ertiga...',
+                            label: context.l10n.vehicleInfoModelLabel,
+                            placeHolder:
+                                context.l10n.vehicleInfoModelPlaceholder,
                             prefixIcon: Icon(
                               Icons.commute_outlined,
                               color: context.colors.primary,
@@ -249,8 +250,9 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'year_manufacture',
-                            label: 'Year of Manufacture',
-                            placeHolder: '2020',
+                            label: context.l10n.vehicleInfoYearLabel,
+                            placeHolder:
+                                context.l10n.vehicleInfoYearPlaceholder,
                             type: AppTextFieldType.number,
                             prefixIcon: Icon(
                               Icons.calendar_today_outlined,
@@ -261,7 +263,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'license_plate',
-                            label: 'License Plate (Optional)',
+                            label: context.l10n.vehicleInfoLicensePlateLabel,
                             placeHolder: 'B 1234 ABC',
                             prefixIcon: Icon(
                               Icons.pin_outlined,
@@ -271,7 +273,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'mileage',
-                            label: 'Mileage (Optional)',
+                            label: context.l10n.vehicleInfoMileageLabel,
                             placeHolder: '50000',
                             type: AppTextFieldType.number,
                             prefixIcon: Icon(
@@ -282,8 +284,9 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'description',
-                            label: 'Additional Notes (Optional)',
-                            placeHolder: 'Condition, modifications, etc.',
+                            label: context.l10n.vehicleInfoNotesLabel,
+                            placeHolder:
+                                context.l10n.vehicleInfoNotesPlaceholder,
                             type: AppTextFieldType.multiline,
                             maxLines: 4,
                             prefixIcon: Icon(
@@ -300,7 +303,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          'Photos ($_totalPhotos/7)',
+                          context.l10n.editAppraisalPhotosSection(_totalPhotos),
                           style: AppTextStyle.titleMedium,
                           fontWeight: FontWeight.bold,
                         ),
@@ -312,7 +315,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                               color: context.colorScheme.primary,
                             ),
                             label: AppText(
-                              'Add Photo',
+                              context.l10n.editAppraisalAddPhoto,
                               color: context.colorScheme.primary,
                             ),
                           ),
@@ -324,7 +327,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: Center(
                           child: AppText(
-                            'No photos added yet',
+                            context.l10n.editAppraisalNoPhotos,
                             color: context.colors.textSecondary,
                           ),
                         ),
@@ -352,7 +355,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
                       ),
                     const SizedBox(height: 32),
                     AppButton(
-                      text: 'Save Changes',
+                      text: context.l10n.editAppraisalSaveButton,
                       onPressed: _isSubmitting ? null : _handleSave,
                       leadingIcon: Icon(
                         Icons.save_outlined,

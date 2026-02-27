@@ -557,6 +557,470 @@ class L10nEn extends L10n {
   String get enumMaintenanceResultRescheduled => 'Rescheduled';
 
   @override
+  String get vehicleInfoTitle => 'Vehicle Information';
+
+  @override
+  String get vehicleInfoBrandLabel => 'Vehicle Brand';
+
+  @override
+  String get vehicleInfoBrandPlaceholder => 'Toyota, Honda, Suzuki...';
+
+  @override
+  String get vehicleInfoModelLabel => 'Vehicle Model';
+
+  @override
+  String get vehicleInfoModelPlaceholder => 'Avanza, Brio, Ertiga...';
+
+  @override
+  String get vehicleInfoYearLabel => 'Year of Manufacture';
+
+  @override
+  String get vehicleInfoYearPlaceholder => '2020';
+
+  @override
+  String get vehicleInfoLicensePlateLabel => 'License Plate (Optional)';
+
+  @override
+  String get vehicleInfoMileageLabel => 'Mileage (Optional)';
+
+  @override
+  String get vehicleInfoNotesLabel => 'Additional Notes (Optional)';
+
+  @override
+  String get vehicleInfoNotesPlaceholder => 'Condition, modifications, etc.';
+
+  @override
+  String get vehicleInfoNextButton => 'Next: Take Photos';
+
+  @override
+  String get photoCategoryTitle => 'Take Photos';
+
+  @override
+  String get photoCategoryWarning =>
+      'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.';
+
+  @override
+  String get photoCategoryAddNewPhoto => 'Add New Photo';
+
+  @override
+  String get photoCategoryCamera => 'Camera';
+
+  @override
+  String get photoCategoryUpload => 'Upload';
+
+  @override
+  String get photoCategoryUploadedPhotos => 'Uploaded Photos';
+
+  @override
+  String get photoCategoryEmpty => 'No photos uploaded yet';
+
+  @override
+  String get photoCategoryContinueButton => 'Continue to Summary';
+
+  @override
+  String get photoCategoryErrorNoPhotos => 'Please add at least one photo.';
+
+  @override
+  String get photoCategoryErrorCategoryRequired =>
+      'Please enter a category name for all photos.';
+
+  @override
+  String get photoCategorySuccessCreated => 'Appraisal created successfully!';
+
+  @override
+  String get photoCategoryMaxPhotos => 'Maximum 7 photos reached.';
+
+  @override
+  String cameraCaptureTitle(String category) {
+    return 'Take Photo: $category';
+  }
+
+  @override
+  String get cameraCaptureOpeningCamera => 'Opening camera...';
+
+  @override
+  String get cameraCaptureOpenCameraButton => 'Open Camera';
+
+  @override
+  String get cameraCaptureRetake => 'Retake';
+
+  @override
+  String get cameraCaptureUsePhoto => 'Use This Photo';
+
+  @override
+  String get cameraCaptureDialogTitle => 'Enter Category Name';
+
+  @override
+  String get cameraCaptureDialogCategoryLabel => 'Category Name';
+
+  @override
+  String get cameraCaptureDialogCategoryPlaceholder =>
+      'e.g., Right Engine, Front Interior';
+
+  @override
+  String get cameraCaptureDialogCancel => 'Cancel';
+
+  @override
+  String get cameraCaptureDialogSave => 'Save';
+
+  @override
+  String get cameraCapturePhotoAdded => 'Photo added';
+
+  @override
+  String get summaryTitle => 'Review & Submit';
+
+  @override
+  String get summaryVehicleInfoSection => 'Vehicle Information';
+
+  @override
+  String get summaryBrand => 'Brand';
+
+  @override
+  String get summaryModel => 'Model';
+
+  @override
+  String get summaryYear => 'Year';
+
+  @override
+  String get summaryLicensePlate => 'License Plate';
+
+  @override
+  String get summaryMileage => 'Mileage';
+
+  @override
+  String get summaryNotes => 'Notes';
+
+  @override
+  String summaryPhotosSection(int count) {
+    return 'Photos ($count)';
+  }
+
+  @override
+  String get summaryNoPhotos => 'No photos uploaded yet.';
+
+  @override
+  String get summaryDisclaimer =>
+      'By submitting, you agree that the information provided is accurate.';
+
+  @override
+  String get summarySubmitButton => 'Submit Appraisal';
+
+  @override
+  String get summaryFailedToLoad => 'Failed to load';
+
+  @override
+  String get summarySubmissionFailed => 'Submission failed';
+
+  @override
+  String get summarySubmitSuccess => 'Appraisal submitted successfully!';
+
+  @override
+  String get appraisalResultTitle => 'Appraisal Result';
+
+  @override
+  String get appraisalResultFailedToLoad => 'Failed to load appraisal';
+
+  @override
+  String get appraisalResultNextStepsSection => 'Next Steps';
+
+  @override
+  String get appraisalResultAdminNotesSection => 'Admin Notes';
+
+  @override
+  String get appraisalResultVehicleDetailsSection => 'Vehicle Details';
+
+  @override
+  String get appraisalResultStatusCompleteTitle => 'Review Complete!';
+
+  @override
+  String get appraisalResultStatusUnderReviewTitle => 'Under Review';
+
+  @override
+  String get appraisalResultStatusCompleteSubtitle =>
+      'Your appraisal has been reviewed and a price has been set.';
+
+  @override
+  String get appraisalResultStatusUnderReviewSubtitle =>
+      'We\'ll notify you once the review is complete.';
+
+  @override
+  String get appraisalResultOfferedPrice => 'Offered Purchase Price';
+
+  @override
+  String appraisalResultValidUntil(String date) {
+    return 'Valid until: $date';
+  }
+
+  @override
+  String get appraisalResultContactUs => 'Contact Us';
+
+  @override
+  String get appraisalResultEditAppraisal => 'Edit Appraisal';
+
+  @override
+  String get appraisalResultNextStepComplete1 =>
+      'Review the offered price carefully.';
+
+  @override
+  String get appraisalResultNextStepComplete2 =>
+      'Contact our team to accept or negotiate.';
+
+  @override
+  String get appraisalResultNextStepComplete3 =>
+      'Bring your vehicle for a physical inspection.';
+
+  @override
+  String get appraisalResultNextStepComplete4 =>
+      'Complete the transaction and documentation.';
+
+  @override
+  String get appraisalResultNextStepPending1 =>
+      'Our team will review your submission.';
+
+  @override
+  String get appraisalResultNextStepPending2 =>
+      'You will receive a notification when done.';
+
+  @override
+  String get appraisalResultNextStepPending3 =>
+      'You can contact us for updates at any time.';
+
+  @override
+  String get appraisalResultBrandLabel => 'Brand';
+
+  @override
+  String get appraisalResultModelLabel => 'Model';
+
+  @override
+  String get appraisalResultYearLabel => 'Year';
+
+  @override
+  String get appraisalResultLicensePlateLabel => 'License Plate';
+
+  @override
+  String get appraisalResultMileageLabel => 'Mileage';
+
+  @override
+  String get appraisalResultNotesLabel => 'Notes';
+
+  @override
+  String get listAppraisalsTitle => 'My Appraisals';
+
+  @override
+  String get listAppraisalsFailedToLoad => 'Failed to load appraisals';
+
+  @override
+  String get listAppraisalsEmpty => 'No appraisals found';
+
+  @override
+  String get listAppraisalsViewDetails => 'View Details';
+
+  @override
+  String get editAppraisalTitle => 'Edit Appraisal';
+
+  @override
+  String get editAppraisalVehicleInfoSection => 'Vehicle Information';
+
+  @override
+  String editAppraisalPhotosSection(int count) {
+    return 'Photos ($count/7)';
+  }
+
+  @override
+  String get editAppraisalAddPhoto => 'Add Photo';
+
+  @override
+  String get editAppraisalNoPhotos => 'No photos added yet';
+
+  @override
+  String get editAppraisalSaveButton => 'Save Changes';
+
+  @override
+  String get editAppraisalSuccess => 'Appraisal updated successfully!';
+
+  @override
+  String get editAppraisalFailedToLoad => 'Failed to load detail';
+
+  @override
+  String get editAppraisalErrorMinPhotos => 'Please add at least one photo.';
+
+  @override
+  String get editAppraisalErrorCategoryRequired =>
+      'Please enter a category name for all new photos.';
+
+  @override
+  String get loginTitle => 'Welcome Back';
+
+  @override
+  String get loginSubtitle => 'Sign in to your account';
+
+  @override
+  String get loginTabEmail => 'Email';
+
+  @override
+  String get loginTabPhoneOtp => 'Phone OTP';
+
+  @override
+  String get loginEmailLabel => 'Email';
+
+  @override
+  String get loginPasswordLabel => 'Password';
+
+  @override
+  String get loginButton => 'Login';
+
+  @override
+  String get loginContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get loginOr => 'OR';
+
+  @override
+  String get loginNoAccount => 'Don\'t have an account? ';
+
+  @override
+  String get loginRegisterLink => 'Register';
+
+  @override
+  String get loginPhoneDisabledTitle => 'Phone OTP Temporarily Disabled';
+
+  @override
+  String get loginPhoneDisabledSubtitle =>
+      'Please use Email or Google Sign-In to continue.';
+
+  @override
+  String get loginSuccess => 'Login successful';
+
+  @override
+  String get loginFailed => 'Login failed';
+
+  @override
+  String get registerTitle => 'Create Account';
+
+  @override
+  String get registerSubtitle => 'Register to get started';
+
+  @override
+  String get registerTabEmail => 'Email';
+
+  @override
+  String get registerTabPhoneOtp => 'Phone OTP';
+
+  @override
+  String get registerEmailLabel => 'Email';
+
+  @override
+  String get registerPasswordLabel => 'Password';
+
+  @override
+  String get registerConfirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get registerFullNameOptional => 'Full Name (Optional)';
+
+  @override
+  String get registerAddressOptional => 'Address (Optional)';
+
+  @override
+  String get registerButton => 'Register';
+
+  @override
+  String get registerContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get registerOr => 'OR';
+
+  @override
+  String get registerAlreadyAccount => 'Already have an account? ';
+
+  @override
+  String get registerLoginLink => 'Login';
+
+  @override
+  String get registerPhoneDisabledTitle => 'Phone OTP Temporarily Disabled';
+
+  @override
+  String get registerPhoneDisabledSubtitle =>
+      'Please use Email or Google Sign-In to continue.';
+
+  @override
+  String get registerSuccess => 'Registration successful';
+
+  @override
+  String get registerFailed => 'Registration failed';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hello, $name!';
+  }
+
+  @override
+  String get homeReadyForAppraisal => 'Ready for your appraisal?';
+
+  @override
+  String get homeLatestAppraisal => 'Latest Appraisal';
+
+  @override
+  String get homeRefresh => 'Refresh';
+
+  @override
+  String get homeSeeAll => 'See All';
+
+  @override
+  String get homeStartNewAppraisal => 'Start New Appraisal';
+
+  @override
+  String get homeViewDetails => 'View Details';
+
+  @override
+  String get listNotificationsTitle => 'Notifications';
+
+  @override
+  String get listNotificationsMarkAllRead => 'Mark All Read';
+
+  @override
+  String get listNotificationsFailedToLoad => 'Failed to load notifications';
+
+  @override
+  String get listNotificationsEmpty => 'No notifications yet';
+
+  @override
+  String get profileFailedToLoad => 'Failed to load profile';
+
+  @override
+  String get profileUpdatePhotoLabel => 'Update Profile Photo';
+
+  @override
+  String get profileUpdatePhotoHint => 'Select an image';
+
+  @override
+  String get profileFullNameLabel => 'Full Name';
+
+  @override
+  String get profileFullNamePlaceholder => 'John Doe';
+
+  @override
+  String get profileEmailLabel => 'Email';
+
+  @override
+  String get profileEmailPlaceholder => 'john@example.com';
+
+  @override
+  String get profileAddressLabel => 'Address';
+
+  @override
+  String get profileAddressPlaceholder => 'South Jakarta';
+
+  @override
+  String get profileSaveButton => 'Save Profile';
+
+  @override
+  String get profileSaveSuccess => 'Profile saved successfully';
+
+  @override
+  String get profileSaveFailed => 'Failed to save profile';
+
+  @override
   String get adminShellBottomNavDashboard => 'Dashboard';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -36,9 +37,12 @@ class SummaryScreen extends ConsumerWidget {
 
       if (previous?.value?.isMutating == true && !state.isMutating) {
         if (state.mutationError != null) {
-          AppToast.error(state.mutationError?.message ?? 'Submission failed');
+          AppToast.error(
+            state.mutationError?.message ??
+                context.l10n.summarySubmissionFailed,
+          );
         } else if (state.appraisal.status == AppraisalStatus.submitted) {
-          AppToast.success('Appraisal submitted successfully!');
+          AppToast.success(context.l10n.summarySubmitSuccess);
           context.router.replaceAll([const AppShellRoute()]);
         }
       }
@@ -64,11 +68,14 @@ class SummaryScreen extends ConsumerWidget {
 
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Review & Submit'),
+        appBar: CustomAppBar(title: context.l10n.summaryTitle),
         body: detailAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
-            child: AppText('Failed to load', color: context.semantic.error),
+            child: AppText(
+              context.l10n.summaryFailedToLoad,
+              color: context.semantic.error,
+            ),
           ),
           data: (state) {
             final appraisal = state.appraisal;
@@ -85,7 +92,7 @@ class SummaryScreen extends ConsumerWidget {
 
                     // * Vehicle info section
                     AppText(
-                      'Vehicle Information',
+                      context.l10n.summaryVehicleInfoSection,
                       style: AppTextStyle.titleSmall,
                       fontWeight: FontWeight.w600,
                       color: context.colors.textSecondary,
@@ -103,35 +110,35 @@ class SummaryScreen extends ConsumerWidget {
                         children: [
                           _buildInfoRow(
                             context,
-                            label: 'Brand',
+                            label: context.l10n.summaryBrand,
                             value: appraisal.vehicleBrand,
                           ),
                           _buildInfoRow(
                             context,
-                            label: 'Model',
+                            label: context.l10n.summaryModel,
                             value: appraisal.vehicleModel,
                           ),
                           _buildInfoRow(
                             context,
-                            label: 'Year',
+                            label: context.l10n.summaryYear,
                             value: '${appraisal.yearManufacture}',
                           ),
                           if (appraisal.licensePlate?.isNotEmpty == true)
                             _buildInfoRow(
                               context,
-                              label: 'License Plate',
+                              label: context.l10n.summaryLicensePlate,
                               value: appraisal.licensePlate!,
                             ),
                           if (appraisal.mileage != null)
                             _buildInfoRow(
                               context,
-                              label: 'Mileage',
+                              label: context.l10n.summaryMileage,
                               value: '${appraisal.mileage} km',
                             ),
                           if (appraisal.description?.isNotEmpty == true)
                             _buildInfoRow(
                               context,
-                              label: 'Notes',
+                              label: context.l10n.summaryNotes,
                               value: appraisal.description!,
                               isLast: true,
                             ),
@@ -142,7 +149,7 @@ class SummaryScreen extends ConsumerWidget {
 
                     // * Photos section
                     AppText(
-                      'Photos (${photos.length})',
+                      context.l10n.summaryPhotosSection(photos.length),
                       style: AppTextStyle.titleSmall,
                       fontWeight: FontWeight.w600,
                       color: context.colors.textSecondary,
@@ -157,7 +164,7 @@ class SummaryScreen extends ConsumerWidget {
                           border: Border.all(color: context.colors.border),
                         ),
                         child: AppText(
-                          'No photos uploaded yet.',
+                          context.l10n.summaryNoPhotos,
                           color: context.colors.textTertiary,
                           style: AppTextStyle.bodySmall,
                         ),
@@ -181,7 +188,7 @@ class SummaryScreen extends ConsumerWidget {
 
                     // * Disclaimer
                     AppText(
-                      'By submitting, you agree that the information provided is accurate.',
+                      context.l10n.summaryDisclaimer,
                       style: AppTextStyle.bodySmall,
                       color: context.colors.textTertiary,
                       textAlign: TextAlign.center,
@@ -190,7 +197,7 @@ class SummaryScreen extends ConsumerWidget {
 
                     // * Submit button
                     AppButton(
-                      text: 'Submit Appraisal',
+                      text: context.l10n.summarySubmitButton,
                       onPressed: () {
                         // The submission actually marks it submitted when doing PUT /appraisals/{id} with status=submitted
                         ref

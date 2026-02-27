@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -115,10 +116,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     if (previous?.isLoading == true) {
       next.whenData((authState) {
         if (authState.status == AuthStatus.authenticated) {
-          AppToast.success('Login successful');
+          AppToast.success(context.l10n.loginSuccess);
           context.router.replaceAll([const HomeRoute()]);
         } else if (authState.failure != null) {
-          AppToast.error(authState.failure?.message ?? 'Login failed');
+          AppToast.error(
+            authState.failure?.message ?? context.l10n.loginFailed,
+          );
         }
       });
       if (next is AsyncError) {
@@ -144,14 +147,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 const SizedBox(height: 24),
 
                 // * Title
-                const AppText(
-                  'Welcome Back',
+                AppText(
+                  context.l10n.loginTitle,
                   style: AppTextStyle.headlineLarge,
                   fontWeight: FontWeight.bold,
                 ),
                 const SizedBox(height: 8),
                 AppText(
-                  'Sign in to your account',
+                  context.l10n.loginSubtitle,
                   style: AppTextStyle.bodyLarge,
                   color: context.colors.textSecondary,
                 ),
@@ -173,9 +176,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     dividerColor: Colors.transparent,
                     labelColor: context.colors.textOnPrimary,
                     unselectedLabelColor: context.colors.textSecondary,
-                    tabs: const [
-                      Tab(text: 'Email'),
-                      Tab(text: 'Phone OTP'),
+                    tabs: [
+                      Tab(text: context.l10n.loginTabEmail),
+                      Tab(text: context.l10n.loginTabPhoneOtp),
                     ],
                   ),
                 ),
@@ -202,7 +205,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: AppText(
-                        'OR',
+                        context.l10n.loginOr,
                         style: AppTextStyle.bodySmall,
                         color: context.colors.textSecondary,
                       ),
@@ -220,12 +223,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const AppText(
-                          "Don't have an account? ",
+                        AppText(
+                          context.l10n.loginNoAccount,
                           style: AppTextStyle.bodyMedium,
                         ),
                         AppText(
-                          'Register',
+                          context.l10n.loginRegisterLink,
                           style: AppTextStyle.bodyMedium,
                           color: context.colors.primary,
                           fontWeight: FontWeight.w600,
@@ -251,7 +254,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         children: [
           AppTextField(
             name: 'email',
-            label: 'Email',
+            label: context.l10n.loginEmailLabel,
             placeHolder: 'john@example.com',
             type: AppTextFieldType.email,
             prefixIcon: Icon(
@@ -263,7 +266,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           const SizedBox(height: 16),
           AppTextField(
             name: 'password',
-            label: 'Password',
+            label: context.l10n.loginPasswordLabel,
             placeHolder: '••••••',
             type: AppTextFieldType.password,
             prefixIcon: Icon(Icons.lock_outline, color: context.colors.primary),
@@ -271,13 +274,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           ),
           const SizedBox(height: 24),
           AppButton(
-            text: 'Login',
+            text: context.l10n.loginButton,
             onPressed: _loginWithEmail,
             leadingIcon: Icon(Icons.login, color: context.colors.textOnPrimary),
           ),
           const SizedBox(height: 12),
           AppButton(
-            text: 'Continue with Google',
+            text: context.l10n.loginContinueWithGoogle,
             onPressed: _loginWithGoogle,
             variant: AppButtonVariant.outlined,
             leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
@@ -299,15 +302,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             color: context.colors.textSecondary,
           ),
           const SizedBox(height: 16),
-          const AppText(
-            'Phone OTP Temporarily Disabled',
+          AppText(
+            context.l10n.loginPhoneDisabledTitle,
             style: AppTextStyle.titleMedium,
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           AppText(
-            'Please use Email or Google Sign-In to continue.',
+            context.l10n.loginPhoneDisabledSubtitle,
             style: AppTextStyle.bodyMedium,
             color: context.colors.textSecondary,
             textAlign: TextAlign.center,

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
+import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_photo.dart';
@@ -15,7 +17,6 @@ import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:intl/intl.dart';
 
 @RoutePage()
@@ -33,7 +34,7 @@ class AppraisalResultScreen extends ConsumerWidget {
 
     return AppLoaderOverlay(
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Appraisal Result'),
+        appBar: CustomAppBar(title: context.l10n.appraisalResultTitle),
         body: detailAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
@@ -47,7 +48,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 AppText(
-                  'Failed to load appraisal',
+                  context.l10n.appraisalResultFailedToLoad,
                   color: context.semantic.error,
                   style: AppTextStyle.bodyMedium,
                 ),
@@ -86,7 +87,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                     // * Next steps
                     if (isUnderAppraisal || isPriceDetermined) ...[
                       AppText(
-                        'Next Steps',
+                        context.l10n.appraisalResultNextStepsSection,
                         style: AppTextStyle.titleSmall,
                         fontWeight: FontWeight.w600,
                         color: context.colors.textSecondary,
@@ -99,7 +100,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                     // * Admin notes
                     if (appraisal.adminNote?.isNotEmpty == true) ...[
                       AppText(
-                        'Admin Notes',
+                        context.l10n.appraisalResultAdminNotesSection,
                         style: AppTextStyle.titleSmall,
                         fontWeight: FontWeight.w600,
                         color: context.colors.textSecondary,
@@ -126,7 +127,7 @@ class AppraisalResultScreen extends ConsumerWidget {
 
                     // * Vehicle details
                     AppText(
-                      'Vehicle Details',
+                      context.l10n.appraisalResultVehicleDetailsSection,
                       style: AppTextStyle.titleSmall,
                       fontWeight: FontWeight.w600,
                       color: context.colors.textSecondary,
@@ -167,7 +168,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                     // * Contact us (if under appraisal)
                     if (isUnderAppraisal)
                       AppButton(
-                        text: 'Contact Us',
+                        text: context.l10n.appraisalResultContactUs,
                         variant: AppButtonVariant.outlined,
                         leadingIcon: Icon(
                           Icons.headset_mic_outlined,
@@ -179,7 +180,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                     // * Edit Appraisal (if draft)
                     if (isDraft)
                       AppButton(
-                        text: 'Edit Appraisal',
+                        text: context.l10n.appraisalResultEditAppraisal,
                         variant: AppButtonVariant.outlined,
                         leadingIcon: Icon(
                           Icons.edit_outlined,
@@ -214,10 +215,12 @@ class AppraisalResultScreen extends ConsumerWidget {
     final icon = isPriceDetermined
         ? Icons.check_circle_outline_rounded
         : Icons.access_time_rounded;
-    final title = isPriceDetermined ? 'Review Complete!' : 'Under Review';
+    final title = isPriceDetermined
+        ? context.l10n.appraisalResultStatusCompleteTitle
+        : context.l10n.appraisalResultStatusUnderReviewTitle;
     final subtitle = isPriceDetermined
-        ? 'Your appraisal has been reviewed and a price has been set.'
-        : 'We\'ll notify you once the review is complete.';
+        ? context.l10n.appraisalResultStatusCompleteSubtitle
+        : context.l10n.appraisalResultStatusUnderReviewSubtitle;
 
     return Container(
       width: double.infinity,
@@ -282,7 +285,7 @@ class AppraisalResultScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'Offered Purchase Price',
+            context.l10n.appraisalResultOfferedPrice,
             style: AppTextStyle.labelMedium,
             color: context.colors.textSecondary,
           ),
@@ -303,7 +306,7 @@ class AppraisalResultScreen extends ConsumerWidget {
               ),
               const SizedBox(width: 6),
               AppText(
-                'Valid until: $validUntil',
+                context.l10n.appraisalResultValidUntil(validUntil),
                 style: AppTextStyle.bodySmall,
                 color: context.colors.textSecondary,
               ),
@@ -317,15 +320,15 @@ class AppraisalResultScreen extends ConsumerWidget {
   Widget _buildNextSteps(BuildContext context, bool isPriceDetermined) {
     final steps = isPriceDetermined
         ? [
-            'Review the offered price carefully.',
-            'Contact our team to accept or negotiate.',
-            'Bring your vehicle for a physical inspection.',
-            'Complete the transaction and documentation.',
+            context.l10n.appraisalResultNextStepComplete1,
+            context.l10n.appraisalResultNextStepComplete2,
+            context.l10n.appraisalResultNextStepComplete3,
+            context.l10n.appraisalResultNextStepComplete4,
           ]
         : [
-            'Our team will review your submission.',
-            'You will receive a notification when done.',
-            'You can contact us for updates at any time.',
+            context.l10n.appraisalResultNextStepPending1,
+            context.l10n.appraisalResultNextStepPending2,
+            context.l10n.appraisalResultNextStepPending3,
           ];
 
     return Container(
@@ -371,14 +374,18 @@ class AppraisalResultScreen extends ConsumerWidget {
     AppraisalRequest appraisal,
   ) {
     final rows = [
-      ('Brand', appraisal.vehicleBrand),
-      ('Model', appraisal.vehicleModel),
-      ('Year', '${appraisal.yearManufacture}'),
+      (context.l10n.appraisalResultBrandLabel, appraisal.vehicleBrand),
+      (context.l10n.appraisalResultModelLabel, appraisal.vehicleModel),
+      (context.l10n.appraisalResultYearLabel, '${appraisal.yearManufacture}'),
       if (appraisal.licensePlate?.isNotEmpty == true)
-        ('License Plate', appraisal.licensePlate!),
-      if (appraisal.mileage != null) ('Mileage', '${appraisal.mileage} km'),
+        (
+          context.l10n.appraisalResultLicensePlateLabel,
+          appraisal.licensePlate!,
+        ),
+      if (appraisal.mileage != null)
+        (context.l10n.appraisalResultMileageLabel, '${appraisal.mileage} km'),
       if (appraisal.description?.isNotEmpty == true)
-        ('Notes', appraisal.description!),
+        (context.l10n.appraisalResultNotesLabel, appraisal.description!),
     ];
 
     return Container(

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/date_time_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/feature/notification/models/notification.dart'
@@ -21,7 +22,7 @@ class ListNotificationsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Notifications',
+        title: context.l10n.listNotificationsTitle,
         actions: [
           listStateAsync.maybeWhen(
             data: (state) {
@@ -31,7 +32,7 @@ class ListNotificationsScreen extends ConsumerWidget {
                     Icons.done_all_rounded,
                     color: context.colorScheme.primary,
                   ),
-                  tooltip: 'Mark All Read',
+                  tooltip: context.l10n.listNotificationsMarkAllRead,
                   onPressed: notifier.markAllAsRead,
                 );
               }
@@ -48,7 +49,7 @@ class ListNotificationsScreen extends ConsumerWidget {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(
               child: AppText(
-                'Failed to load notifications',
+                context.l10n.listNotificationsFailedToLoad,
                 color: context.semantic.error,
               ),
             ),
@@ -69,7 +70,7 @@ class ListNotificationsScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 16),
                           AppText(
-                            'No notifications yet',
+                            context.l10n.listNotificationsEmpty,
                             style: AppTextStyle.titleMedium,
                             color: context.colors.textSecondary,
                           ),

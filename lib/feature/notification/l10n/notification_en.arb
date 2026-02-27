@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "listNotificationsTitle": "Notifications",
+  "@listNotificationsTitle": {
+    "description": "Notifications screen title"
+  },
+  "listNotificationsMarkAllRead": "Mark All Read",
+  "@listNotificationsMarkAllRead": {
+    "description": "Tooltip for mark all as read button"
+  },
+  "listNotificationsFailedToLoad": "Failed to load notifications",
+  "@listNotificationsFailedToLoad": {
+    "description": "Error message when notifications fail to load"
+  },
+  "listNotificationsEmpty": "No notifications yet",
+  "@listNotificationsEmpty": {
+    "description": "Empty state message for notifications"
+  }
+}

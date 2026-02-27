@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
+import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
@@ -11,7 +13,6 @@ import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 
 @RoutePage()
 class HomeScreen extends ConsumerWidget {
@@ -58,14 +59,14 @@ class HomeScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        'Hello, $userName!',
+                        context.l10n.homeGreeting(userName),
                         style: AppTextStyle.titleLarge,
                         fontWeight: FontWeight.bold,
                         color: context.colors.textOnPrimary,
                       ),
                       const SizedBox(height: 4),
                       AppText(
-                        'Ready for your appraisal?',
+                        context.l10n.homeReadyForAppraisal,
                         style: AppTextStyle.bodyMedium,
                         color: context.colors.textOnPrimary,
                       ),
@@ -80,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        'Latest Appraisal',
+                        context.l10n.homeLatestAppraisal,
                         style: AppTextStyle.titleSmall,
                         fontWeight: FontWeight.w600,
                         color: context.colors.textSecondary,
@@ -109,7 +110,7 @@ class HomeScreen extends ConsumerWidget {
                                     color: context.colorScheme.primary,
                                   ),
                             label: AppText(
-                              'Refresh',
+                              context.l10n.homeRefresh,
                               style: AppTextStyle.bodySmall,
                               color: isRefreshingAppraisal
                                   ? context.colors.textTertiary
@@ -122,7 +123,7 @@ class HomeScreen extends ConsumerWidget {
                               const ListAppraisalsRoute(),
                             ),
                             child: AppText(
-                              'See All',
+                              context.l10n.homeSeeAll,
                               style: AppTextStyle.bodySmall,
                               color: context.colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -164,7 +165,7 @@ class HomeScreen extends ConsumerWidget {
 
                 // * Start new appraisal
                 AppButton(
-                  text: 'Start New Appraisal',
+                  text: context.l10n.homeStartNewAppraisal,
                   onPressed: () =>
                       context.router.push(const VehicleInfoRoute()),
                   leadingIcon: Icon(
@@ -255,7 +256,7 @@ class HomeScreen extends ConsumerWidget {
                   ],
                   const SizedBox(height: 12),
                   AppButton(
-                    text: 'View Details',
+                    text: context.l10n.homeViewDetails,
                     onPressed: onViewDetails,
                     size: AppButtonSize.small,
                     variant: AppButtonVariant.outlined,

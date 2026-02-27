@@ -1,0 +1,135 @@
+{
+  "@@locale": "en",
+  "loginTitle": "Welcome Back",
+  "@loginTitle": {
+    "description": "Login screen title"
+  },
+  "loginSubtitle": "Sign in to your account",
+  "@loginSubtitle": {
+    "description": "Login screen subtitle"
+  },
+  "loginTabEmail": "Email",
+  "@loginTabEmail": {
+    "description": "Email tab label on login"
+  },
+  "loginTabPhoneOtp": "Phone OTP",
+  "@loginTabPhoneOtp": {
+    "description": "Phone OTP tab label on login"
+  },
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Email field label"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Password field label"
+  },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Login button label"
+  },
+  "loginContinueWithGoogle": "Continue with Google",
+  "@loginContinueWithGoogle": {
+    "description": "Google sign-in button"
+  },
+  "loginOr": "OR",
+  "@loginOr": {
+    "description": "Divider between login methods"
+  },
+  "loginNoAccount": "Don't have an account? ",
+  "@loginNoAccount": {
+    "description": "Prompt for users without account"
+  },
+  "loginRegisterLink": "Register",
+  "@loginRegisterLink": {
+    "description": "Link to register screen"
+  },
+  "loginPhoneDisabledTitle": "Phone OTP Temporarily Disabled",
+  "@loginPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled"
+  },
+  "loginPhoneDisabledSubtitle": "Please use Email or Google Sign-In to continue.",
+  "@loginPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled"
+  },
+  "loginSuccess": "Login successful",
+  "@loginSuccess": {
+    "description": "Toast on login success"
+  },
+  "loginFailed": "Login failed",
+  "@loginFailed": {
+    "description": "Toast on login failure"
+  },
+  "registerTitle": "Create Account",
+  "@registerTitle": {
+    "description": "Register screen title"
+  },
+  "registerSubtitle": "Register to get started",
+  "@registerSubtitle": {
+    "description": "Register screen subtitle"
+  },
+  "registerTabEmail": "Email",
+  "@registerTabEmail": {
+    "description": "Email tab label on register"
+  },
+  "registerTabPhoneOtp": "Phone OTP",
+  "@registerTabPhoneOtp": {
+    "description": "Phone OTP tab label on register"
+  },
+  "registerEmailLabel": "Email",
+  "@registerEmailLabel": {
+    "description": "Email field label on register"
+  },
+  "registerPasswordLabel": "Password",
+  "@registerPasswordLabel": {
+    "description": "Password field label on register"
+  },
+  "registerConfirmPasswordLabel": "Confirm Password",
+  "@registerConfirmPasswordLabel": {
+    "description": "Confirm password field label"
+  },
+  "registerFullNameOptional": "Full Name (Optional)",
+  "@registerFullNameOptional": {
+    "description": "Full name optional field label"
+  },
+  "registerAddressOptional": "Address (Optional)",
+  "@registerAddressOptional": {
+    "description": "Address optional field label"
+  },
+  "registerButton": "Register",
+  "@registerButton": {
+    "description": "Register button label"
+  },
+  "registerContinueWithGoogle": "Continue with Google",
+  "@registerContinueWithGoogle": {
+    "description": "Google register button"
+  },
+  "registerOr": "OR",
+  "@registerOr": {
+    "description": "Divider between register methods"
+  },
+  "registerAlreadyAccount": "Already have an account? ",
+  "@registerAlreadyAccount": {
+    "description": "Prompt for users already registered"
+  },
+  "registerLoginLink": "Login",
+  "@registerLoginLink": {
+    "description": "Link back to login screen"
+  },
+  "registerPhoneDisabledTitle": "Phone OTP Temporarily Disabled",
+  "@registerPhoneDisabledTitle": {
+    "description": "Title when phone OTP is disabled on register"
+  },
+  "registerPhoneDisabledSubtitle": "Please use Email or Google Sign-In to continue.",
+  "@registerPhoneDisabledSubtitle": {
+    "description": "Subtitle when phone OTP is disabled on register"
+  },
+  "registerSuccess": "Registration successful",
+  "@registerSuccess": {
+    "description": "Toast on registration success"
+  },
+  "registerFailed": "Registration failed",
+  "@registerFailed": {
+    "description": "Toast on registration failure"
+  }
+}

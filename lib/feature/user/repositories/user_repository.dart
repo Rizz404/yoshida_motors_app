@@ -1,11 +1,11 @@
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
-import 'package:dio/dio.dart';
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/auth_service.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
 import 'package:car_rongsok_app/feature/user/models/user.dart';
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class UserRepository {

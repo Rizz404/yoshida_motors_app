@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/feature/user/validators/profile_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_file_picker.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
@@ -12,7 +14,6 @@ import 'package:car_rongsok_app/shared/widgets/app_text_field.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:car_rongsok_app/shared/widgets/app_file_picker.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -63,10 +64,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (previous?.value?.isMutating == true && !state.isMutating) {
         if (state.mutationError != null) {
           AppToast.error(
-            state.mutationError?.message ?? 'Failed to save profile',
+            state.mutationError?.message ?? context.l10n.profileSaveFailed,
           );
         } else {
-          AppToast.success('Profile saved successfully');
+          AppToast.success(context.l10n.profileSaveSuccess);
         }
       }
     });
@@ -88,7 +89,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
             child: AppText(
-              'Failed to load profile',
+              context.l10n.profileFailedToLoad,
               color: context.semantic.error,
             ),
           ),
@@ -139,24 +140,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         children: [
                           AppFilePicker(
                             name: 'profilePhotoPath',
-                            label: 'Update Profile Photo',
-                            hintText: 'Select an image',
+                            label: context.l10n.profileUpdatePhotoLabel,
+                            hintText: context.l10n.profileUpdatePhotoHint,
                             fileType: FileType.image,
                             allowMultiple: false,
                             maxFiles: 1,
                             maxSizeInMB: 2,
-                            allowedExtensions: const [
-                              'jpg',
-                              'jpeg',
-                              'png',
-                              'webp',
-                            ],
+                            allowedExtensions: ['jpg', 'jpeg', 'png', 'webp'],
                           ),
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'name',
-                            label: 'Full Name',
-                            placeHolder: 'John Doe',
+                            label: context.l10n.profileFullNameLabel,
+                            placeHolder:
+                                context.l10n.profileFullNamePlaceholder,
                             initialValue: user?.name,
                             type: AppTextFieldType.text,
                             prefixIcon: Icon(
@@ -168,8 +165,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'email',
-                            label: 'Email',
-                            placeHolder: 'john@example.com',
+                            label: context.l10n.profileEmailLabel,
+                            placeHolder: context.l10n.profileEmailPlaceholder,
                             initialValue: user?.email,
                             type: AppTextFieldType.email,
                             prefixIcon: Icon(
@@ -181,8 +178,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           const SizedBox(height: 16),
                           AppTextField(
                             name: 'address',
-                            label: 'Address',
-                            placeHolder: 'Jakarta Selatan',
+                            label: context.l10n.profileAddressLabel,
+                            placeHolder: context.l10n.profileAddressPlaceholder,
                             initialValue: user?.address,
                             type: AppTextFieldType.multiline,
                             maxLines: 3,
@@ -194,7 +191,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                           const SizedBox(height: 32),
                           AppButton(
-                            text: 'Save Profile',
+                            text: context.l10n.profileSaveButton,
                             isLoading: state.isMutating,
                             onPressed: state.isMutating ? null : _onSave,
                             leadingIcon: Icon(

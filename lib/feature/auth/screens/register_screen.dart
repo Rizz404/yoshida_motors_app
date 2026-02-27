@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -125,9 +126,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     if (previous?.isLoading == true) {
       next.whenData((authState) {
         if (authState.status == AuthStatus.authenticated) {
-          AppToast.success('Registration successful');
+          AppToast.success(context.l10n.registerSuccess);
         } else if (authState.failure != null) {
-          final message = authState.failure?.message ?? 'Registration failed';
+          final message =
+              authState.failure?.message ?? context.l10n.registerFailed;
           AppToast.error(message);
 
           // * If user already exists, suggest login
@@ -161,14 +163,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                 const SizedBox(height: 24),
 
                 // * Title
-                const AppText(
-                  'Create Account',
+                AppText(
+                  context.l10n.registerTitle,
                   style: AppTextStyle.headlineLarge,
                   fontWeight: FontWeight.bold,
                 ),
                 const SizedBox(height: 8),
                 AppText(
-                  'Register to get started',
+                  context.l10n.registerSubtitle,
                   style: AppTextStyle.bodyLarge,
                   color: context.colors.textSecondary,
                 ),
@@ -190,9 +192,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     dividerColor: Colors.transparent,
                     labelColor: context.colors.textOnPrimary,
                     unselectedLabelColor: context.colors.textSecondary,
-                    tabs: const [
-                      Tab(text: 'Email'),
-                      Tab(text: 'Phone OTP'),
+                    tabs: [
+                      Tab(text: context.l10n.registerTabEmail),
+                      Tab(text: context.l10n.registerTabPhoneOtp),
                     ],
                   ),
                 ),
@@ -219,7 +221,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: AppText(
-                        'OR',
+                        context.l10n.registerOr,
                         style: AppTextStyle.bodySmall,
                         color: context.colors.textSecondary,
                       ),
@@ -236,12 +238,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const AppText(
-                          'Already have an account? ',
+                        AppText(
+                          context.l10n.registerAlreadyAccount,
                           style: AppTextStyle.bodyMedium,
                         ),
                         AppText(
-                          'Login',
+                          context.l10n.registerLoginLink,
                           style: AppTextStyle.bodyMedium,
                           color: context.colors.primary,
                           fontWeight: FontWeight.w600,
@@ -267,7 +269,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
           children: [
             AppTextField(
               name: 'email',
-              label: 'Email',
+              label: context.l10n.registerEmailLabel,
               placeHolder: 'john@example.com',
               type: AppTextFieldType.email,
               prefixIcon: Icon(
@@ -279,7 +281,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             const SizedBox(height: 12),
             AppTextField(
               name: 'password',
-              label: 'Password',
+              label: context.l10n.registerPasswordLabel,
               placeHolder: '••••••',
               type: AppTextFieldType.password,
               prefixIcon: Icon(
@@ -292,7 +294,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             const SizedBox(height: 12),
             AppTextField(
               name: 'confirm_password',
-              label: 'Confirm Password',
+              label: context.l10n.registerConfirmPasswordLabel,
               placeHolder: '••••••',
               type: AppTextFieldType.password,
               prefixIcon: Icon(
@@ -306,7 +308,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             // * Optional fields
             AppTextField(
               name: 'name',
-              label: 'Full Name (Optional)',
+              label: context.l10n.registerFullNameOptional,
               placeHolder: 'John Doe',
               type: AppTextFieldType.text,
               prefixIcon: Icon(
@@ -318,7 +320,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             const SizedBox(height: 12),
             AppTextField(
               name: 'address',
-              label: 'Address (Optional)',
+              label: context.l10n.registerAddressOptional,
               placeHolder: 'Jakarta Selatan',
               type: AppTextFieldType.text,
               maxLines: 2,
@@ -330,7 +332,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             ),
             const SizedBox(height: 20),
             AppButton(
-              text: 'Register',
+              text: context.l10n.registerButton,
               onPressed: _registerWithEmail,
               leadingIcon: Icon(
                 Icons.person_add,
@@ -339,7 +341,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             ),
             const SizedBox(height: 12),
             AppButton(
-              text: 'Continue with Google',
+              text: context.l10n.registerContinueWithGoogle,
               onPressed: _registerWithGoogle,
               variant: AppButtonVariant.outlined,
               leadingIcon: const Icon(Icons.g_mobiledata_rounded, size: 22),
@@ -361,15 +363,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             color: context.colors.textSecondary,
           ),
           const SizedBox(height: 16),
-          const AppText(
-            'Phone OTP Temporarily Disabled',
+          AppText(
+            context.l10n.registerPhoneDisabledTitle,
             style: AppTextStyle.titleMedium,
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           AppText(
-            'Please use Email or Google Sign-In to continue.',
+            context.l10n.registerPhoneDisabledSubtitle,
             style: AppTextStyle.bodyMedium,
             color: context.colors.textSecondary,
             textAlign: TextAlign.center,

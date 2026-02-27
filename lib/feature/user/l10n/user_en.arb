@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "profileFailedToLoad": "Failed to load profile",
+  "@profileFailedToLoad": {
+    "description": "Error message when profile fails to load"
+  },
+  "profileUpdatePhotoLabel": "Update Profile Photo",
+  "@profileUpdatePhotoLabel": {
+    "description": "Profile photo picker label"
+  },
+  "profileUpdatePhotoHint": "Select an image",
+  "@profileUpdatePhotoHint": {
+    "description": "Profile photo picker hint text"
+  },
+  "profileFullNameLabel": "Full Name",
+  "@profileFullNameLabel": {
+    "description": "Full name field label"
+  },
+  "profileFullNamePlaceholder": "John Doe",
+  "@profileFullNamePlaceholder": {
+    "description": "Full name field placeholder"
+  },
+  "profileEmailLabel": "Email",
+  "@profileEmailLabel": {
+    "description": "Email field label on profile"
+  },
+  "profileEmailPlaceholder": "john@example.com",
+  "@profileEmailPlaceholder": {
+    "description": "Email field placeholder on profile"
+  },
+  "profileAddressLabel": "Address",
+  "@profileAddressLabel": {
+    "description": "Address field label"
+  },
+  "profileAddressPlaceholder": "South Jakarta",
+  "@profileAddressPlaceholder": {
+    "description": "Address field placeholder"
+  },
+  "profileSaveButton": "Save Profile",
+  "@profileSaveButton": {
+    "description": "Save profile button label"
+  },
+  "profileSaveSuccess": "Profile saved successfully",
+  "@profileSaveSuccess": {
+    "description": "Toast on profile save success"
+  },
+  "profileSaveFailed": "Failed to save profile",
+  "@profileSaveFailed": {
+    "description": "Toast on profile save failure"
+  }
+}

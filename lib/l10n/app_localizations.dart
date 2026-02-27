@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_id.dart';
 import 'app_localizations_ja.dart';
 
 // ignore_for_file: type=lint
@@ -95,7 +94,6 @@ abstract class L10n {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('id'),
     Locale('ja'),
   ];
 
@@ -1095,6 +1093,882 @@ abstract class L10n {
   /// **'Rescheduled'**
   String get enumMaintenanceResultRescheduled;
 
+  /// Vehicle info screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Information'**
+  String get vehicleInfoTitle;
+
+  /// Vehicle brand field label
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Brand'**
+  String get vehicleInfoBrandLabel;
+
+  /// Vehicle brand placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Toyota, Honda, Suzuki...'**
+  String get vehicleInfoBrandPlaceholder;
+
+  /// Vehicle model field label
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Model'**
+  String get vehicleInfoModelLabel;
+
+  /// Vehicle model placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Avanza, Brio, Ertiga...'**
+  String get vehicleInfoModelPlaceholder;
+
+  /// Year of manufacture field label
+  ///
+  /// In en, this message translates to:
+  /// **'Year of Manufacture'**
+  String get vehicleInfoYearLabel;
+
+  /// Year of manufacture placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'2020'**
+  String get vehicleInfoYearPlaceholder;
+
+  /// License plate optional field label
+  ///
+  /// In en, this message translates to:
+  /// **'License Plate (Optional)'**
+  String get vehicleInfoLicensePlateLabel;
+
+  /// Mileage optional field label
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage (Optional)'**
+  String get vehicleInfoMileageLabel;
+
+  /// Additional notes optional field label
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Notes (Optional)'**
+  String get vehicleInfoNotesLabel;
+
+  /// Additional notes placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Condition, modifications, etc.'**
+  String get vehicleInfoNotesPlaceholder;
+
+  /// Next step button on vehicle info
+  ///
+  /// In en, this message translates to:
+  /// **'Next: Take Photos'**
+  String get vehicleInfoNextButton;
+
+  /// Photo category screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photos'**
+  String get photoCategoryTitle;
+
+  /// Warning message on photo category screen
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Ensure the photos taken are clear, not blurry, and cover all necessary parts.'**
+  String get photoCategoryWarning;
+
+  /// Add new photo section header
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Photo'**
+  String get photoCategoryAddNewPhoto;
+
+  /// Camera button label
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get photoCategoryCamera;
+
+  /// Upload button label
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get photoCategoryUpload;
+
+  /// Uploaded photos section header
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded Photos'**
+  String get photoCategoryUploadedPhotos;
+
+  /// Empty state for uploaded photos
+  ///
+  /// In en, this message translates to:
+  /// **'No photos uploaded yet'**
+  String get photoCategoryEmpty;
+
+  /// Continue to summary button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Summary'**
+  String get photoCategoryContinueButton;
+
+  /// Error when no photos are added
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one photo.'**
+  String get photoCategoryErrorNoPhotos;
+
+  /// Error when a photo has no category name
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a category name for all photos.'**
+  String get photoCategoryErrorCategoryRequired;
+
+  /// Toast on appraisal creation success
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal created successfully!'**
+  String get photoCategorySuccessCreated;
+
+  /// Error when max photos are reached
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum 7 photos reached.'**
+  String get photoCategoryMaxPhotos;
+
+  /// Camera capture screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo: {category}'**
+  String cameraCaptureTitle(String category);
+
+  /// Text while camera is opening
+  ///
+  /// In en, this message translates to:
+  /// **'Opening camera...'**
+  String get cameraCaptureOpeningCamera;
+
+  /// Button to open camera manually
+  ///
+  /// In en, this message translates to:
+  /// **'Open Camera'**
+  String get cameraCaptureOpenCameraButton;
+
+  /// Retake photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Retake'**
+  String get cameraCaptureRetake;
+
+  /// Use this photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Use This Photo'**
+  String get cameraCaptureUsePhoto;
+
+  /// Title of category name dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Category Name'**
+  String get cameraCaptureDialogTitle;
+
+  /// Category name field label in dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Category Name'**
+  String get cameraCaptureDialogCategoryLabel;
+
+  /// Category name placeholder in dialog
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Right Engine, Front Interior'**
+  String get cameraCaptureDialogCategoryPlaceholder;
+
+  /// Cancel button in dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cameraCaptureDialogCancel;
+
+  /// Save button in dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get cameraCaptureDialogSave;
+
+  /// Toast when a photo is added successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Photo added'**
+  String get cameraCapturePhotoAdded;
+
+  /// Summary screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Review & Submit'**
+  String get summaryTitle;
+
+  /// Vehicle information section header on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Information'**
+  String get summaryVehicleInfoSection;
+
+  /// Brand row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get summaryBrand;
+
+  /// Model row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get summaryModel;
+
+  /// Year row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get summaryYear;
+
+  /// License plate row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'License Plate'**
+  String get summaryLicensePlate;
+
+  /// Mileage row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage'**
+  String get summaryMileage;
+
+  /// Notes row label on summary
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get summaryNotes;
+
+  /// Photos section header on summary with count
+  ///
+  /// In en, this message translates to:
+  /// **'Photos ({count})'**
+  String summaryPhotosSection(int count);
+
+  /// Empty state for photos on summary
+  ///
+  /// In en, this message translates to:
+  /// **'No photos uploaded yet.'**
+  String get summaryNoPhotos;
+
+  /// Disclaimer text on summary
+  ///
+  /// In en, this message translates to:
+  /// **'By submitting, you agree that the information provided is accurate.'**
+  String get summaryDisclaimer;
+
+  /// Submit appraisal button
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Appraisal'**
+  String get summarySubmitButton;
+
+  /// Error message on summary screen
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load'**
+  String get summaryFailedToLoad;
+
+  /// Toast on submission failure
+  ///
+  /// In en, this message translates to:
+  /// **'Submission failed'**
+  String get summarySubmissionFailed;
+
+  /// Toast on submission success
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal submitted successfully!'**
+  String get summarySubmitSuccess;
+
+  /// Appraisal result screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal Result'**
+  String get appraisalResultTitle;
+
+  /// Error when appraisal result fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load appraisal'**
+  String get appraisalResultFailedToLoad;
+
+  /// Next steps section header
+  ///
+  /// In en, this message translates to:
+  /// **'Next Steps'**
+  String get appraisalResultNextStepsSection;
+
+  /// Admin notes section header
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Notes'**
+  String get appraisalResultAdminNotesSection;
+
+  /// Vehicle details section header
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Details'**
+  String get appraisalResultVehicleDetailsSection;
+
+  /// Status banner title when review is complete
+  ///
+  /// In en, this message translates to:
+  /// **'Review Complete!'**
+  String get appraisalResultStatusCompleteTitle;
+
+  /// Status banner title when under review
+  ///
+  /// In en, this message translates to:
+  /// **'Under Review'**
+  String get appraisalResultStatusUnderReviewTitle;
+
+  /// Status banner subtitle when review is complete
+  ///
+  /// In en, this message translates to:
+  /// **'Your appraisal has been reviewed and a price has been set.'**
+  String get appraisalResultStatusCompleteSubtitle;
+
+  /// Status banner subtitle when under review
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll notify you once the review is complete.'**
+  String get appraisalResultStatusUnderReviewSubtitle;
+
+  /// Label for offered purchase price
+  ///
+  /// In en, this message translates to:
+  /// **'Offered Purchase Price'**
+  String get appraisalResultOfferedPrice;
+
+  /// Validity date for offered price
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until: {date}'**
+  String appraisalResultValidUntil(String date);
+
+  /// Contact us button label
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get appraisalResultContactUs;
+
+  /// Edit appraisal button label
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Appraisal'**
+  String get appraisalResultEditAppraisal;
+
+  /// Next step 1 for completed appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Review the offered price carefully.'**
+  String get appraisalResultNextStepComplete1;
+
+  /// Next step 2 for completed appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Contact our team to accept or negotiate.'**
+  String get appraisalResultNextStepComplete2;
+
+  /// Next step 3 for completed appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Bring your vehicle for a physical inspection.'**
+  String get appraisalResultNextStepComplete3;
+
+  /// Next step 4 for completed appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the transaction and documentation.'**
+  String get appraisalResultNextStepComplete4;
+
+  /// Next step 1 for pending appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Our team will review your submission.'**
+  String get appraisalResultNextStepPending1;
+
+  /// Next step 2 for pending appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive a notification when done.'**
+  String get appraisalResultNextStepPending2;
+
+  /// Next step 3 for pending appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'You can contact us for updates at any time.'**
+  String get appraisalResultNextStepPending3;
+
+  /// Brand row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get appraisalResultBrandLabel;
+
+  /// Model row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get appraisalResultModelLabel;
+
+  /// Year row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get appraisalResultYearLabel;
+
+  /// License plate row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'License Plate'**
+  String get appraisalResultLicensePlateLabel;
+
+  /// Mileage row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage'**
+  String get appraisalResultMileageLabel;
+
+  /// Notes row label on result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get appraisalResultNotesLabel;
+
+  /// List appraisals screen title
+  ///
+  /// In en, this message translates to:
+  /// **'My Appraisals'**
+  String get listAppraisalsTitle;
+
+  /// Error when appraisal list fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load appraisals'**
+  String get listAppraisalsFailedToLoad;
+
+  /// Empty state for appraisal list
+  ///
+  /// In en, this message translates to:
+  /// **'No appraisals found'**
+  String get listAppraisalsEmpty;
+
+  /// View details button on appraisal list card
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get listAppraisalsViewDetails;
+
+  /// Edit appraisal screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Appraisal'**
+  String get editAppraisalTitle;
+
+  /// Vehicle info section header on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Information'**
+  String get editAppraisalVehicleInfoSection;
+
+  /// Photos section header on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Photos ({count}/7)'**
+  String editAppraisalPhotosSection(int count);
+
+  /// Add photo button on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photo'**
+  String get editAppraisalAddPhoto;
+
+  /// Empty state for photos on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'No photos added yet'**
+  String get editAppraisalNoPhotos;
+
+  /// Save changes button on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get editAppraisalSaveButton;
+
+  /// Toast on appraisal update success
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal updated successfully!'**
+  String get editAppraisalSuccess;
+
+  /// Error when edit appraisal detail fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load detail'**
+  String get editAppraisalFailedToLoad;
+
+  /// Error when no photos on edit appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one photo.'**
+  String get editAppraisalErrorMinPhotos;
+
+  /// Error when a new photo has no category on edit
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a category name for all new photos.'**
+  String get editAppraisalErrorCategoryRequired;
+
+  /// Login screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get loginTitle;
+
+  /// Login screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your account'**
+  String get loginSubtitle;
+
+  /// Email tab label on login
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get loginTabEmail;
+
+  /// Phone OTP tab label on login
+  ///
+  /// In en, this message translates to:
+  /// **'Phone OTP'**
+  String get loginTabPhoneOtp;
+
+  /// Email field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get loginEmailLabel;
+
+  /// Password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// Login button label
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// Google sign-in button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get loginContinueWithGoogle;
+
+  /// Divider between login methods
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get loginOr;
+
+  /// Prompt for users without account
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get loginNoAccount;
+
+  /// Link to register screen
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get loginRegisterLink;
+
+  /// Title when phone OTP is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Phone OTP Temporarily Disabled'**
+  String get loginPhoneDisabledTitle;
+
+  /// Subtitle when phone OTP is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Please use Email or Google Sign-In to continue.'**
+  String get loginPhoneDisabledSubtitle;
+
+  /// Toast on login success
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful'**
+  String get loginSuccess;
+
+  /// Toast on login failure
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get loginFailed;
+
+  /// Register screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerTitle;
+
+  /// Register screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Register to get started'**
+  String get registerSubtitle;
+
+  /// Email tab label on register
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get registerTabEmail;
+
+  /// Phone OTP tab label on register
+  ///
+  /// In en, this message translates to:
+  /// **'Phone OTP'**
+  String get registerTabPhoneOtp;
+
+  /// Email field label on register
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get registerEmailLabel;
+
+  /// Password field label on register
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get registerPasswordLabel;
+
+  /// Confirm password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get registerConfirmPasswordLabel;
+
+  /// Full name optional field label
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name (Optional)'**
+  String get registerFullNameOptional;
+
+  /// Address optional field label
+  ///
+  /// In en, this message translates to:
+  /// **'Address (Optional)'**
+  String get registerAddressOptional;
+
+  /// Register button label
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerButton;
+
+  /// Google register button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get registerContinueWithGoogle;
+
+  /// Divider between register methods
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get registerOr;
+
+  /// Prompt for users already registered
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get registerAlreadyAccount;
+
+  /// Link back to login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get registerLoginLink;
+
+  /// Title when phone OTP is disabled on register
+  ///
+  /// In en, this message translates to:
+  /// **'Phone OTP Temporarily Disabled'**
+  String get registerPhoneDisabledTitle;
+
+  /// Subtitle when phone OTP is disabled on register
+  ///
+  /// In en, this message translates to:
+  /// **'Please use Email or Google Sign-In to continue.'**
+  String get registerPhoneDisabledSubtitle;
+
+  /// Toast on registration success
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful'**
+  String get registerSuccess;
+
+  /// Toast on registration failure
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed'**
+  String get registerFailed;
+
+  /// Greeting banner with user name
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {name}!'**
+  String homeGreeting(String name);
+
+  /// Subtitle under greeting
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for your appraisal?'**
+  String get homeReadyForAppraisal;
+
+  /// Section header for latest appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Appraisal'**
+  String get homeLatestAppraisal;
+
+  /// Refresh button label
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get homeRefresh;
+
+  /// See all appraisals link
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get homeSeeAll;
+
+  /// Start new appraisal button
+  ///
+  /// In en, this message translates to:
+  /// **'Start New Appraisal'**
+  String get homeStartNewAppraisal;
+
+  /// View details button on appraisal card
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get homeViewDetails;
+
+  /// Notifications screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get listNotificationsTitle;
+
+  /// Tooltip for mark all as read button
+  ///
+  /// In en, this message translates to:
+  /// **'Mark All Read'**
+  String get listNotificationsMarkAllRead;
+
+  /// Error message when notifications fail to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load notifications'**
+  String get listNotificationsFailedToLoad;
+
+  /// Empty state message for notifications
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get listNotificationsEmpty;
+
+  /// Error message when profile fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load profile'**
+  String get profileFailedToLoad;
+
+  /// Profile photo picker label
+  ///
+  /// In en, this message translates to:
+  /// **'Update Profile Photo'**
+  String get profileUpdatePhotoLabel;
+
+  /// Profile photo picker hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Select an image'**
+  String get profileUpdatePhotoHint;
+
+  /// Full name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get profileFullNameLabel;
+
+  /// Full name field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'John Doe'**
+  String get profileFullNamePlaceholder;
+
+  /// Email field label on profile
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmailLabel;
+
+  /// Email field placeholder on profile
+  ///
+  /// In en, this message translates to:
+  /// **'john@example.com'**
+  String get profileEmailPlaceholder;
+
+  /// Address field label
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get profileAddressLabel;
+
+  /// Address field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'South Jakarta'**
+  String get profileAddressPlaceholder;
+
+  /// Save profile button label
+  ///
+  /// In en, this message translates to:
+  /// **'Save Profile'**
+  String get profileSaveButton;
+
+  /// Toast on profile save success
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved successfully'**
+  String get profileSaveSuccess;
+
+  /// Toast on profile save failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save profile'**
+  String get profileSaveFailed;
+
   /// Admin shell bottom navigation label for dashboard
   ///
   /// In en, this message translates to:
@@ -1490,7 +2364,7 @@ class _L10nDelegate extends LocalizationsDelegate<L10n> {
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'id', 'ja'].contains(locale.languageCode);
+      <String>['en', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_L10nDelegate old) => false;
@@ -1501,8 +2375,6 @@ L10n lookupL10n(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return L10nEn();
-    case 'id':
-      return L10nId();
     case 'ja':
       return L10nJa();
   }

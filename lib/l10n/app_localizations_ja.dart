@@ -556,6 +556,455 @@ class L10nJa extends L10n {
   String get enumMaintenanceResultRescheduled => '再スケジュール';
 
   @override
+  String get vehicleInfoTitle => '車両情報';
+
+  @override
+  String get vehicleInfoBrandLabel => '車両ブランド';
+
+  @override
+  String get vehicleInfoBrandPlaceholder => 'トヨタ、ホンダ、スズキ...';
+
+  @override
+  String get vehicleInfoModelLabel => '車両モデル';
+
+  @override
+  String get vehicleInfoModelPlaceholder => 'アバンザ、ブリオ、エルティガ...';
+
+  @override
+  String get vehicleInfoYearLabel => '製造年';
+
+  @override
+  String get vehicleInfoYearPlaceholder => '2020';
+
+  @override
+  String get vehicleInfoLicensePlateLabel => 'ナンバープレート（任意）';
+
+  @override
+  String get vehicleInfoMileageLabel => '走行距離（任意）';
+
+  @override
+  String get vehicleInfoNotesLabel => '追加メモ（任意）';
+
+  @override
+  String get vehicleInfoNotesPlaceholder => '状態、改造など';
+
+  @override
+  String get vehicleInfoNextButton => '次へ：写真を撮る';
+
+  @override
+  String get photoCategoryTitle => '写真を撮る';
+
+  @override
+  String get photoCategoryWarning =>
+      '警告：写真が鮮明で、ぼやけておらず、必要な部分をすべてカバーしていることを確認してください。';
+
+  @override
+  String get photoCategoryAddNewPhoto => '新しい写真を追加';
+
+  @override
+  String get photoCategoryCamera => 'カメラ';
+
+  @override
+  String get photoCategoryUpload => 'アップロード';
+
+  @override
+  String get photoCategoryUploadedPhotos => 'アップロードされた写真';
+
+  @override
+  String get photoCategoryEmpty => 'まだ写真がアップロードされていません';
+
+  @override
+  String get photoCategoryContinueButton => 'サマリーに続く';
+
+  @override
+  String get photoCategoryErrorNoPhotos => '少なくとも1枚の写真を追加してください。';
+
+  @override
+  String get photoCategoryErrorCategoryRequired => 'すべての写真のカテゴリ名を入力してください。';
+
+  @override
+  String get photoCategorySuccessCreated => '査定が正常に作成されました！';
+
+  @override
+  String get photoCategoryMaxPhotos => '最大7枚の写真に達しました。';
+
+  @override
+  String cameraCaptureTitle(String category) {
+    return '写真を撮る：$category';
+  }
+
+  @override
+  String get cameraCaptureOpeningCamera => 'カメラを開いています...';
+
+  @override
+  String get cameraCaptureOpenCameraButton => 'カメラを開く';
+
+  @override
+  String get cameraCaptureRetake => '撮り直し';
+
+  @override
+  String get cameraCaptureUsePhoto => 'この写真を使用';
+
+  @override
+  String get cameraCaptureDialogTitle => 'カテゴリ名を入力';
+
+  @override
+  String get cameraCaptureDialogCategoryLabel => 'カテゴリ名';
+
+  @override
+  String get cameraCaptureDialogCategoryPlaceholder => '例：右エンジン、フロントインテリア';
+
+  @override
+  String get cameraCaptureDialogCancel => 'キャンセル';
+
+  @override
+  String get cameraCaptureDialogSave => '保存';
+
+  @override
+  String get cameraCapturePhotoAdded => '写真が追加されました';
+
+  @override
+  String get summaryTitle => '確認して提出';
+
+  @override
+  String get summaryVehicleInfoSection => '車両情報';
+
+  @override
+  String get summaryBrand => 'ブランド';
+
+  @override
+  String get summaryModel => 'モデル';
+
+  @override
+  String get summaryYear => '年';
+
+  @override
+  String get summaryLicensePlate => 'ナンバープレート';
+
+  @override
+  String get summaryMileage => '走行距離';
+
+  @override
+  String get summaryNotes => 'メモ';
+
+  @override
+  String summaryPhotosSection(int count) {
+    return '写真（$count枚）';
+  }
+
+  @override
+  String get summaryNoPhotos => 'まだ写真がアップロードされていません。';
+
+  @override
+  String get summaryDisclaimer => '提出することで、提供された情報が正確であることに同意します。';
+
+  @override
+  String get summarySubmitButton => '査定を提出';
+
+  @override
+  String get summaryFailedToLoad => '読み込みに失敗しました';
+
+  @override
+  String get summarySubmissionFailed => '提出に失敗しました';
+
+  @override
+  String get summarySubmitSuccess => '査定が正常に提出されました！';
+
+  @override
+  String get appraisalResultTitle => '査定結果';
+
+  @override
+  String get appraisalResultFailedToLoad => '査定の読み込みに失敗しました';
+
+  @override
+  String get appraisalResultNextStepsSection => '次のステップ';
+
+  @override
+  String get appraisalResultAdminNotesSection => '管理者メモ';
+
+  @override
+  String get appraisalResultVehicleDetailsSection => '車両詳細';
+
+  @override
+  String get appraisalResultStatusCompleteTitle => '審査完了！';
+
+  @override
+  String get appraisalResultStatusUnderReviewTitle => '審査中';
+
+  @override
+  String get appraisalResultStatusCompleteSubtitle => '査定が審査され、価格が設定されました。';
+
+  @override
+  String get appraisalResultStatusUnderReviewSubtitle => '審査が完了したらお知らせします。';
+
+  @override
+  String get appraisalResultOfferedPrice => '提示購入価格';
+
+  @override
+  String appraisalResultValidUntil(String date) {
+    return '有効期限：$date';
+  }
+
+  @override
+  String get appraisalResultContactUs => 'お問い合わせ';
+
+  @override
+  String get appraisalResultEditAppraisal => '査定を編集';
+
+  @override
+  String get appraisalResultNextStepComplete1 => '提示価格をよく確認してください。';
+
+  @override
+  String get appraisalResultNextStepComplete2 => 'チームに連絡して承認または交渉してください。';
+
+  @override
+  String get appraisalResultNextStepComplete3 => '車両を持参して実地検査を受けてください。';
+
+  @override
+  String get appraisalResultNextStepComplete4 => '取引と書類を完了させてください。';
+
+  @override
+  String get appraisalResultNextStepPending1 => 'チームが提出物を審査します。';
+
+  @override
+  String get appraisalResultNextStepPending2 => '完了したら通知が届きます。';
+
+  @override
+  String get appraisalResultNextStepPending3 => 'いつでも更新情報についてご連絡いただけます。';
+
+  @override
+  String get appraisalResultBrandLabel => 'ブランド';
+
+  @override
+  String get appraisalResultModelLabel => 'モデル';
+
+  @override
+  String get appraisalResultYearLabel => '年';
+
+  @override
+  String get appraisalResultLicensePlateLabel => 'ナンバープレート';
+
+  @override
+  String get appraisalResultMileageLabel => '走行距離';
+
+  @override
+  String get appraisalResultNotesLabel => 'メモ';
+
+  @override
+  String get listAppraisalsTitle => '私の査定';
+
+  @override
+  String get listAppraisalsFailedToLoad => '査定の読み込みに失敗しました';
+
+  @override
+  String get listAppraisalsEmpty => '査定が見つかりません';
+
+  @override
+  String get listAppraisalsViewDetails => '詳細を見る';
+
+  @override
+  String get editAppraisalTitle => '査定を編集';
+
+  @override
+  String get editAppraisalVehicleInfoSection => '車両情報';
+
+  @override
+  String editAppraisalPhotosSection(int count) {
+    return '写真（$count/7）';
+  }
+
+  @override
+  String get editAppraisalAddPhoto => '写真を追加';
+
+  @override
+  String get editAppraisalNoPhotos => 'まだ写真が追加されていません';
+
+  @override
+  String get editAppraisalSaveButton => '変更を保存';
+
+  @override
+  String get editAppraisalSuccess => '査定が正常に更新されました！';
+
+  @override
+  String get editAppraisalFailedToLoad => '詳細の読み込みに失敗しました';
+
+  @override
+  String get editAppraisalErrorMinPhotos => '少なくとも1枚の写真を追加してください。';
+
+  @override
+  String get editAppraisalErrorCategoryRequired => 'すべての新しい写真のカテゴリ名を入力してください。';
+
+  @override
+  String get loginTitle => 'おかえりなさい';
+
+  @override
+  String get loginSubtitle => 'アカウントにサインイン';
+
+  @override
+  String get loginTabEmail => 'メール';
+
+  @override
+  String get loginTabPhoneOtp => '電話OTP';
+
+  @override
+  String get loginEmailLabel => 'メールアドレス';
+
+  @override
+  String get loginPasswordLabel => 'パスワード';
+
+  @override
+  String get loginButton => 'ログイン';
+
+  @override
+  String get loginContinueWithGoogle => 'Googleで続ける';
+
+  @override
+  String get loginOr => 'または';
+
+  @override
+  String get loginNoAccount => 'アカウントをお持ちでないですか？ ';
+
+  @override
+  String get loginRegisterLink => '登録';
+
+  @override
+  String get loginPhoneDisabledTitle => '電話OTPは一時的に無効です';
+
+  @override
+  String get loginPhoneDisabledSubtitle => 'メールまたはGoogleサインインをご利用ください。';
+
+  @override
+  String get loginSuccess => 'ログイン成功';
+
+  @override
+  String get loginFailed => 'ログイン失敗';
+
+  @override
+  String get registerTitle => 'アカウントを作成';
+
+  @override
+  String get registerSubtitle => '始めるために登録してください';
+
+  @override
+  String get registerTabEmail => 'メール';
+
+  @override
+  String get registerTabPhoneOtp => '電話OTP';
+
+  @override
+  String get registerEmailLabel => 'メールアドレス';
+
+  @override
+  String get registerPasswordLabel => 'パスワード';
+
+  @override
+  String get registerConfirmPasswordLabel => 'パスワードの確認';
+
+  @override
+  String get registerFullNameOptional => '氏名（任意）';
+
+  @override
+  String get registerAddressOptional => '住所（任意）';
+
+  @override
+  String get registerButton => '登録';
+
+  @override
+  String get registerContinueWithGoogle => 'Googleで続ける';
+
+  @override
+  String get registerOr => 'または';
+
+  @override
+  String get registerAlreadyAccount => 'すでにアカウントをお持ちですか？ ';
+
+  @override
+  String get registerLoginLink => 'ログイン';
+
+  @override
+  String get registerPhoneDisabledTitle => '電話OTPは一時的に無効です';
+
+  @override
+  String get registerPhoneDisabledSubtitle => 'メールまたはGoogleサインインをご利用ください。';
+
+  @override
+  String get registerSuccess => '登録成功';
+
+  @override
+  String get registerFailed => '登録失敗';
+
+  @override
+  String homeGreeting(String name) {
+    return 'こんにちは、$nameさん！';
+  }
+
+  @override
+  String get homeReadyForAppraisal => '査定の準備はできていますか？';
+
+  @override
+  String get homeLatestAppraisal => '最新の査定';
+
+  @override
+  String get homeRefresh => '更新';
+
+  @override
+  String get homeSeeAll => 'すべて見る';
+
+  @override
+  String get homeStartNewAppraisal => '新しい査定を開始';
+
+  @override
+  String get homeViewDetails => '詳細を見る';
+
+  @override
+  String get listNotificationsTitle => '通知';
+
+  @override
+  String get listNotificationsMarkAllRead => 'すべて既読にする';
+
+  @override
+  String get listNotificationsFailedToLoad => '通知の読み込みに失敗しました';
+
+  @override
+  String get listNotificationsEmpty => 'まだ通知はありません';
+
+  @override
+  String get profileFailedToLoad => 'プロフィールの読み込みに失敗しました';
+
+  @override
+  String get profileUpdatePhotoLabel => 'プロフィール写真を更新';
+
+  @override
+  String get profileUpdatePhotoHint => '画像を選択';
+
+  @override
+  String get profileFullNameLabel => '氏名';
+
+  @override
+  String get profileFullNamePlaceholder => '山田太郎';
+
+  @override
+  String get profileEmailLabel => 'メールアドレス';
+
+  @override
+  String get profileEmailPlaceholder => 'yamada@example.com';
+
+  @override
+  String get profileAddressLabel => '住所';
+
+  @override
+  String get profileAddressPlaceholder => '東京都渋谷区';
+
+  @override
+  String get profileSaveButton => 'プロフィールを保存';
+
+  @override
+  String get profileSaveSuccess => 'プロフィールが正常に保存されました';
+
+  @override
+  String get profileSaveFailed => 'プロフィールの保存に失敗しました';
+
+  @override
   String get adminShellBottomNavDashboard => 'ダッシュボード';
 
   @override

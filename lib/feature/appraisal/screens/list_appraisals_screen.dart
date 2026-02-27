@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
+import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
@@ -11,7 +13,6 @@ import 'package:car_rongsok_app/shared/widgets/custom_app_bar.dart';
 import 'package:car_rongsok_app/shared/widgets/screen_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 
 @RoutePage()
 class ListAppraisalsScreen extends ConsumerWidget {
@@ -24,7 +25,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'My Appraisals',
+        title: context.l10n.listAppraisalsTitle,
         actions: [
           IconButton(
             onPressed: notifier.refresh,
@@ -41,7 +42,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(
               child: AppText(
-                'Failed to load appraisals',
+                context.l10n.listAppraisalsFailedToLoad,
                 color: context.semantic.error,
               ),
             ),
@@ -62,7 +63,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 16),
                           AppText(
-                            'No appraisals found',
+                            context.l10n.listAppraisalsEmpty,
                             style: AppTextStyle.titleMedium,
                             color: context.colors.textSecondary,
                           ),
@@ -183,7 +184,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
             ],
             const SizedBox(height: 12),
             AppButton(
-              text: 'View Details',
+              text: context.l10n.listAppraisalsViewDetails,
               onPressed: onViewDetails,
               size: AppButtonSize.small,
               variant: AppButtonVariant.outlined,
