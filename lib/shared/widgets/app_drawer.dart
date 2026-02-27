@@ -282,20 +282,6 @@ class AppDrawer extends ConsumerWidget {
           ),
         ),
         DropdownMenuItem(
-          value: const Locale('id'),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('🇮🇩'),
-              const SizedBox(width: 8),
-              AppText(
-                context.l10n.appEndDrawerIndonesian,
-                style: AppTextStyle.bodyMedium,
-              ),
-            ],
-          ),
-        ),
-        DropdownMenuItem(
           value: const Locale('ja'),
           child: Row(
             mainAxisSize: MainAxisSize.min,

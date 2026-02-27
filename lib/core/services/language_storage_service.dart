@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:car_rongsok_app/core/constants/storage_key_constant.dart';
 import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/l10n/app_localizations.dart';
@@ -14,6 +15,14 @@ class LanguageStorageServiceImpl implements LanguageStorageService {
   final SharedPreferences _sharedPreferences;
 
   LanguageStorageServiceImpl(this._sharedPreferences);
+
+  Locale _getDeviceLocale() {
+    final deviceLocale = ui.PlatformDispatcher.instance.locale;
+    if (deviceLocale.languageCode == 'ja') {
+      return const Locale('ja');
+    }
+    return const Locale('en');
+  }
 
   @override
   Future<Locale> getLocale() async {
@@ -32,7 +41,7 @@ class LanguageStorageServiceImpl implements LanguageStorageService {
           locale = Locale(parts[0]);
         } else {
           // * Fallback ke default locale
-          final defaultLocale = L10n.supportedLocales.first;
+          final defaultLocale = _getDeviceLocale();
           logData('GET locale', defaultLocale.toString());
           return defaultLocale;
         }
@@ -43,12 +52,12 @@ class LanguageStorageServiceImpl implements LanguageStorageService {
         }
       }
 
-      final defaultLocale = L10n.supportedLocales.first;
+      final defaultLocale = _getDeviceLocale();
       logData('GET locale', defaultLocale.toString());
       return defaultLocale;
     } catch (e, s) {
       logError('Failed to get locale', e, s);
-      return L10n.supportedLocales.first;
+      return _getDeviceLocale();
     }
   }
 

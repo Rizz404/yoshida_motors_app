@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:car_rongsok_app/core/enums/language_enums.dart';
 import 'package:car_rongsok_app/core/network/dio_client.dart';
 import 'package:car_rongsok_app/core/services/email_auth_service.dart';
@@ -93,11 +94,19 @@ final googleAuthServiceProvider = Provider<GoogleAuthService>((ref) {
 class LocaleNotifier extends Notifier<Locale> {
   late LanguageStorageService _languageStorageService;
 
+  Locale _getDeviceLocale() {
+    final deviceLocale = ui.PlatformDispatcher.instance.locale;
+    if (deviceLocale.languageCode == 'ja') {
+      return const Locale('ja');
+    }
+    return const Locale('en');
+  }
+
   @override
   Locale build() {
     _languageStorageService = ref.watch(languageStorageServiceProvider);
     Future.microtask(_loadLocale);
-    return L10n.supportedLocales.first;
+    return _getDeviceLocale();
   }
 
   Future<void> _loadLocale() async {
@@ -105,7 +114,7 @@ class LocaleNotifier extends Notifier<Locale> {
       final locale = await _languageStorageService.getLocale();
       state = locale;
     } catch (e) {
-      state = L10n.supportedLocales.first;
+      state = _getDeviceLocale();
     }
   }
 
@@ -125,7 +134,7 @@ class LocaleNotifier extends Notifier<Locale> {
   Future<void> resetLocale() async {
     try {
       await _languageStorageService.removeLocale();
-      state = L10n.supportedLocales.first;
+      state = _getDeviceLocale();
     } catch (e) {
       rethrow;
     }
