@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "262950684512-sroq2aovbfhlfkeov409mlsotb7sue21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rizz.learn.car.car_rongsok_app",
+            "certificate_hash": "8545cf39dc87fae8994abbef39bf615dfd5bf568"
+          }
+        },
+        {
           "client_id": "262950684512-d7gh3oq6sv44ujprooritdjffrc3skuj.apps.googleusercontent.com",
           "client_type": 3
         }
