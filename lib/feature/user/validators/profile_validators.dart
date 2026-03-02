@@ -13,9 +13,7 @@ class ProfileValidators {
 
   /// Validator untuk email (optional)
   static String? Function(String?) email() {
-    return FormBuilderValidators.compose([
-      FormBuilderValidators.email(),
-    ]);
+    return FormBuilderValidators.compose([FormBuilderValidators.email()]);
   }
 
   /// Validator untuk address

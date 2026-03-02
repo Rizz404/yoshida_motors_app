@@ -64,7 +64,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     return TaskEither(() async {
       logService('Marking notification as read (id: $id)...');
       try {
-        final result = await _dioClient.put<Notification>(
+        final result = await _dioClient.patch<Notification>(
           ApiConstant.markNotificationRead(id.toString()),
           fromJson: (json) =>
               Notification.fromMap(json as Map<String, dynamic>),
@@ -93,7 +93,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     return TaskEither(() async {
       logService('Marking all notifications as read...');
       try {
-        final result = await _dioClient.put<dynamic>(
+        final result = await _dioClient.patch<dynamic>(
           ApiConstant.markAllNotificationsRead,
           fromJson: (json) => json,
         );

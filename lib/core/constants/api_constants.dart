@@ -37,7 +37,7 @@ class ApiConstant {
   // * AUTHENTICATION - Google Sign-In
   // POST /auth/login/google
   static const String authLoginGoogle = '$authPrefix/login/google';
-  // GET & PUT /auth/profile
+  // GET & PATCH /auth/profile
   static const String authProfile = '$authPrefix/profile';
   // POST /auth/logout
   static const String authLogout = '$authPrefix/logout';
@@ -51,7 +51,7 @@ class ApiConstant {
   static const String createAppraisal = appraisalPrefix;
   // GET /appraisals/{id} (Detail)
   static String getAppraisalById(String id) => '$appraisalPrefix/$id';
-  // PUT /appraisals/{id} (Update)
+  // PATCH /appraisals/{id} (Update)
   static String updateAppraisal(String id) => '$appraisalPrefix/$id';
   // DELETE /appraisals/{id} (Delete)
   static String deleteAppraisal(String id) => '$appraisalPrefix/$id';
@@ -64,10 +64,10 @@ class ApiConstant {
   static const String notificationPrefix = '$baseUrl/notifications';
   // GET /notifications
   static const String getNotifications = notificationPrefix;
-  // PUT /notifications/{id}/mark-read
+  // PATCH /notifications/{id}/mark-read
   static String markNotificationRead(String id) =>
       '$notificationPrefix/$id/mark-read';
-  // PUT /notifications/mark-all-read
+  // PATCH /notifications/mark-all-read
   static const String markAllNotificationsRead =
       '$notificationPrefix/mark-all-read';
 }

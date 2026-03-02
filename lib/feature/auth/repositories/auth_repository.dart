@@ -316,7 +316,7 @@ class AuthRepositoryImpl implements AuthRepository {
     return TaskEither(() async {
       logService('Updating user profile...');
       try {
-        final result = await _dioClient.put<User>(
+        final result = await _dioClient.patch<User>(
           ApiConstant.authProfile,
           data: params.toMap(),
           fromJson: (json) => User.fromMap(json as Map<String, dynamic>),

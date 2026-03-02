@@ -149,7 +149,14 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
     final formData = _formKey.currentState!.value;
     final mileageString = formData['mileage'] as String?;
 
-    final payload = UpdateAppraisalPayload(
+    final detailAsync = ref.read(
+      appraisalDetailNotifierProvider(widget.appraisalId),
+    );
+    final appraisal = detailAsync.value?.appraisal;
+    if (appraisal == null) return;
+
+    final payload = UpdateAppraisalPayload.fromChanges(
+      original: appraisal,
       vehicleBrand: (formData['vehicle_brand'] as String).trim(),
       vehicleModel: (formData['vehicle_model'] as String).trim(),
       yearManufacture: int.parse(
@@ -162,6 +169,14 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
       newPhotoLabels: _newPhotoLabels.isNotEmpty ? _newPhotoLabels : null,
       deletePhotos: _deletePhotos.isNotEmpty ? _deletePhotos : null,
     );
+
+    if (payload.isEmpty) {
+      context.loaderOverlay.hide();
+      setState(() => _isSubmitting = false);
+      AppToast.success(context.l10n.editAppraisalSuccess);
+      await context.router.maybePop();
+      return;
+    }
 
     final result = await ref
         .read(appraisalRepositoryProvider)

@@ -5,6 +5,8 @@ import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
+import 'package:car_rongsok_app/feature/user/models/user.dart'
+    as car_rongsok_user;
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/feature/user/validators/profile_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
@@ -34,7 +36,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _filePickerKey = GlobalKey<AppFilePickerState>();
 
-  Future<void> _onSave() async {
+  Future<void> _onSave(car_rongsok_user.User user) async {
     if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
     final formData = _formKey.currentState!.value;
@@ -44,7 +46,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ? profilePhotos!.first.path
         : null;
 
-    final payload = UpdateUserPayload(
+    final payload = UpdateUserPayload.fromChanges(
+      original: user,
       name: formData['name'] as String?,
       phoneNumber: formData['phoneNumber'] as String?,
       email: formData['email'] as String?,
@@ -54,6 +57,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       fcmToken: null,
       profilePhotoPath: photoPath,
     );
+
+    if (payload.isEmpty) {
+      AppToast.success(context.l10n.profileSaveSuccess);
+      return;
+    }
 
     await ref.read(userProfileNotifierProvider.notifier).updateProfile(payload);
   }
@@ -257,7 +265,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           AppButton(
                             text: context.l10n.profileSaveButton,
                             isLoading: state.isMutating,
-                            onPressed: state.isMutating ? null : _onSave,
+                            onPressed: state.isMutating || user == null
+                                ? null
+                                : () => _onSave(user),
                             leadingIcon: Icon(
                               Icons.save_outlined,
                               color: context.colors.textOnPrimary,

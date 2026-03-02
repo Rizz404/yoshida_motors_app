@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:car_rongsok_app/feature/user/models/user.dart';
+
 class UpdateProfilePayload extends Equatable {
   final String? name;
   final String? phoneNumber;
@@ -22,6 +24,42 @@ class UpdateProfilePayload extends Equatable {
     this.birthDate,
     this.fcmToken,
   });
+
+  bool get isEmpty =>
+      name == null &&
+      phoneNumber == null &&
+      email == null &&
+      address == null &&
+      gender == null &&
+      birthDate == null &&
+      fcmToken == null;
+
+  factory UpdateProfilePayload.fromChanges({
+    required User original,
+    String? name,
+    String? phoneNumber,
+    String? email,
+    String? address,
+    String? gender,
+    DateTime? birthDate,
+    String? fcmToken,
+  }) {
+    return UpdateProfilePayload(
+      name: name != null && name != original.name ? name : null,
+      phoneNumber: phoneNumber != null && phoneNumber != original.phoneNumber
+          ? phoneNumber
+          : null,
+      email: email != null && email != original.email ? email : null,
+      address: address != null && address != original.address ? address : null,
+      gender: gender != null && gender != original.gender ? gender : null,
+      birthDate: birthDate != null && birthDate != original.birthDate
+          ? birthDate
+          : null,
+      fcmToken: fcmToken != null && fcmToken != original.fcmToken
+          ? fcmToken
+          : null,
+    );
+  }
 
   UpdateProfilePayload copyWith({
     String? name,

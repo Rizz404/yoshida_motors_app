@@ -5,6 +5,8 @@ import 'package:car_rongsok_app/core/extensions/model_parsing_extension.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
+
 class UpdateAppraisalPayload extends Equatable {
   final String? vehicleBrand;
   final String? vehicleModel;
@@ -27,6 +29,56 @@ class UpdateAppraisalPayload extends Equatable {
     this.newPhotoLabels,
     this.deletePhotos,
   });
+
+  bool get isEmpty =>
+      vehicleBrand == null &&
+      vehicleModel == null &&
+      yearManufacture == null &&
+      description == null &&
+      licensePlate == null &&
+      mileage == null &&
+      (newPhotos == null || newPhotos!.isEmpty) &&
+      (newPhotoLabels == null || newPhotoLabels!.isEmpty) &&
+      (deletePhotos == null || deletePhotos!.isEmpty);
+
+  factory UpdateAppraisalPayload.fromChanges({
+    required AppraisalRequest original,
+    String? vehicleBrand,
+    String? vehicleModel,
+    int? yearManufacture,
+    String? description,
+    String? licensePlate,
+    int? mileage,
+    List<String>? newPhotos,
+    List<String>? newPhotoLabels,
+    List<int>? deletePhotos,
+  }) {
+    return UpdateAppraisalPayload(
+      vehicleBrand:
+          vehicleBrand != null && vehicleBrand != original.vehicleBrand
+          ? vehicleBrand
+          : null,
+      vehicleModel:
+          vehicleModel != null && vehicleModel != original.vehicleModel
+          ? vehicleModel
+          : null,
+      yearManufacture:
+          yearManufacture != null && yearManufacture != original.yearManufacture
+          ? yearManufacture
+          : null,
+      description: description != null && description != original.description
+          ? description
+          : null,
+      licensePlate:
+          licensePlate != null && licensePlate != original.licensePlate
+          ? licensePlate
+          : null,
+      mileage: mileage != null && mileage != original.mileage ? mileage : null,
+      newPhotos: newPhotos,
+      newPhotoLabels: newPhotoLabels,
+      deletePhotos: deletePhotos,
+    );
+  }
 
   UpdateAppraisalPayload copyWith({
     String? vehicleBrand,
@@ -64,7 +116,7 @@ class UpdateAppraisalPayload extends Equatable {
   }
 
   Future<FormData> toFormData() async {
-    final formData = FormData.fromMap({'_method': 'PUT', ...toMap()});
+    final formData = FormData.fromMap({'_method': 'PATCH', ...toMap()});
 
     if (newPhotos != null && newPhotos!.isNotEmpty) {
       for (final photoPath in newPhotos!) {

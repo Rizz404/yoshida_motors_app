@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '262950684512',
     projectId: 'car-rongsok',
     storageBucket: 'car-rongsok.firebasestorage.app',
-    iosClientId: '262950684512-eerq165p244u7pls6gft9pv718p52crb.apps.googleusercontent.com',
+    iosClientId:
+        '262950684512-eerq165p244u7pls6gft9pv718p52crb.apps.googleusercontent.com',
     iosBundleId: 'rizz.learn.car.carRongsokApp',
   );
 }

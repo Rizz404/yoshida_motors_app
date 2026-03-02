@@ -31,9 +31,7 @@ class AuthServiceImpl implements AuthService {
     final token = await _flutterSecureStorage.read(
       key: StorageKeyConstant.accessTokenKey,
     );
-    logData(
-      'GET accessToken: ${token != null ? 'Token exists' : 'No token'}',
-    );
+    logData('GET accessToken: ${token != null ? 'Token exists' : 'No token'}');
     return token;
   }
 
