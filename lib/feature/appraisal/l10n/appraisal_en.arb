@@ -379,5 +379,38 @@
   "editAppraisalErrorCategoryRequired": "Please enter a category name for all new photos.",
   "@editAppraisalErrorCategoryRequired": {
     "description": "Error when a new photo has no category on edit"
+  },
+  "appraisalResultRejectionReason": "Reason",
+  "@appraisalResultRejectionReason": {
+    "description": "Label for rejection reason on appraisal result screen"
+  },
+  "appraisalResultPhotos": "Photos ({count})",
+  "@appraisalResultPhotos": {
+    "description": "Photos count label on appraisal result screen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appraisalResultStatusRejectedTitle": "Request Rejected",
+  "@appraisalResultStatusRejectedTitle": {
+    "description": "Status banner title when request is rejected"
+  },
+  "appraisalResultStatusRejectedSubtitle": "We are sorry, your vehicle did not meet our criteria.",
+  "@appraisalResultStatusRejectedSubtitle": {
+    "description": "Status banner subtitle when request is rejected"
+  },
+  "listAppraisalsRefreshTooltip": "Refresh",
+  "@listAppraisalsRefreshTooltip": {
+    "description": "Tooltip for refresh button on list appraisals screen"
+  },
+  "appraisalPhotoCategoryHint": "e.g., Mesin Kanan",
+  "@appraisalPhotoCategoryHint": {
+    "description": "Hint text for photo category input"
+  },
+  "appraisalRemovePhotoTooltip": "Remove Photo",
+  "@appraisalRemovePhotoTooltip": {
+    "description": "Tooltip for removing a photo"
   }
 }

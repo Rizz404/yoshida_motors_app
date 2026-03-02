@@ -415,7 +415,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
           IconButton(
             onPressed: _isSubmitting ? null : () => _removeExistingPhoto(photo),
             icon: Icon(Icons.delete_outline, color: context.semantic.error),
-            tooltip: 'Remove Photo',
+            tooltip: context.l10n.appraisalRemovePhotoTooltip,
           ),
         ],
       ),
@@ -449,8 +449,8 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
               initialValue: _newPhotoLabels[index],
               enabled: !_isSubmitting,
               decoration: InputDecoration(
-                labelText: 'Category Name',
-                hintText: 'e.g., Mesin Kanan',
+                labelText: context.l10n.cameraCaptureDialogCategoryLabel,
+                hintText: context.l10n.appraisalPhotoCategoryHint,
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -467,7 +467,7 @@ class _EditAppraisalScreenState extends ConsumerState<EditAppraisalScreen> {
           IconButton(
             onPressed: _isSubmitting ? null : () => _removeNewPhoto(index),
             icon: Icon(Icons.delete_outline, color: context.semantic.error),
-            tooltip: 'Remove Photo',
+            tooltip: context.l10n.appraisalRemovePhotoTooltip,
           ),
         ],
       ),

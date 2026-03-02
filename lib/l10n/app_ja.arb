@@ -962,6 +962,39 @@
   "@editAppraisalErrorCategoryRequired": {
     "description": "Error when a new photo has no category on edit"
   },
+  "appraisalResultRejectionReason": "理由",
+  "@appraisalResultRejectionReason": {
+    "description": "Label for rejection reason on appraisal result screen"
+  },
+  "appraisalResultPhotos": "写真（{count}枚）",
+  "@appraisalResultPhotos": {
+    "description": "Photos count label on appraisal result screen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appraisalResultStatusRejectedTitle": "リクエストが却下されました",
+  "@appraisalResultStatusRejectedTitle": {
+    "description": "Status banner title when request is rejected"
+  },
+  "appraisalResultStatusRejectedSubtitle": "申し訳ありませんが、あなたの車両は当社の基準を満たしていませんでした。",
+  "@appraisalResultStatusRejectedSubtitle": {
+    "description": "Status banner subtitle when request is rejected"
+  },
+  "listAppraisalsRefreshTooltip": "更新",
+  "@listAppraisalsRefreshTooltip": {
+    "description": "Tooltip for refresh button on list appraisals screen"
+  },
+  "appraisalPhotoCategoryHint": "例: 右エンジン",
+  "@appraisalPhotoCategoryHint": {
+    "description": "Hint text for photo category input"
+  },
+  "appraisalRemovePhotoTooltip": "写真を削除",
+  "@appraisalRemovePhotoTooltip": {
+    "description": "Tooltip for removing a photo"
+  },
   "loginTitle": "おかえりなさい",
   "@loginTitle": {
     "description": "Login screen title"
@@ -1094,6 +1127,22 @@
   "@registerFailed": {
     "description": "Toast on registration failure"
   },
+  "authEmailPlaceholder": "john@example.com",
+  "@authEmailPlaceholder": {
+    "description": "Placeholder for email input"
+  },
+  "authPasswordPlaceholder": "••••••",
+  "@authPasswordPlaceholder": {
+    "description": "Placeholder for password input"
+  },
+  "authNamePlaceholder": "山田 太郎",
+  "@authNamePlaceholder": {
+    "description": "Placeholder for name input"
+  },
+  "authAddressPlaceholder": "東京都渋谷区",
+  "@authAddressPlaceholder": {
+    "description": "Placeholder for address input"
+  },
   "homeGreeting": "こんにちは、{name}さん！",
   "@homeGreeting": {
     "description": "Greeting banner with user name",
@@ -1130,6 +1179,10 @@
   "homeIncompleteProfileError": "新しい査定を開始する前に、プロフィールを完了してください。",
   "@homeIncompleteProfileError": {
     "description": "Error message shown when user tries to start an appraisal with incomplete profile"
+  },
+  "homeUserFallback": "ユーザー",
+  "@homeUserFallback": {
+    "description": "Fallback name when user name is empty"
   },
   "listNotificationsTitle": "通知",
   "@listNotificationsTitle": {

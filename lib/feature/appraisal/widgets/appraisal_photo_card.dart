@@ -99,8 +99,8 @@ class _AppraisalPhotoCardState extends ConsumerState<AppraisalPhotoCard> {
                   controller: _controller,
                   enabled: !widget.isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Category Name',
-                    hintText: 'e.g., Mesin Kanan',
+                    labelText: context.l10n.cameraCaptureDialogCategoryLabel,
+                    hintText: context.l10n.appraisalPhotoCategoryHint,
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -130,7 +130,7 @@ class _AppraisalPhotoCardState extends ConsumerState<AppraisalPhotoCard> {
                         .removePhoto(widget.index);
                   },
             icon: Icon(Icons.delete_outline, color: context.semantic.error),
-            tooltip: 'Remove Photo',
+            tooltip: context.l10n.appraisalRemovePhotoTooltip,
           ),
         ],
       ),

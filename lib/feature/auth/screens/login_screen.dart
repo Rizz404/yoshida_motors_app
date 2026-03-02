@@ -255,7 +255,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           AppTextField(
             name: 'email',
             label: context.l10n.loginEmailLabel,
-            placeHolder: 'john@example.com',
+            placeHolder: context.l10n.authEmailPlaceholder,
             type: AppTextFieldType.email,
             prefixIcon: Icon(
               Icons.email_outlined,
@@ -267,7 +267,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           AppTextField(
             name: 'password',
             label: context.l10n.loginPasswordLabel,
-            placeHolder: '••••••',
+            placeHolder: context.l10n.authPasswordPlaceholder,
             type: AppTextFieldType.password,
             prefixIcon: Icon(Icons.lock_outline, color: context.colors.primary),
             validator: LoginValidators.password(),

@@ -835,6 +835,30 @@ class L10nJa extends L10n {
   String get editAppraisalErrorCategoryRequired => 'すべての新しい写真のカテゴリ名を入力してください。';
 
   @override
+  String get appraisalResultRejectionReason => '理由';
+
+  @override
+  String appraisalResultPhotos(int count) {
+    return '写真（$count枚）';
+  }
+
+  @override
+  String get appraisalResultStatusRejectedTitle => 'リクエストが却下されました';
+
+  @override
+  String get appraisalResultStatusRejectedSubtitle =>
+      '申し訳ありませんが、あなたの車両は当社の基準を満たしていませんでした。';
+
+  @override
+  String get listAppraisalsRefreshTooltip => '更新';
+
+  @override
+  String get appraisalPhotoCategoryHint => '例: 右エンジン';
+
+  @override
+  String get appraisalRemovePhotoTooltip => '写真を削除';
+
+  @override
   String get loginTitle => 'おかえりなさい';
 
   @override
@@ -934,6 +958,18 @@ class L10nJa extends L10n {
   String get registerFailed => '登録失敗';
 
   @override
+  String get authEmailPlaceholder => 'john@example.com';
+
+  @override
+  String get authPasswordPlaceholder => '••••••';
+
+  @override
+  String get authNamePlaceholder => '山田 太郎';
+
+  @override
+  String get authAddressPlaceholder => '東京都渋谷区';
+
+  @override
   String homeGreeting(String name) {
     return 'こんにちは、$nameさん！';
   }
@@ -958,6 +994,9 @@ class L10nJa extends L10n {
 
   @override
   String get homeIncompleteProfileError => '新しい査定を開始する前に、プロフィールを完了してください。';
+
+  @override
+  String get homeUserFallback => 'ユーザー';
 
   @override
   String get listNotificationsTitle => '通知';

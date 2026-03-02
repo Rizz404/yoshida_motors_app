@@ -849,6 +849,30 @@ class L10nEn extends L10n {
       'Please enter a category name for all new photos.';
 
   @override
+  String get appraisalResultRejectionReason => 'Reason';
+
+  @override
+  String appraisalResultPhotos(int count) {
+    return 'Photos ($count)';
+  }
+
+  @override
+  String get appraisalResultStatusRejectedTitle => 'Request Rejected';
+
+  @override
+  String get appraisalResultStatusRejectedSubtitle =>
+      'We are sorry, your vehicle did not meet our criteria.';
+
+  @override
+  String get listAppraisalsRefreshTooltip => 'Refresh';
+
+  @override
+  String get appraisalPhotoCategoryHint => 'e.g., Mesin Kanan';
+
+  @override
+  String get appraisalRemovePhotoTooltip => 'Remove Photo';
+
+  @override
   String get loginTitle => 'Welcome Back';
 
   @override
@@ -950,6 +974,18 @@ class L10nEn extends L10n {
   String get registerFailed => 'Registration failed';
 
   @override
+  String get authEmailPlaceholder => 'john@example.com';
+
+  @override
+  String get authPasswordPlaceholder => '••••••';
+
+  @override
+  String get authNamePlaceholder => 'John Doe';
+
+  @override
+  String get authAddressPlaceholder => 'Jakarta Selatan';
+
+  @override
   String homeGreeting(String name) {
     return 'Hello, $name!';
   }
@@ -975,6 +1011,9 @@ class L10nEn extends L10n {
   @override
   String get homeIncompleteProfileError =>
       'Please complete your profile before starting a new appraisal.';
+
+  @override
+  String get homeUserFallback => 'User';
 
   @override
   String get listNotificationsTitle => 'Notifications';

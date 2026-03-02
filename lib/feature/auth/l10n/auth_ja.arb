@@ -131,5 +131,21 @@
   "registerFailed": "登録失敗",
   "@registerFailed": {
     "description": "Toast on registration failure"
+  },
+  "authEmailPlaceholder": "john@example.com",
+  "@authEmailPlaceholder": {
+    "description": "Placeholder for email input"
+  },
+  "authPasswordPlaceholder": "••••••",
+  "@authPasswordPlaceholder": {
+    "description": "Placeholder for password input"
+  },
+  "authNamePlaceholder": "山田 太郎",
+  "@authNamePlaceholder": {
+    "description": "Placeholder for name input"
+  },
+  "authAddressPlaceholder": "東京都渋谷区",
+  "@authAddressPlaceholder": {
+    "description": "Placeholder for address input"
   }
 }

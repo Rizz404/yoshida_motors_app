@@ -62,6 +62,7 @@ class AppraisalResultScreen extends ConsumerWidget {
             final isUnderAppraisal =
                 appraisal.status == AppraisalStatus.underReview;
             final isDraft = appraisal.status == AppraisalStatus.draft;
+            final isRejected = appraisal.status == AppraisalStatus.rejected;
 
             return ScreenWrapper(
               child: SingleChildScrollView(
@@ -97,8 +98,33 @@ class AppraisalResultScreen extends ConsumerWidget {
                       const SizedBox(height: 20),
                     ],
 
-                    // * Admin notes
-                    if (appraisal.adminNote?.isNotEmpty == true) ...[
+                    // * Rejection Reason
+                    if (isRejected &&
+                        appraisal.adminNote?.isNotEmpty == true) ...[
+                      AppText(
+                        context.l10n.appraisalResultRejectionReason,
+                        style: AppTextStyle.titleSmall,
+                        fontWeight: FontWeight.w600,
+                        color: context.colors.textSecondary,
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFE4E6),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFFFCA5A5)),
+                        ),
+                        child: AppText(
+                          appraisal.adminNote!,
+                          style: AppTextStyle.bodySmall,
+                          color: const Color(0xFF374151),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ] else if (!isRejected &&
+                        appraisal.adminNote?.isNotEmpty == true) ...[
                       AppText(
                         context.l10n.appraisalResultAdminNotesSection,
                         style: AppTextStyle.titleSmall,
@@ -140,7 +166,9 @@ class AppraisalResultScreen extends ConsumerWidget {
                     if (appraisal.photos != null &&
                         appraisal.photos!.isNotEmpty) ...[
                       AppText(
-                        'Photos (${appraisal.photos!.length})',
+                        context.l10n.appraisalResultPhotos(
+                          appraisal.photos!.length,
+                        ),
                         style: AppTextStyle.titleSmall,
                         fontWeight: FontWeight.w600,
                         color: context.colors.textSecondary,
@@ -205,21 +233,32 @@ class AppraisalResultScreen extends ConsumerWidget {
 
   Widget _buildStatusBanner(BuildContext context, AppraisalRequest appraisal) {
     final isPriceDetermined = appraisal.status == AppraisalStatus.completed;
+    final isRejected = appraisal.status == AppraisalStatus.rejected;
 
     final bgColor = isPriceDetermined
         ? context.semantic.successLight
+        : isRejected
+        ? const Color(0xFFFFE4E6)
         : context.colors.accent.withValues(alpha: 0.12);
     final iconColor = isPriceDetermined
         ? context.semantic.success
+        : isRejected
+        ? const Color(0xFFEF4444)
         : context.colors.accent;
     final icon = isPriceDetermined
         ? Icons.check_circle_outline_rounded
+        : isRejected
+        ? Icons.cancel_outlined
         : Icons.access_time_rounded;
     final title = isPriceDetermined
         ? context.l10n.appraisalResultStatusCompleteTitle
+        : isRejected
+        ? context.l10n.appraisalResultStatusRejectedTitle
         : context.l10n.appraisalResultStatusUnderReviewTitle;
     final subtitle = isPriceDetermined
         ? context.l10n.appraisalResultStatusCompleteSubtitle
+        : isRejected
+        ? context.l10n.appraisalResultStatusRejectedSubtitle
         : context.l10n.appraisalResultStatusUnderReviewSubtitle;
 
     return Container(

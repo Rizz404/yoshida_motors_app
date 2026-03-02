@@ -44,7 +44,8 @@ enum AppraisalStatus {
   draft('draft'),
   submitted('submitted'),
   underReview('under_review'),
-  completed('completed');
+  completed('completed'),
+  rejected('rejected');
 
   const AppraisalStatus(this.value);
 
@@ -60,6 +61,8 @@ enum AppraisalStatus {
         return 'Under Review';
       case AppraisalStatus.completed:
         return 'Completed';
+      case AppraisalStatus.rejected:
+        return 'Rejected';
     }
   }
 }

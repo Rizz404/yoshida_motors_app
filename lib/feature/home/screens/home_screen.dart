@@ -24,7 +24,8 @@ class HomeScreen extends ConsumerWidget {
     final profileAsync = ref.watch(userProfileNotifierProvider);
     final latestAppraisalAsync = ref.watch(latestAppraisalNotifierProvider);
 
-    final userName = profileAsync.value?.user?.name ?? 'User';
+    final userName =
+        profileAsync.value?.user?.name ?? context.l10n.homeUserFallback;
     final latestAppraisal = latestAppraisalAsync.value?.appraisal;
     final isRefreshingAppraisal =
         latestAppraisalAsync.isLoading || latestAppraisalAsync.isRefreshing;
@@ -302,6 +303,7 @@ class HomeScreen extends ConsumerWidget {
         AppraisalStatus.submitted => context.colorScheme.primary,
         AppraisalStatus.underReview => context.colors.accent,
         AppraisalStatus.completed => context.semantic.success,
+        AppraisalStatus.rejected => context.semantic.error,
       };
 
   String _statusLabel(AppraisalStatus status) => status.label;

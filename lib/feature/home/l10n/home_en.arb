@@ -36,5 +36,9 @@
   "homeIncompleteProfileError": "Please complete your profile before starting a new appraisal.",
   "@homeIncompleteProfileError": {
     "description": "Error message shown when user tries to start an appraisal with incomplete profile"
+  },
+  "homeUserFallback": "User",
+  "@homeUserFallback": {
+    "description": "Fallback name when user name is empty"
   }
 }

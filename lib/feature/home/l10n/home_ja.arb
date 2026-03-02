@@ -36,5 +36,9 @@
   "homeIncompleteProfileError": "新しい査定を開始する前に、プロフィールを完了してください。",
   "@homeIncompleteProfileError": {
     "description": "Error message shown when user tries to start an appraisal with incomplete profile"
+  },
+  "homeUserFallback": "ユーザー",
+  "@homeUserFallback": {
+    "description": "Fallback name when user name is empty"
   }
 }

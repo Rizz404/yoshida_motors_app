@@ -131,5 +131,21 @@
   "registerFailed": "Registration failed",
   "@registerFailed": {
     "description": "Toast on registration failure"
+  },
+  "authEmailPlaceholder": "john@example.com",
+  "@authEmailPlaceholder": {
+    "description": "Placeholder for email input"
+  },
+  "authPasswordPlaceholder": "••••••",
+  "@authPasswordPlaceholder": {
+    "description": "Placeholder for password input"
+  },
+  "authNamePlaceholder": "John Doe",
+  "@authNamePlaceholder": {
+    "description": "Placeholder for name input"
+  },
+  "authAddressPlaceholder": "Jakarta Selatan",
+  "@authAddressPlaceholder": {
+    "description": "Placeholder for address input"
   }
 }

@@ -270,7 +270,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             AppTextField(
               name: 'email',
               label: context.l10n.registerEmailLabel,
-              placeHolder: 'john@example.com',
+              placeHolder: context.l10n.authEmailPlaceholder,
               type: AppTextFieldType.email,
               prefixIcon: Icon(
                 Icons.email_outlined,
@@ -282,7 +282,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             AppTextField(
               name: 'password',
               label: context.l10n.registerPasswordLabel,
-              placeHolder: '••••••',
+              placeHolder: context.l10n.authPasswordPlaceholder,
               type: AppTextFieldType.password,
               prefixIcon: Icon(
                 Icons.lock_outline,
@@ -295,7 +295,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             AppTextField(
               name: 'confirm_password',
               label: context.l10n.registerConfirmPasswordLabel,
-              placeHolder: '••••••',
+              placeHolder: context.l10n.authPasswordPlaceholder,
               type: AppTextFieldType.password,
               prefixIcon: Icon(
                 Icons.lock_outline,
@@ -309,7 +309,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             AppTextField(
               name: 'name',
               label: context.l10n.registerFullNameOptional,
-              placeHolder: 'John Doe',
+              placeHolder: context.l10n.authNamePlaceholder,
               type: AppTextFieldType.text,
               prefixIcon: Icon(
                 Icons.person_outline,
@@ -321,7 +321,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             AppTextField(
               name: 'address',
               label: context.l10n.registerAddressOptional,
-              placeHolder: 'Jakarta Selatan',
+              placeHolder: context.l10n.authAddressPlaceholder,
               type: AppTextFieldType.text,
               maxLines: 2,
               prefixIcon: Icon(

@@ -30,7 +30,7 @@ class ListAppraisalsScreen extends ConsumerWidget {
           IconButton(
             onPressed: notifier.refresh,
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Refresh',
+            tooltip: context.l10n.listAppraisalsRefreshTooltip,
           ),
           const SizedBox(width: 8),
         ],
@@ -211,6 +211,8 @@ class ListAppraisalsScreen extends ConsumerWidget {
         return context.colors.accent;
       case AppraisalStatus.completed:
         return context.semantic.success;
+      case AppraisalStatus.rejected:
+        return context.semantic.error;
     }
   }
 

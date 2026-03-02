@@ -1633,6 +1633,48 @@ abstract class L10n {
   /// **'Please enter a category name for all new photos.'**
   String get editAppraisalErrorCategoryRequired;
 
+  /// Label for rejection reason on appraisal result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get appraisalResultRejectionReason;
+
+  /// Photos count label on appraisal result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Photos ({count})'**
+  String appraisalResultPhotos(int count);
+
+  /// Status banner title when request is rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Request Rejected'**
+  String get appraisalResultStatusRejectedTitle;
+
+  /// Status banner subtitle when request is rejected
+  ///
+  /// In en, this message translates to:
+  /// **'We are sorry, your vehicle did not meet our criteria.'**
+  String get appraisalResultStatusRejectedSubtitle;
+
+  /// Tooltip for refresh button on list appraisals screen
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get listAppraisalsRefreshTooltip;
+
+  /// Hint text for photo category input
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Mesin Kanan'**
+  String get appraisalPhotoCategoryHint;
+
+  /// Tooltip for removing a photo
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Photo'**
+  String get appraisalRemovePhotoTooltip;
+
   /// Login screen title
   ///
   /// In en, this message translates to:
@@ -1831,6 +1873,30 @@ abstract class L10n {
   /// **'Registration failed'**
   String get registerFailed;
 
+  /// Placeholder for email input
+  ///
+  /// In en, this message translates to:
+  /// **'john@example.com'**
+  String get authEmailPlaceholder;
+
+  /// Placeholder for password input
+  ///
+  /// In en, this message translates to:
+  /// **'••••••'**
+  String get authPasswordPlaceholder;
+
+  /// Placeholder for name input
+  ///
+  /// In en, this message translates to:
+  /// **'John Doe'**
+  String get authNamePlaceholder;
+
+  /// Placeholder for address input
+  ///
+  /// In en, this message translates to:
+  /// **'Jakarta Selatan'**
+  String get authAddressPlaceholder;
+
   /// Greeting banner with user name
   ///
   /// In en, this message translates to:
@@ -1878,6 +1944,12 @@ abstract class L10n {
   /// In en, this message translates to:
   /// **'Please complete your profile before starting a new appraisal.'**
   String get homeIncompleteProfileError;
+
+  /// Fallback name when user name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get homeUserFallback;
 
   /// Notifications screen title
   ///
