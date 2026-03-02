@@ -15,6 +15,7 @@ class User extends Equatable {
   final String? address;
   final String? gender;
   final DateTime? birthDate;
+  final AuthProvider? authProvider;
   final UserRole role;
   final String? fcmToken;
   final String? profilePhoto;
@@ -31,6 +32,7 @@ class User extends Equatable {
     required this.address,
     this.gender,
     this.birthDate,
+    this.authProvider,
     required this.role,
     required this.fcmToken,
     this.profilePhoto,
@@ -48,6 +50,7 @@ class User extends Equatable {
     String? address,
     String? gender,
     DateTime? birthDate,
+    AuthProvider? authProvider,
     UserRole? role,
     String? fcmToken,
     String? profilePhoto,
@@ -64,6 +67,7 @@ class User extends Equatable {
       address: address ?? this.address,
       gender: gender ?? this.gender,
       birthDate: birthDate ?? this.birthDate,
+      authProvider: authProvider ?? this.authProvider,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
       profilePhoto: profilePhoto ?? this.profilePhoto,
@@ -85,6 +89,7 @@ class User extends Equatable {
       'birth_date': birthDate != null
           ? "${birthDate!.year.toString().padLeft(4, '0')}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}"
           : null,
+      'auth_provider': authProvider?.value,
       'role': role.value,
       'fcm_token': fcmToken,
       'profile_photo': profilePhoto,
@@ -104,6 +109,12 @@ class User extends Equatable {
       address: map.getFieldOrNull<String>('address'),
       gender: map.getFieldOrNull<String>('gender'),
       birthDate: map.getFieldOrNull<DateTime>('birth_date'),
+      authProvider: map['auth_provider'] != null
+          ? AuthProvider.values.firstWhere(
+              (e) => e.value == map['auth_provider'],
+              orElse: () => AuthProvider.email,
+            )
+          : null,
       role: UserRole.values.firstWhere((e) => e.value == map['role']),
       fcmToken: map.getFieldOrNull<String>('fcm_token'),
       profilePhoto: map.getFieldOrNull<String>('profile_photo'),
@@ -132,6 +143,7 @@ class User extends Equatable {
       address,
       gender,
       birthDate,
+      authProvider,
       role,
       fcmToken,
       profilePhoto,

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:car_rongsok_app/core/constants/api_constants.dart';
+import 'package:car_rongsok_app/core/enums/model_entity_enums.dart';
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/utils/toast_utils.dart';
@@ -7,6 +8,8 @@ import 'package:car_rongsok_app/feature/user/models/update_user_payload.dart';
 import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/feature/user/validators/profile_validators.dart';
 import 'package:car_rongsok_app/shared/widgets/app_button.dart';
+import 'package:car_rongsok_app/shared/widgets/app_date_time_picker.dart';
+import 'package:car_rongsok_app/shared/widgets/app_dropdown.dart';
 import 'package:car_rongsok_app/shared/widgets/app_file_picker.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_loader_overlay.dart';
@@ -43,8 +46,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final payload = UpdateUserPayload(
       name: formData['name'] as String?,
+      phoneNumber: formData['phoneNumber'] as String?,
       email: formData['email'] as String?,
       address: formData['address'] as String?,
+      gender: formData['gender'] as String?,
+      birthDate: formData['birthDate'] as DateTime?,
       fcmToken: null,
       profilePhotoPath: photoPath,
     );
@@ -175,6 +181,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             label: context.l10n.profileEmailLabel,
                             placeHolder: context.l10n.profileEmailPlaceholder,
                             initialValue: user?.email,
+                            enabled:
+                                user?.authProvider != AuthProvider.google &&
+                                user?.authProvider != AuthProvider.email,
                             type: AppTextFieldType.email,
                             prefixIcon: Icon(
                               Icons.email_outlined,
@@ -195,6 +204,54 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               color: context.colors.primary,
                             ),
                             validator: ProfileValidators.address(),
+                          ),
+                          const SizedBox(height: 16),
+                          AppTextField(
+                            name: 'phoneNumber',
+                            label: context.l10n.profilePhoneLabel,
+                            placeHolder: context.l10n.profilePhonePlaceholder,
+                            initialValue: user?.phoneNumber,
+                            enabled: user?.authProvider != AuthProvider.phone,
+                            type: AppTextFieldType.phone,
+                            prefixIcon: Icon(
+                              Icons.phone_outlined,
+                              color: context.colors.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          AppDropdown<String>(
+                            name: 'gender',
+                            label: context.l10n.profileGenderLabel,
+                            hintText: context.l10n.profileGenderPlaceholder,
+                            initialValue: user?.gender,
+                            prefixIcon: Icon(
+                              Icons.person_pin_circle_outlined,
+                              color: context.colors.primary,
+                            ),
+                            items: [
+                              AppDropdownItem(
+                                value: 'male',
+                                label: context.l10n.profileGenderMale,
+                              ),
+                              AppDropdownItem(
+                                value: 'female',
+                                label: context.l10n.profileGenderFemale,
+                              ),
+                              AppDropdownItem(
+                                value: 'other',
+                                label: context.l10n.profileGenderOther,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          AppDateTimePicker(
+                            name: 'birthDate',
+                            label: context.l10n.profileBirthDateLabel,
+                            initialValue: user?.birthDate,
+                            inputType: InputType.date,
+                            icon: Icons.calendar_today_outlined,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
                           ),
                           const SizedBox(height: 32),
                           AppButton(

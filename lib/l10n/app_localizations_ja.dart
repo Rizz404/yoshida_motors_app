@@ -1008,6 +1008,30 @@ class L10nJa extends L10n {
   String get profileSaveFailed => 'プロフィールの保存に失敗しました';
 
   @override
+  String get profilePhoneLabel => '電話番号';
+
+  @override
+  String get profilePhonePlaceholder => '+819012345678';
+
+  @override
+  String get profileGenderLabel => '性別';
+
+  @override
+  String get profileGenderPlaceholder => '性別を選択';
+
+  @override
+  String get profileBirthDateLabel => '生年月日';
+
+  @override
+  String get profileGenderMale => '男性';
+
+  @override
+  String get profileGenderFemale => '女性';
+
+  @override
+  String get profileGenderOther => 'その他';
+
+  @override
   String get adminShellBottomNavDashboard => 'ダッシュボード';
 
   @override

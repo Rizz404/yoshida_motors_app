@@ -1195,6 +1195,38 @@
   "@profileSaveFailed": {
     "description": "Toast on profile save failure"
   },
+  "profilePhoneLabel": "電話番号",
+  "@profilePhoneLabel": {
+    "description": "Phone number field label"
+  },
+  "profilePhonePlaceholder": "+819012345678",
+  "@profilePhonePlaceholder": {
+    "description": "Phone number field placeholder"
+  },
+  "profileGenderLabel": "性別",
+  "@profileGenderLabel": {
+    "description": "Gender field label"
+  },
+  "profileGenderPlaceholder": "性別を選択",
+  "@profileGenderPlaceholder": {
+    "description": "Gender field placeholder"
+  },
+  "profileBirthDateLabel": "生年月日",
+  "@profileBirthDateLabel": {
+    "description": "Birth date field label"
+  },
+  "profileGenderMale": "男性",
+  "@profileGenderMale": {
+    "description": "Male gender option"
+  },
+  "profileGenderFemale": "女性",
+  "@profileGenderFemale": {
+    "description": "Female gender option"
+  },
+  "profileGenderOther": "その他",
+  "@profileGenderOther": {
+    "description": "Other gender option"
+  },
   "adminShellBottomNavDashboard": "ダッシュボード",
   "@adminShellBottomNavDashboard": {
     "description": "Admin shell bottom navigation label for dashboard"

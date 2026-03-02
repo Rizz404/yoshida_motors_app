@@ -1975,6 +1975,54 @@ abstract class L10n {
   /// **'Failed to save profile'**
   String get profileSaveFailed;
 
+  /// Phone number field label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get profilePhoneLabel;
+
+  /// Phone number field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'+628123456789'**
+  String get profilePhonePlaceholder;
+
+  /// Gender field label
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get profileGenderLabel;
+
+  /// Gender field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Select Gender'**
+  String get profileGenderPlaceholder;
+
+  /// Birth date field label
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Date'**
+  String get profileBirthDateLabel;
+
+  /// Male gender option
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get profileGenderMale;
+
+  /// Female gender option
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get profileGenderFemale;
+
+  /// Other gender option
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get profileGenderOther;
+
   /// Admin shell bottom navigation label for dashboard
   ///
   /// In en, this message translates to:

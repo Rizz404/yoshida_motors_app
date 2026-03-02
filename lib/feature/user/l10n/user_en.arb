@@ -47,5 +47,37 @@
   "profileSaveFailed": "Failed to save profile",
   "@profileSaveFailed": {
     "description": "Toast on profile save failure"
+  },
+  "profilePhoneLabel": "Phone Number",
+  "@profilePhoneLabel": {
+    "description": "Phone number field label"
+  },
+  "profilePhonePlaceholder": "+628123456789",
+  "@profilePhonePlaceholder": {
+    "description": "Phone number field placeholder"
+  },
+  "profileGenderLabel": "Gender",
+  "@profileGenderLabel": {
+    "description": "Gender field label"
+  },
+  "profileGenderPlaceholder": "Select Gender",
+  "@profileGenderPlaceholder": {
+    "description": "Gender field placeholder"
+  },
+  "profileBirthDateLabel": "Birth Date",
+  "@profileBirthDateLabel": {
+    "description": "Birth date field label"
+  },
+  "profileGenderMale": "Male",
+  "@profileGenderMale": {
+    "description": "Male gender option"
+  },
+  "profileGenderFemale": "Female",
+  "@profileGenderFemale": {
+    "description": "Female gender option"
+  },
+  "profileGenderOther": "Other",
+  "@profileGenderOther": {
+    "description": "Other gender option"
   }
 }

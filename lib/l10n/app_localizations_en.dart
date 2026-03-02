@@ -1025,6 +1025,30 @@ class L10nEn extends L10n {
   String get profileSaveFailed => 'Failed to save profile';
 
   @override
+  String get profilePhoneLabel => 'Phone Number';
+
+  @override
+  String get profilePhonePlaceholder => '+628123456789';
+
+  @override
+  String get profileGenderLabel => 'Gender';
+
+  @override
+  String get profileGenderPlaceholder => 'Select Gender';
+
+  @override
+  String get profileBirthDateLabel => 'Birth Date';
+
+  @override
+  String get profileGenderMale => 'Male';
+
+  @override
+  String get profileGenderFemale => 'Female';
+
+  @override
+  String get profileGenderOther => 'Other';
+
+  @override
   String get adminShellBottomNavDashboard => 'Dashboard';
 
   @override

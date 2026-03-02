@@ -172,9 +172,9 @@ class HomeScreen extends ConsumerWidget {
                     final isProfileComplete =
                         user?.name != null &&
                         user?.name?.isNotEmpty == true &&
-                        user?.address != null &&
                         user?.address?.isNotEmpty == true &&
                         user?.gender != null &&
+                        user?.phoneNumber?.isNotEmpty == true &&
                         user?.birthDate != null;
 
                     if (!isProfileComplete) {

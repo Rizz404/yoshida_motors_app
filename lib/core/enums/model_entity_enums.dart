@@ -1,6 +1,16 @@
 import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:flutter/material.dart';
 
+enum AuthProvider {
+  email('email'),
+  google('google'),
+  phone('phone');
+
+  const AuthProvider(this.value);
+
+  final String value;
+}
+
 enum UserRole {
   admin('admin'),
   user('user');
