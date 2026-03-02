@@ -859,6 +859,12 @@ class L10nJa extends L10n {
   String get appraisalRemovePhotoTooltip => '写真を削除';
 
   @override
+  String get summarySaveDraftButton => '下書きとして保存';
+
+  @override
+  String get summarySaveDraftSuccess => '査定が下書きとして保存されました！';
+
+  @override
   String get loginTitle => 'おかえりなさい';
 
   @override

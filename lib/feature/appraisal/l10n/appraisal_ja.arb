@@ -412,5 +412,13 @@
   "appraisalRemovePhotoTooltip": "写真を削除",
   "@appraisalRemovePhotoTooltip": {
     "description": "Tooltip for removing a photo"
+  },
+  "summarySaveDraftButton": "下書きとして保存",
+  "@summarySaveDraftButton": {
+    "description": "Button to save appraisal as draft"
+  },
+  "summarySaveDraftSuccess": "査定が下書きとして保存されました！",
+  "@summarySaveDraftSuccess": {
+    "description": "Toast when appraisal is saved as draft"
   }
 }

@@ -1675,6 +1675,18 @@ abstract class L10n {
   /// **'Remove Photo'**
   String get appraisalRemovePhotoTooltip;
 
+  /// Button to save appraisal as draft
+  ///
+  /// In en, this message translates to:
+  /// **'Save as Draft'**
+  String get summarySaveDraftButton;
+
+  /// Toast when appraisal is saved as draft
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal saved as draft!'**
+  String get summarySaveDraftSuccess;
+
   /// Login screen title
   ///
   /// In en, this message translates to:

@@ -873,6 +873,12 @@ class L10nEn extends L10n {
   String get appraisalRemovePhotoTooltip => 'Remove Photo';
 
   @override
+  String get summarySaveDraftButton => 'Save as Draft';
+
+  @override
+  String get summarySaveDraftSuccess => 'Appraisal saved as draft!';
+
+  @override
   String get loginTitle => 'Welcome Back';
 
   @override

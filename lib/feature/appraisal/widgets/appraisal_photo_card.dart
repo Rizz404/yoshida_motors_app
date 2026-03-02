@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';

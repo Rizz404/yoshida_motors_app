@@ -195,23 +195,44 @@ class SummaryScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // * Submit button
-                    AppButton(
-                      text: context.l10n.summarySubmitButton,
-                      onPressed: () {
-                        // The submission actually marks it submitted when doing PUT /appraisals/{id} with status=submitted
-                        ref
-                            .read(
-                              appraisalDetailNotifierProvider(
-                                appraisalId,
-                              ).notifier,
-                            )
-                            .submitAppraisal();
-                      },
-                      leadingIcon: Icon(
-                        Icons.send_rounded,
-                        color: context.colors.textOnPrimary,
-                      ),
+                    // * Submit & Draft buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            text: context.l10n.summarySaveDraftButton,
+                            variant: AppButtonVariant.outlined,
+                            onPressed: () {
+                              AppToast.success(
+                                context.l10n.summarySaveDraftSuccess,
+                              );
+                              context.router.replaceAll([
+                                const AppShellRoute(),
+                              ]);
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: AppButton(
+                            text: context.l10n.summarySubmitButton,
+                            onPressed: () {
+                              // The submission actually marks it submitted when doing PUT /appraisals/{id} with status=submitted
+                              ref
+                                  .read(
+                                    appraisalDetailNotifierProvider(
+                                      appraisalId,
+                                    ).notifier,
+                                  )
+                                  .submitAppraisal();
+                            },
+                            leadingIcon: Icon(
+                              Icons.send_rounded,
+                              color: context.colors.textOnPrimary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 32),
                   ],

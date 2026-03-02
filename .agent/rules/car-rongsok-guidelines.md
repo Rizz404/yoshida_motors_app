@@ -149,6 +149,11 @@ State class:
 - Use static/hardcoded text strings in widgets by default.
 - Only use context.l10n when the user specifically asks for localization support.
 - If unsure whether to localize, ask first: "Mau pakai translation atau static text?"
+- If EXPLICITLY requested to add translations, strictly follow the feature-based l10n pattern:
+  - Add the new translation keys to ALL available `.arb` files inside the corresponding feature's `l10n` folder.
+  - Example: If editing `lib/feature/appraisal/screens/appraisal_result_screen.dart`, add the translations to all `.arb` files in `lib/feature/appraisal/l10n/`.
+  - After updating the `.arb` files, you MUST run the following command to generate the localization files:
+    `dart run combine_arb.dart && flutter gen-l10n`
 
 ## 12) Terminal workflow preferences
 - Prefer modern CLI tools:

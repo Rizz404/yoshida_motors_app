@@ -412,5 +412,13 @@
   "appraisalRemovePhotoTooltip": "Remove Photo",
   "@appraisalRemovePhotoTooltip": {
     "description": "Tooltip for removing a photo"
+  },
+  "summarySaveDraftButton": "Save as Draft",
+  "@summarySaveDraftButton": {
+    "description": "Button to save appraisal as draft"
+  },
+  "summarySaveDraftSuccess": "Appraisal saved as draft!",
+  "@summarySaveDraftSuccess": {
+    "description": "Toast when appraisal is saved as draft"
   }
 }

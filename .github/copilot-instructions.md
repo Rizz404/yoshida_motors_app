@@ -46,7 +46,14 @@ import 'package:car_rongsok_app/core/utils/logging.dart';
 // 9) Text/Localization (IMPORTANT!)
 // ✅ DO: Use static text strings by default ('Submit', 'Cancel', etc.)
 // ❌ DON'T: Use context.l10n or edit .arb files UNLESS explicitly asked
-// Only use translation when user specifically requests it
+// If unsure whether to localize, ask first: "Mau pakai translation atau static text?"
+//
+// ⚠️ IF EXPLICITLY REQUESTED to add translations, strictly follow this pattern:
+// - Add the new keys to ALL available .arb files inside that feature's `l10n` folder.
+// - Example: If editing `lib/features/appraisal/screens/appraisal_result_screen.dart`,
+//   add translations to all .arb files in `lib/features/appraisal/l10n/`.
+// - After updating the .arb files, you MUST run the following command:
+//   dart run combine_arb.dart && flutter gen-l10n
 
 // 10) Widget Structure — Hybrid Approach
 //
