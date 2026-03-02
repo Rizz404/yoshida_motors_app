@@ -973,6 +973,10 @@ class L10nEn extends L10n {
   String get homeViewDetails => 'View Details';
 
   @override
+  String get homeIncompleteProfileError =>
+      'Please complete your profile before starting a new appraisal.';
+
+  @override
   String get listNotificationsTitle => 'Notifications';
 
   @override

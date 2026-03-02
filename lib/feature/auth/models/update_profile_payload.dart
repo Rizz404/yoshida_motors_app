@@ -6,27 +6,39 @@ import 'package:equatable/equatable.dart';
 
 class UpdateProfilePayload extends Equatable {
   final String? name;
+  final String? phoneNumber;
   final String? email;
   final String? address;
+  final String? gender;
+  final DateTime? birthDate;
   final String? fcmToken;
 
   const UpdateProfilePayload({
     this.name,
+    this.phoneNumber,
     this.email,
     this.address,
+    this.gender,
+    this.birthDate,
     this.fcmToken,
   });
 
   UpdateProfilePayload copyWith({
     String? name,
+    String? phoneNumber,
     String? email,
     String? address,
+    String? gender,
+    DateTime? birthDate,
     String? fcmToken,
   }) {
     return UpdateProfilePayload(
       name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       address: address ?? this.address,
+      gender: gender ?? this.gender,
+      birthDate: birthDate ?? this.birthDate,
       fcmToken: fcmToken ?? this.fcmToken,
     );
   }
@@ -34,8 +46,13 @@ class UpdateProfilePayload extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       if (name != null) 'name': name,
+      if (phoneNumber != null) 'phone_number': phoneNumber,
       if (email != null) 'email': email,
       if (address != null) 'address': address,
+      if (gender != null) 'gender': gender,
+      if (birthDate != null)
+        'birth_date':
+            "${birthDate!.year.toString().padLeft(4, '0')}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}",
       if (fcmToken != null) 'fcm_token': fcmToken,
     };
   }
@@ -43,8 +60,11 @@ class UpdateProfilePayload extends Equatable {
   factory UpdateProfilePayload.fromMap(Map<String, dynamic> map) {
     return UpdateProfilePayload(
       name: map.getFieldOrNull<String>('name'),
+      phoneNumber: map.getFieldOrNull<String>('phone_number'),
       email: map.getFieldOrNull<String>('email'),
       address: map.getFieldOrNull<String>('address'),
+      gender: map.getFieldOrNull<String>('gender'),
+      birthDate: map.getFieldOrNull<DateTime>('birth_date'),
       fcmToken: map.getFieldOrNull<String>('fcm_token'),
     );
   }
@@ -58,5 +78,13 @@ class UpdateProfilePayload extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [name, email, address, fcmToken];
+  List<Object?> get props => [
+    name,
+    phoneNumber,
+    email,
+    address,
+    gender,
+    birthDate,
+    fcmToken,
+  ];
 }

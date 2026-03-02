@@ -1127,6 +1127,10 @@
   "@homeViewDetails": {
     "description": "View details button on appraisal card"
   },
+  "homeIncompleteProfileError": "Please complete your profile before starting a new appraisal.",
+  "@homeIncompleteProfileError": {
+    "description": "Error message shown when user tries to start an appraisal with incomplete profile"
+  },
   "listNotificationsTitle": "Notifications",
   "@listNotificationsTitle": {
     "description": "Notifications screen title"

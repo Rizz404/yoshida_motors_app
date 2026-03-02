@@ -1873,6 +1873,12 @@ abstract class L10n {
   /// **'View Details'**
   String get homeViewDetails;
 
+  /// Error message shown when user tries to start an appraisal with incomplete profile
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile before starting a new appraisal.'**
+  String get homeIncompleteProfileError;
+
   /// Notifications screen title
   ///
   /// In en, this message translates to:

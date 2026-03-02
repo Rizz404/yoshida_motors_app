@@ -13,6 +13,8 @@ class User extends Equatable {
   final String? email;
   final DateTime? emailVerifiedAt;
   final String? address;
+  final String? gender;
+  final DateTime? birthDate;
   final UserRole role;
   final String? fcmToken;
   final String? profilePhoto;
@@ -27,6 +29,8 @@ class User extends Equatable {
     required this.email,
     this.emailVerifiedAt,
     required this.address,
+    this.gender,
+    this.birthDate,
     required this.role,
     required this.fcmToken,
     this.profilePhoto,
@@ -42,6 +46,8 @@ class User extends Equatable {
     String? email,
     DateTime? emailVerifiedAt,
     String? address,
+    String? gender,
+    DateTime? birthDate,
     UserRole? role,
     String? fcmToken,
     String? profilePhoto,
@@ -56,6 +62,8 @@ class User extends Equatable {
       email: email ?? this.email,
       emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
       address: address ?? this.address,
+      gender: gender ?? this.gender,
+      birthDate: birthDate ?? this.birthDate,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
       profilePhoto: profilePhoto ?? this.profilePhoto,
@@ -73,6 +81,10 @@ class User extends Equatable {
       'email': email,
       'email_verified_at': emailVerifiedAt?.toIso8601String(),
       'address': address,
+      'gender': gender,
+      'birth_date': birthDate != null
+          ? "${birthDate!.year.toString().padLeft(4, '0')}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}"
+          : null,
       'role': role.value,
       'fcm_token': fcmToken,
       'profile_photo': profilePhoto,
@@ -90,6 +102,8 @@ class User extends Equatable {
       email: map.getFieldOrNull<String>('email'),
       emailVerifiedAt: map.getFieldOrNull<DateTime>('email_verified_at'),
       address: map.getFieldOrNull<String>('address'),
+      gender: map.getFieldOrNull<String>('gender'),
+      birthDate: map.getFieldOrNull<DateTime>('birth_date'),
       role: UserRole.values.firstWhere((e) => e.value == map['role']),
       fcmToken: map.getFieldOrNull<String>('fcm_token'),
       profilePhoto: map.getFieldOrNull<String>('profile_photo'),
@@ -116,6 +130,8 @@ class User extends Equatable {
       email,
       emailVerifiedAt,
       address,
+      gender,
+      birthDate,
       role,
       fcmToken,
       profilePhoto,

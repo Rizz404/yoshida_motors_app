@@ -32,5 +32,9 @@
   "homeViewDetails": "詳細を見る",
   "@homeViewDetails": {
     "description": "View details button on appraisal card"
+  },
+  "homeIncompleteProfileError": "新しい査定を開始する前に、プロフィールを完了してください。",
+  "@homeIncompleteProfileError": {
+    "description": "Error message shown when user tries to start an appraisal with incomplete profile"
   }
 }

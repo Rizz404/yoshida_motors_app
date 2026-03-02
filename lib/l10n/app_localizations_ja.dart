@@ -957,6 +957,9 @@ class L10nJa extends L10n {
   String get homeViewDetails => '詳細を見る';
 
   @override
+  String get homeIncompleteProfileError => '新しい査定を開始する前に、プロフィールを完了してください。';
+
+  @override
   String get listNotificationsTitle => '通知';
 
   @override

@@ -4,6 +4,7 @@ import 'package:car_rongsok_app/core/extensions/localization_extension.dart';
 import 'package:car_rongsok_app/core/extensions/num_extension.dart';
 import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
+import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
@@ -166,8 +167,23 @@ class HomeScreen extends ConsumerWidget {
                 // * Start new appraisal
                 AppButton(
                   text: context.l10n.homeStartNewAppraisal,
-                  onPressed: () =>
-                      context.router.push(const VehicleInfoRoute()),
+                  onPressed: () {
+                    final user = profileAsync.value?.user;
+                    final isProfileComplete =
+                        user?.name != null &&
+                        user?.name?.isNotEmpty == true &&
+                        user?.address != null &&
+                        user?.address?.isNotEmpty == true &&
+                        user?.gender != null &&
+                        user?.birthDate != null;
+
+                    if (!isProfileComplete) {
+                      AppToast.error(context.l10n.homeIncompleteProfileError);
+                      return;
+                    }
+
+                    context.router.push(const VehicleInfoRoute());
+                  },
                   leadingIcon: Icon(
                     Icons.add_circle_outline_rounded,
                     color: context.colors.textOnPrimary,
