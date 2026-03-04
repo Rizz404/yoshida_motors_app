@@ -4,6 +4,8 @@ import 'package:car_rongsok_app/core/network/api_wrapper.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/update_appraisal_payload.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_list_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/repositories/appraisal_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,7 +95,11 @@ class AppraisalDetailNotifier extends AsyncNotifier<AppraisalDetailState> {
       (failure) => state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => failure),
       ),
-      (_) => ref.invalidateSelf(),
+      (_) {
+        ref.invalidate(appraisalListNotifierProvider);
+        ref.invalidate(latestAppraisalNotifierProvider);
+        ref.invalidateSelf();
+      },
     );
   }
 
@@ -112,7 +118,11 @@ class AppraisalDetailNotifier extends AsyncNotifier<AppraisalDetailState> {
       (failure) => state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => failure),
       ),
-      (_) => ref.invalidateSelf(),
+      (_) {
+        ref.invalidate(appraisalListNotifierProvider);
+        ref.invalidate(latestAppraisalNotifierProvider);
+        ref.invalidateSelf();
+      },
     );
   }
 }

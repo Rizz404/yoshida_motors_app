@@ -5,6 +5,7 @@ import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/create_appraisal_payload.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/get_appraisals_params.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/repositories/appraisal_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -169,9 +170,11 @@ class AppraisalListNotifier extends AsyncNotifier<AppraisalListState> {
       (failure) => state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => failure),
       ),
-      // * Re-fetch fresh data from server
+      // * Re-fetch fresh data from server + reset form flow
       (_) {
         ref.invalidate(latestAppraisalNotifierProvider);
+        ref.invalidate(appraisalFormProvider);
+        ref.invalidate(currentAppraisalIdProvider);
         ref.invalidateSelf();
       },
     );
