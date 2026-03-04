@@ -37,8 +37,9 @@ extension ThemeExtension on BuildContext {
   /// Get the dark Cupertino theme
   CupertinoThemeData get appCupertinoDarkTheme => AppTheme.cupertinoDarkTheme;
 
-  /// Get semantic colors (same for both themes)
-  SemanticColors get semantic => AppColors.semantic;
+  /// Get semantic colors — adaptive sesuai tema aktif
+  SemanticColorsTheme get semantic =>
+      isDarkMode ? SemanticColorsTheme.dark() : SemanticColorsTheme.light();
 }
 
 /// Extension for easy access to theme-aware colors

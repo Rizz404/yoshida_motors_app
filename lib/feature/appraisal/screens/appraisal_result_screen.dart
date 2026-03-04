@@ -112,14 +112,18 @@ class AppraisalResultScreen extends ConsumerWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFE4E6),
+                          color: context.semantic.errorLight,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFFCA5A5)),
+                          border: Border.all(
+                            color: context.semantic.error.withValues(
+                              alpha: 0.4,
+                            ),
+                          ),
                         ),
                         child: AppText(
                           appraisal.adminNote!,
                           style: AppTextStyle.bodySmall,
-                          color: const Color(0xFF374151),
+                          color: context.colors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -139,7 +143,7 @@ class AppraisalResultScreen extends ConsumerWidget {
                           color: context.semantic.infoLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: context.semantic.info.withValues(alpha: 0.3),
+                            color: context.semantic.info.withValues(alpha: 0.4),
                           ),
                         ),
                         child: AppText(
@@ -238,12 +242,12 @@ class AppraisalResultScreen extends ConsumerWidget {
     final bgColor = isPriceDetermined
         ? context.semantic.successLight
         : isRejected
-        ? const Color(0xFFFFE4E6)
+        ? context.semantic.errorLight
         : context.colors.accent.withValues(alpha: 0.12);
     final iconColor = isPriceDetermined
         ? context.semantic.success
         : isRejected
-        ? const Color(0xFFEF4444)
+        ? context.semantic.error
         : context.colors.accent;
     final icon = isPriceDetermined
         ? Icons.check_circle_outline_rounded

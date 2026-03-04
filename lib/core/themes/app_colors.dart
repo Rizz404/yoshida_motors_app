@@ -9,6 +9,8 @@ class AppColors {
 
   static const LightColors light = LightColors._();
   static const DarkColors dark = DarkColors._();
+
+  // * Shortcut ke semantic light — dipakai di AppTheme (non-adaptive)
   static const SemanticColors semantic = SemanticColors._();
 }
 
@@ -175,7 +177,7 @@ class DarkColors {
   final Color scrim = const Color.fromRGBO(0, 0, 0, 0.5);
 }
 
-/// Semantic Colors — unchanged (universal status colors)
+/// Semantic Colors — dipakai langsung di AppTheme (non-adaptive)
 class SemanticColors {
   const SemanticColors._();
 
@@ -194,6 +196,69 @@ class SemanticColors {
   final Color info = const Color.fromRGBO(59, 130, 246, 1);
   final Color infoLight = const Color.fromRGBO(219, 234, 254, 1);
   final Color infoDark = const Color.fromRGBO(37, 99, 235, 1);
+}
+
+/// Theme-aware semantic colors — gunakan via context.semantic di widgets
+class SemanticColorsTheme {
+  const SemanticColorsTheme._({
+    required this.success,
+    required this.successLight,
+    required this.successDark,
+    required this.warning,
+    required this.warningLight,
+    required this.warningDark,
+    required this.error,
+    required this.errorLight,
+    required this.errorDark,
+    required this.info,
+    required this.infoLight,
+    required this.infoDark,
+  });
+
+  final Color success;
+  final Color successLight;
+  final Color successDark;
+  final Color warning;
+  final Color warningLight;
+  final Color warningDark;
+  final Color error;
+  final Color errorLight;
+  final Color errorDark;
+  final Color info;
+  final Color infoLight;
+  final Color infoDark;
+
+  factory SemanticColorsTheme.light() => const SemanticColorsTheme._(
+    success: Color.fromRGBO(34, 197, 94, 1),
+    successLight: Color.fromRGBO(220, 252, 231, 1),
+    successDark: Color.fromRGBO(22, 163, 74, 1),
+    warning: Color.fromRGBO(251, 191, 36, 1),
+    warningLight: Color.fromRGBO(254, 249, 195, 1),
+    warningDark: Color.fromRGBO(245, 158, 11, 1),
+    error: Color.fromRGBO(239, 68, 68, 1),
+    errorLight: Color.fromRGBO(254, 226, 226, 1),
+    errorDark: Color.fromRGBO(220, 38, 38, 1),
+    info: Color.fromRGBO(59, 130, 246, 1),
+    infoLight: Color.fromRGBO(219, 234, 254, 1),
+    infoDark: Color.fromRGBO(37, 99, 235, 1),
+  );
+
+  // * Dark mode: token *Light diganti warna gelap semi-transparan agar
+  // * terbaca di atas background teal-950 tanpa hardcode hex putih/pastel
+  factory SemanticColorsTheme.dark() => const SemanticColorsTheme._(
+    success: Color.fromRGBO(74, 222, 128, 1), // Green-400
+    successLight: Color.fromRGBO(20, 83, 45, 1), // Green-900
+    successDark: Color.fromRGBO(34, 197, 94, 1), // Green-500
+    warning: Color.fromRGBO(251, 191, 36, 1),
+    warningLight: Color.fromRGBO(78, 55, 3, 1), // Amber-950-ish
+    warningDark: Color.fromRGBO(245, 158, 11, 1),
+    error: Color.fromRGBO(248, 113, 113, 1), // Red-400
+    errorLight: Color.fromRGBO(69, 10, 10, 1), // Red-950
+    errorDark: Color.fromRGBO(239, 68, 68, 1), // Red-500
+    info: Color.fromRGBO(96, 165, 250, 1), // Blue-400
+    infoLight: Color.fromRGBO(23, 37, 84, 1), // Blue-950
+    infoDark: Color.fromRGBO(59, 130, 246, 1), // Blue-500
+  );
 }
 
 /// Theme-aware color wrapper — struktur tidak berubah
