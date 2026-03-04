@@ -62,6 +62,15 @@ class UserProfileNotifier extends AsyncNotifier<UserProfileState> {
   FutureOr<UserProfileState> build() async {
     _userRepository = ref.read(userRepositoryProvider);
 
+    // * Dependency ke auth state — otomatis rebuild saat user berubah (login/logout)
+    final authAsync = ref.watch(authNotifierProvider);
+    final authState = authAsync.value;
+
+    // * Tidak perlu fetch profile jika belum authenticated
+    if (authState == null || authState.status != AuthStatus.authenticated) {
+      return const UserProfileState();
+    }
+
     final result = await _userRepository.getProfile().run();
 
     return result.fold(

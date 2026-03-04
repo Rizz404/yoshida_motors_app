@@ -49,6 +49,7 @@ class AppShellScreen extends ConsumerWidget {
         : 'U';
 
     return AutoTabsRouter(
+      homeIndex: 0,
       routes: const [HomeRoute(), ProfileRoute()],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -161,7 +162,8 @@ class AppRouter extends RootStackRouter {
       path: '/',
       guards: [AuthGuard(_ref)],
       children: [
-        AutoRoute(page: HomeRoute.page, path: 'home', initial: true),
+        RedirectRoute(path: '', redirectTo: 'home'),
+        AutoRoute(page: HomeRoute.page, path: 'home'),
         AutoRoute(page: ProfileRoute.page, path: 'profile'),
       ],
     ),

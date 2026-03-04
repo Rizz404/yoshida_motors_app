@@ -314,11 +314,13 @@ class AppDrawer extends ConsumerWidget {
           onPressed: () async {
             AppToast.info(context.l10n.appEndDrawerLoggingOut);
 
-            await ref.read(authNotifierProvider.notifier).logout();
-
+            // * Tutup drawer dulu sebelum logout
             if (context.mounted) {
-              await context.router.replaceAll([const LoginRoute()]);
+              Navigator.of(context).pop();
             }
+
+            await ref.read(authNotifierProvider.notifier).logout();
+            // * Navigasi otomatis ditangani oleh reevaluateListenable + AuthGuard
           },
           icon: const Icon(Icons.logout),
           label: Text(context.l10n.appEndDrawerLogout),

@@ -285,7 +285,7 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
           fcmTokenManager.clearToken();
 
           // * Invalidate providers to clear cached data for different accounts
-          ref.invalidate(userProfileNotifierProvider);
+          // * userProfileNotifierProvider otomatis rebuild via ref.watch(authNotifierProvider)
           ref.invalidate(latestAppraisalNotifierProvider);
           ref.invalidate(appraisalListNotifierProvider);
           ref.invalidate(appraisalDetailNotifierProvider);
