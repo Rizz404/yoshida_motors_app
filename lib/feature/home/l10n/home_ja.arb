@@ -40,5 +40,9 @@
   "homeUserFallback": "ユーザー",
   "@homeUserFallback": {
     "description": "Fallback name when user name is empty"
+  },
+  "homeNoAppraisalFound": "査定は見つかりませんでした。新しい査定を開始してください！",
+  "@homeNoAppraisalFound": {
+    "description": "Message shown when there is no latest appraisal"
   }
 }

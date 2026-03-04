@@ -1963,6 +1963,12 @@ abstract class L10n {
   /// **'User'**
   String get homeUserFallback;
 
+  /// Message shown when there is no latest appraisal
+  ///
+  /// In en, this message translates to:
+  /// **'No appraisal found. Start a new one!'**
+  String get homeNoAppraisalFound;
+
   /// Notifications screen title
   ///
   /// In en, this message translates to:

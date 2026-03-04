@@ -1005,6 +1005,9 @@ class L10nJa extends L10n {
   String get homeUserFallback => 'ユーザー';
 
   @override
+  String get homeNoAppraisalFound => '査定は見つかりませんでした。新しい査定を開始してください！';
+
+  @override
   String get listNotificationsTitle => '通知';
 
   @override

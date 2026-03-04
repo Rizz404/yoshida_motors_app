@@ -78,92 +78,123 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
 
                 // * Active status card
-                if (latestAppraisal != null || isRefreshingAppraisal) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppText(
-                        context.l10n.homeLatestAppraisal,
-                        style: AppTextStyle.titleSmall,
-                        fontWeight: FontWeight.w600,
-                        color: context.colors.textSecondary,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextButton.icon(
-                            onPressed: isRefreshingAppraisal
-                                ? null
-                                : () => ref.refresh(
-                                    latestAppraisalNotifierProvider.future,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(
+                      context.l10n.homeLatestAppraisal,
+                      style: AppTextStyle.titleSmall,
+                      fontWeight: FontWeight.w600,
+                      color: context.colors.textSecondary,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton.icon(
+                          onPressed: isRefreshingAppraisal
+                              ? null
+                              : () => ref.refresh(
+                                  latestAppraisalNotifierProvider.future,
+                                ),
+                          icon: isRefreshingAppraisal
+                              ? SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: context.colors.textTertiary,
                                   ),
-                            icon: isRefreshingAppraisal
-                                ? SizedBox(
-                                    width: 14,
-                                    height: 14,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: context.colors.textTertiary,
-                                    ),
-                                  )
-                                : Icon(
-                                    Icons.refresh_rounded,
-                                    size: 16,
-                                    color: context.colorScheme.primary,
-                                  ),
-                            label: AppText(
-                              context.l10n.homeRefresh,
-                              style: AppTextStyle.bodySmall,
-                              color: isRefreshingAppraisal
-                                  ? context.colors.textTertiary
-                                  : context.colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
+                                )
+                              : Icon(
+                                  Icons.refresh_rounded,
+                                  size: 16,
+                                  color: context.colorScheme.primary,
+                                ),
+                          label: AppText(
+                            context.l10n.homeRefresh,
+                            style: AppTextStyle.bodySmall,
+                            color: isRefreshingAppraisal
+                                ? context.colors.textTertiary
+                                : context.colorScheme.primary,
+                            fontWeight: FontWeight.w600,
                           ),
-                          TextButton(
-                            onPressed: () => context.router.push(
-                              const ListAppraisalsRoute(),
-                            ),
-                            child: AppText(
-                              context.l10n.homeSeeAll,
-                              style: AppTextStyle.bodySmall,
-                              color: context.colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        ),
+                        TextButton(
+                          onPressed: () =>
+                              context.router.push(const ListAppraisalsRoute()),
+                          child: AppText(
+                            context.l10n.homeSeeAll,
+                            style: AppTextStyle.bodySmall,
+                            color: context.colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (isRefreshingAppraisal && latestAppraisal == null)
+                  Card(
+                    color: context.colors.card,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: context.colors.border),
+                    ),
+                    elevation: 0,
+                    child: Container(
+                      height: 140,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    ),
+                  )
+                else if (latestAppraisal != null)
+                  _buildAppraisalStatusCard(
+                    context,
+                    appraisal: latestAppraisal,
+                    isLoading: isRefreshingAppraisal,
+                    onViewDetails: () {
+                      ref.read(currentAppraisalIdProvider.notifier).state =
+                          latestAppraisal.id;
+                      context.router.push(const AppraisalResultRoute());
+                    },
+                  )
+                else
+                  Card(
+                    color: context.colors.card,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: context.colors.border),
+                    ),
+                    elevation: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 32,
+                        horizontal: 20,
+                      ),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.assignment_outlined,
+                            size: 40,
+                            color: context.colors.textTertiary,
+                          ),
+                          const SizedBox(height: 12),
+                          AppText(
+                            context.l10n.homeNoAppraisalFound,
+                            style: AppTextStyle.bodyMedium,
+                            color: context.colors.textSecondary,
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  if (latestAppraisal != null)
-                    _buildAppraisalStatusCard(
-                      context,
-                      appraisal: latestAppraisal,
-                      isLoading: isRefreshingAppraisal,
-                      onViewDetails: () {
-                        ref.read(currentAppraisalIdProvider.notifier).state =
-                            latestAppraisal.id;
-                        context.router.push(const AppraisalResultRoute());
-                      },
-                    )
-                  else
-                    Card(
-                      color: context.colors.card,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: context.colors.border),
-                      ),
-                      elevation: 0,
-                      child: Container(
-                        height: 140,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      ),
                     ),
-                  const SizedBox(height: 24),
-                ],
+                  ),
+                const SizedBox(height: 24),
 
                 // * Start new appraisal
                 AppButton(

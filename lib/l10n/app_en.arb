@@ -1192,6 +1192,10 @@
   "@homeUserFallback": {
     "description": "Fallback name when user name is empty"
   },
+  "homeNoAppraisalFound": "No appraisal found. Start a new one!",
+  "@homeNoAppraisalFound": {
+    "description": "Message shown when there is no latest appraisal"
+  },
   "listNotificationsTitle": "Notifications",
   "@listNotificationsTitle": {
     "description": "Notifications screen title"

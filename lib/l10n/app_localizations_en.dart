@@ -1022,6 +1022,9 @@ class L10nEn extends L10n {
   String get homeUserFallback => 'User';
 
   @override
+  String get homeNoAppraisalFound => 'No appraisal found. Start a new one!';
+
+  @override
   String get listNotificationsTitle => 'Notifications';
 
   @override
