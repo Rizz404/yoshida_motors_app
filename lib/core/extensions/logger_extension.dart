@@ -59,4 +59,13 @@ extension LoggerExtensions on Object {
       stackTrace: stackTrace,
     );
   }
+
+  /// Route Layer - Navigation, routing
+  void logRoute(String message, [Object? error, StackTrace? stackTrace]) {
+    logger.logRoute(
+      '[$_className] $message',
+      error: error,
+      stackTrace: stackTrace,
+    );
+  }
 }

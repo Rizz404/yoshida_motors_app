@@ -1332,6 +1332,10 @@
   "@appEndDrawerLogout": {
     "description": "Logout button label"
   },
+  "appEndDrawerLoggingOut": "Logging out...",
+  "@appEndDrawerLoggingOut": {
+    "description": "Logging out message"
+  },
   "appEndDrawerManagementSection": "Management",
   "@appEndDrawerManagementSection": {
     "description": "Management section header"

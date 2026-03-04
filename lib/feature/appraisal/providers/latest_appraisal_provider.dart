@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:car_rongsok_app/core/network/api_wrapper.dart';
+import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/repository_providers.dart';
 import 'package:car_rongsok_app/feature/appraisal/models/appraisal_request.dart';
 import 'package:car_rongsok_app/feature/appraisal/repositories/appraisal_repository.dart';
@@ -48,6 +49,12 @@ class LatestAppraisalNotifier extends AsyncNotifier<LatestAppraisalState> {
   }
 
   Future<LatestAppraisalState> _fetchLatest() async {
+    // * Get current auth state, don't fetch if not authenticated
+    final authState = await ref.watch(authNotifierProvider.future);
+    if (authState.status != AuthStatus.authenticated) {
+      return const LatestAppraisalState();
+    }
+
     final result = await _appraisalRepository.getLatestAppraisal().run();
 
     return result.fold(

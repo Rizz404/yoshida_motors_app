@@ -43,7 +43,7 @@ class AppShellScreen extends ConsumerWidget {
         ? userName
               .trim()
               .split(RegExp(r'\s+'))
-              .map((e) => e.isNotEmpty ? e[0].toUpperCase() : '')
+              .map((String e) => e.isNotEmpty ? e[0].toUpperCase() : '')
               .take(2)
               .join()
         : 'U';
@@ -121,20 +121,10 @@ class AuthGuard extends AutoRouteGuard {
   AuthGuard(this._ref);
 
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final authState = _ref.read(authNotifierProvider);
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    final authState = await _ref.read(authNotifierProvider.future);
 
-    // * Jangan block kalau masih loading
-    if (authState.isLoading) {
-      resolver.next(true);
-      return;
-    }
-
-    final currentAuthState = authState.whenOrNull(data: (s) => s);
-    final isAuthenticated =
-        currentAuthState?.status == AuthStatus.authenticated;
-
-    if (isAuthenticated) {
+    if (authState.status == AuthStatus.authenticated) {
       resolver.next(true);
     } else {
       resolver.redirectUntil(const LoginRoute());

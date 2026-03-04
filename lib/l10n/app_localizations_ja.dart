@@ -1110,6 +1110,9 @@ class L10nJa extends L10n {
   String get appEndDrawerLogout => 'ログアウト';
 
   @override
+  String get appEndDrawerLoggingOut => 'ログアウトしています...';
+
+  @override
   String get appEndDrawerManagementSection => '管理';
 
   @override

@@ -117,6 +117,21 @@ class AppLogger {
     }
   }
 
+  /// Route Layer - Navigation, routing
+  void logRoute(String message, {Object? error, StackTrace? stackTrace}) {
+    if (error != null) {
+      _talker.logCustom(
+        RouteLog(
+          message: 'Route: $message',
+          error: error,
+          stackTrace: stackTrace,
+        ),
+      );
+    } else {
+      _talker.logCustom(RouteLog(message: 'Route: $message'));
+    }
+  }
+
   // MARK: - Utility Methods
 
   /// Get Dio logger interceptor
@@ -248,6 +263,26 @@ class ServiceLog extends TalkerLog {
   @override
   AnsiPen get pen =>
       logError != null ? (AnsiPen()..red()) : (AnsiPen()..cyan());
+}
+
+class RouteLog extends TalkerLog {
+  final Object? logError;
+  final StackTrace? _stackTrace;
+
+  RouteLog({required String message, Object? error, StackTrace? stackTrace})
+    : logError = error,
+      _stackTrace = stackTrace,
+      super(message);
+
+  @override
+  String get title => 'ROUTE';
+
+  @override
+  StackTrace? get stackTrace => _stackTrace;
+
+  @override
+  AnsiPen get pen =>
+      logError != null ? (AnsiPen()..red()) : (AnsiPen()..xterm(112)); // Green
 }
 
 /// Global logger instance for easy access

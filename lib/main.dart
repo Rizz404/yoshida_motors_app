@@ -7,7 +7,12 @@ import 'package:car_rongsok_app/core/utils/logging.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/common_providers.dart';
 import 'package:car_rongsok_app/di/service_providers.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_detail_provider.dart';
 import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_flow_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/appraisal_list_provider.dart';
+import 'package:car_rongsok_app/feature/appraisal/providers/latest_appraisal_provider.dart';
+import 'package:car_rongsok_app/feature/notification/providers/notification_list_provider.dart';
+import 'package:car_rongsok_app/feature/user/providers/user_provider.dart';
 import 'package:car_rongsok_app/firebase_options.dart';
 import 'package:car_rongsok_app/l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -278,6 +283,13 @@ class _CarRongsokAppState extends ConsumerState<CarRongsokApp> {
         else if (currentUser == null && previousUser != null) {
           final fcmTokenManager = ref.read(fcmTokenManagerProvider);
           fcmTokenManager.clearToken();
+
+          // * Invalidate providers to clear cached data for different accounts
+          ref.invalidate(userProfileNotifierProvider);
+          ref.invalidate(latestAppraisalNotifierProvider);
+          ref.invalidate(appraisalListNotifierProvider);
+          ref.invalidate(appraisalDetailNotifierProvider);
+          ref.invalidate(notificationListNotifierProvider);
         }
       });
     });

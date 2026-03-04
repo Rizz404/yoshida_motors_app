@@ -59,12 +59,18 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     _authRepository = ref.read(authRepositoryProvider);
 
     // * Timeout 5 detik untuk mencegah ANR saat server lambat/error
-    final result = await _authRepository.getProfile().run();
+    try {
+      final result = await _authRepository.getProfile().run().timeout(
+        const Duration(seconds: 5),
+      );
 
-    return result.fold(
-      (failure) => AuthState.unauthenticated(failure: failure),
-      (success) => AuthState.authenticated(user: success.data),
-    );
+      return result.fold(
+        (failure) => AuthState.unauthenticated(failure: failure),
+        (success) => AuthState.authenticated(user: success.data),
+      );
+    } catch (e) {
+      return const AuthState.unauthenticated();
+    }
   }
 
   Future<void> register(RegisterPayload payload) async {

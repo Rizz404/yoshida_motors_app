@@ -1127,6 +1127,9 @@ class L10nEn extends L10n {
   String get appEndDrawerLogout => 'Logout';
 
   @override
+  String get appEndDrawerLoggingOut => 'Logging out...';
+
+  @override
   String get appEndDrawerManagementSection => 'Management';
 
   @override

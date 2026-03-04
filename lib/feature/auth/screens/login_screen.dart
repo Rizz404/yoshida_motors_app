@@ -117,8 +117,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       next.whenData((authState) {
         if (authState.status == AuthStatus.authenticated) {
           AppToast.success(context.l10n.loginSuccess);
-          // * Navigate ke AppShellRoute, bukan HomeRoute langsung
-          // * karena HomeRoute adalah child route dari AppShellRoute
+          // * Navigate ke AppShellRoute dan bersihkan semua history halaman sebelumnya
+          // * Ini sangat penting agar data akun lama tidak tersisa di stack navigasi auto_route
           context.router.replaceAll([const AppShellRoute()]);
         } else if (authState.failure != null) {
           AppToast.error(

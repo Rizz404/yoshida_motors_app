@@ -5,6 +5,7 @@ import 'package:car_rongsok_app/core/extensions/theme_extension.dart';
 import 'package:car_rongsok_app/core/router/routes.dart';
 import 'package:car_rongsok_app/di/auth_providers.dart';
 import 'package:car_rongsok_app/di/common_providers.dart';
+import 'package:car_rongsok_app/core/utils/toast_utils.dart';
 import 'package:car_rongsok_app/shared/widgets/app_image.dart';
 import 'package:car_rongsok_app/shared/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -310,9 +311,14 @@ class AppDrawer extends ConsumerWidget {
       child: SizedBox(
         width: double.infinity,
         child: FilledButton.icon(
-          onPressed: () {
-            context.router.maybePop();
-            ref.read(authNotifierProvider.notifier).logout();
+          onPressed: () async {
+            AppToast.info(context.l10n.appEndDrawerLoggingOut);
+
+            await ref.read(authNotifierProvider.notifier).logout();
+
+            if (context.mounted) {
+              await context.router.replaceAll([const LoginRoute()]);
+            }
           },
           icon: const Icon(Icons.logout),
           label: Text(context.l10n.appEndDrawerLogout),

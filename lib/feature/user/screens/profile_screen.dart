@@ -154,127 +154,132 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     const SizedBox(height: 32),
 
                     // * Form
-                    FormBuilder(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          AppFilePicker(
-                            key: _filePickerKey,
-                            name: 'profilePhotoPath',
-                            label: context.l10n.profileUpdatePhotoLabel,
-                            hintText: context.l10n.profileUpdatePhotoHint,
-                            fileType: FileType.image,
-                            allowMultiple: false,
-                            maxFiles: 1,
-                            maxSizeInMB: 2,
-                            allowedExtensions: ['jpg', 'jpeg', 'png', 'webp'],
-                          ),
-                          const SizedBox(height: 16),
-                          AppTextField(
-                            name: 'name',
-                            label: context.l10n.profileFullNameLabel,
-                            placeHolder:
-                                context.l10n.profileFullNamePlaceholder,
-                            initialValue: user?.name,
-                            type: AppTextFieldType.text,
-                            prefixIcon: Icon(
-                              Icons.person_outline_rounded,
-                              color: context.colors.primary,
+                    // Build newly when user id changes to reset all initialValues
+                    KeyedSubtree(
+                      key: ValueKey(user?.id),
+                      child: FormBuilder(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            AppFilePicker(
+                              key: _filePickerKey,
+                              name: 'profilePhotoPath',
+                              label: context.l10n.profileUpdatePhotoLabel,
+                              hintText: context.l10n.profileUpdatePhotoHint,
+                              fileType: FileType.image,
+                              allowMultiple: false,
+                              maxFiles: 1,
+                              maxSizeInMB: 2,
+                              allowedExtensions: ['jpg', 'jpeg', 'png', 'webp'],
                             ),
-                            validator: ProfileValidators.fullName(),
-                          ),
-                          const SizedBox(height: 16),
-                          AppTextField(
-                            name: 'email',
-                            label: context.l10n.profileEmailLabel,
-                            placeHolder: context.l10n.profileEmailPlaceholder,
-                            initialValue: user?.email,
-                            enabled:
-                                user?.authProvider != AuthProvider.google &&
-                                user?.authProvider != AuthProvider.email,
-                            type: AppTextFieldType.email,
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
-                              color: context.colors.primary,
-                            ),
-                            validator: ProfileValidators.email(),
-                          ),
-                          const SizedBox(height: 16),
-                          AppTextField(
-                            name: 'address',
-                            label: context.l10n.profileAddressLabel,
-                            placeHolder: context.l10n.profileAddressPlaceholder,
-                            initialValue: user?.address,
-                            type: AppTextFieldType.multiline,
-                            maxLines: 3,
-                            prefixIcon: Icon(
-                              Icons.location_on_outlined,
-                              color: context.colors.primary,
-                            ),
-                            validator: ProfileValidators.address(),
-                          ),
-                          const SizedBox(height: 16),
-                          AppTextField(
-                            name: 'phoneNumber',
-                            label: context.l10n.profilePhoneLabel,
-                            placeHolder: context.l10n.profilePhonePlaceholder,
-                            initialValue: user?.phoneNumber,
-                            enabled: user?.authProvider != AuthProvider.phone,
-                            type: AppTextFieldType.phone,
-                            prefixIcon: Icon(
-                              Icons.phone_outlined,
-                              color: context.colors.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          AppDropdown<String>(
-                            name: 'gender',
-                            label: context.l10n.profileGenderLabel,
-                            hintText: context.l10n.profileGenderPlaceholder,
-                            initialValue: user?.gender,
-                            prefixIcon: Icon(
-                              Icons.person_pin_circle_outlined,
-                              color: context.colors.primary,
-                            ),
-                            items: [
-                              AppDropdownItem(
-                                value: 'male',
-                                label: context.l10n.profileGenderMale,
+                            const SizedBox(height: 16),
+                            AppTextField(
+                              name: 'name',
+                              label: context.l10n.profileFullNameLabel,
+                              placeHolder:
+                                  context.l10n.profileFullNamePlaceholder,
+                              initialValue: user?.name,
+                              type: AppTextFieldType.text,
+                              prefixIcon: Icon(
+                                Icons.person_outline_rounded,
+                                color: context.colors.primary,
                               ),
-                              AppDropdownItem(
-                                value: 'female',
-                                label: context.l10n.profileGenderFemale,
-                              ),
-                              AppDropdownItem(
-                                value: 'other',
-                                label: context.l10n.profileGenderOther,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          AppDateTimePicker(
-                            name: 'birthDate',
-                            label: context.l10n.profileBirthDateLabel,
-                            initialValue: user?.birthDate,
-                            inputType: InputType.date,
-                            icon: Icons.calendar_today_outlined,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          ),
-                          const SizedBox(height: 32),
-                          AppButton(
-                            text: context.l10n.profileSaveButton,
-                            isLoading: state.isMutating,
-                            onPressed: state.isMutating || user == null
-                                ? null
-                                : () => _onSave(user),
-                            leadingIcon: Icon(
-                              Icons.save_outlined,
-                              color: context.colors.textOnPrimary,
+                              validator: ProfileValidators.fullName(),
                             ),
-                          ),
-                          const SizedBox(height: 24),
-                        ],
+                            const SizedBox(height: 16),
+                            AppTextField(
+                              name: 'email',
+                              label: context.l10n.profileEmailLabel,
+                              placeHolder: context.l10n.profileEmailPlaceholder,
+                              initialValue: user?.email,
+                              enabled:
+                                  user?.authProvider != AuthProvider.google &&
+                                  user?.authProvider != AuthProvider.email,
+                              type: AppTextFieldType.email,
+                              prefixIcon: Icon(
+                                Icons.email_outlined,
+                                color: context.colors.primary,
+                              ),
+                              validator: ProfileValidators.email(),
+                            ),
+                            const SizedBox(height: 16),
+                            AppTextField(
+                              name: 'address',
+                              label: context.l10n.profileAddressLabel,
+                              placeHolder:
+                                  context.l10n.profileAddressPlaceholder,
+                              initialValue: user?.address,
+                              type: AppTextFieldType.multiline,
+                              maxLines: 3,
+                              prefixIcon: Icon(
+                                Icons.location_on_outlined,
+                                color: context.colors.primary,
+                              ),
+                              validator: ProfileValidators.address(),
+                            ),
+                            const SizedBox(height: 16),
+                            AppTextField(
+                              name: 'phoneNumber',
+                              label: context.l10n.profilePhoneLabel,
+                              placeHolder: context.l10n.profilePhonePlaceholder,
+                              initialValue: user?.phoneNumber,
+                              enabled: user?.authProvider != AuthProvider.phone,
+                              type: AppTextFieldType.phone,
+                              prefixIcon: Icon(
+                                Icons.phone_outlined,
+                                color: context.colors.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            AppDropdown<String>(
+                              name: 'gender',
+                              label: context.l10n.profileGenderLabel,
+                              hintText: context.l10n.profileGenderPlaceholder,
+                              initialValue: user?.gender,
+                              prefixIcon: Icon(
+                                Icons.person_pin_circle_outlined,
+                                color: context.colors.primary,
+                              ),
+                              items: [
+                                AppDropdownItem(
+                                  value: 'male',
+                                  label: context.l10n.profileGenderMale,
+                                ),
+                                AppDropdownItem(
+                                  value: 'female',
+                                  label: context.l10n.profileGenderFemale,
+                                ),
+                                AppDropdownItem(
+                                  value: 'other',
+                                  label: context.l10n.profileGenderOther,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            AppDateTimePicker(
+                              name: 'birthDate',
+                              label: context.l10n.profileBirthDateLabel,
+                              initialValue: user?.birthDate,
+                              inputType: InputType.date,
+                              icon: Icons.calendar_today_outlined,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
+                            ),
+                            const SizedBox(height: 32),
+                            AppButton(
+                              text: context.l10n.profileSaveButton,
+                              isLoading: state.isMutating,
+                              onPressed: state.isMutating || user == null
+                                  ? null
+                                  : () => _onSave(user),
+                              leadingIcon: Icon(
+                                Icons.save_outlined,
+                                color: context.colors.textOnPrimary,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+                        ),
                       ),
                     ),
                   ],

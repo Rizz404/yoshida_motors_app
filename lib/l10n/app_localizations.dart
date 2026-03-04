@@ -2173,6 +2173,12 @@ abstract class L10n {
   /// **'Logout'**
   String get appEndDrawerLogout;
 
+  /// Logging out message
+  ///
+  /// In en, this message translates to:
+  /// **'Logging out...'**
+  String get appEndDrawerLoggingOut;
+
   /// Management section header
   ///
   /// In en, this message translates to:
